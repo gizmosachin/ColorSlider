@@ -1,0 +1,2 @@
+pod 'ACEDrawingView'
+pod 'UIImageTrim', :git => 'https://github.com/gizmosachin/UIImageTrim'
