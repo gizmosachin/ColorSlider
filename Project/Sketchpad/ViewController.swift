@@ -40,10 +40,10 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
         drawingView.lineWidth = 3.0
         undoButton.enabled = false
         
-        colorSlider.addTarget(self, action: "willChangeColor:", forControlEvents: UIControlEvents.TouchDown)
-        colorSlider.addTarget(self, action: "isChangingColor:", forControlEvents: UIControlEvents.ValueChanged)
-        colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: UIControlEvents.TouchUpOutside)
-        colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: UIControlEvents.TouchUpInside)
+        colorSlider.addTarget(self, action: "willChangeColor:", forControlEvents: .TouchDown)
+        colorSlider.addTarget(self, action: "isChangingColor:", forControlEvents: .ValueChanged)
+        colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpOutside)
+        colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpInside)
     }
 
     override func didReceiveMemoryWarning() {

@@ -1,6 +1,6 @@
 ## ColorSlider
 
-`ColorSlider` is a Snapchat-style color picker written in [Swift](https://developer.apple.com/swift/). It supports changing color hue when dragging inside the bounds of the `ColorSlider` and modifying lightness when dragging outside its bounds, allowing you to select black and white.
+`ColorSlider` is a Snapchat-style color picker written in [Swift](https://developer.apple.com/swift/). It supports changing color hue when dragging inside the bounds of the control and modifying color lightness when dragging outside its bounds, allowing you to select black and white.
 
 ## Installation
 
@@ -26,10 +26,10 @@ self.view.addSubview(self.colorSlider)
 
 
 `ColorSlider` is a subclass of `UIControl` and supports the following `UIControlEvents`:
-- `TouchDown`
-- `ValueChanged`
-- `TouchUpInside`
-- `TouchUpOutside`
+- `.TouchDown`
+- `.ValueChanged`
+- `.TouchUpInside`
+- `.TouchUpOutside`
 
 You can get the currently selected color with the `color` property.
 
