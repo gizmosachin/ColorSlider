@@ -30,23 +30,27 @@ import UIKit
 import Foundation
 import CoreGraphics
 
-class ColorSlider: UIControl {
-    var color: UIColor {
+public class ColorSlider: UIControl {
+    public var color: UIColor {
         return UIColor(h: hue, s: 1.0, l: lightness, alpha: 1.0)
     }
     private let defaultLightness: CGFloat = 0.5
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
     
-    override init() {
+    public override init() {
         super.init()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         lightness = defaultLightness
@@ -56,7 +60,7 @@ class ColorSlider: UIControl {
         return true
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, inside: touchInside)
@@ -65,7 +69,7 @@ class ColorSlider: UIControl {
         return true
     }
     
-    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+    override public func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
         super.endTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, inside: touchInside)
@@ -92,6 +96,7 @@ class ColorSlider: UIControl {
 }
 
 extension UIColor {
+    // Adapted from https://github.com/thisandagain/color
     convenience init(h: CGFloat, s: CGFloat, l: CGFloat, alpha: CGFloat) {
         var temp1: CGFloat = 0.0
         var temp2: CGFloat = 0.0
