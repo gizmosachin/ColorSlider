@@ -24,15 +24,24 @@ self.colorSlider.frame = CGRectMake(0, 0, 10, 150)
 self.view.addSubview(self.colorSlider)
 ```
 
+
 `ColorSlider` is a subclass of `UIControl` and supports the following `UIControlEvents`:
 - `TouchDown`
 - `ValueChanged`
 - `TouchUpInside`
 - `TouchUpOutside`
 
+You can get the currently selected color with the `color` property.
+
 ``` Swift
 self.colorSlider.addTarget(self, action: "changedColor:", forControlEvents: UIControlEvents.ValueChanged)
+
+func changedColor(slider: ColorSlider) {
+    var myColor = slider.color
+    // ...
+}
 ```
+
 
 Customize border attributes:
 
@@ -42,11 +51,16 @@ self.colorSlider.borderWidth = 2.0
 self.colorSlider.borderColor = UIColor.whiteColor()
 ```
 
+
 To make it easier to select colors, you can specify padding around the bounds of the `ColorSlider` in which touch input will still edit the color hue.
 
 ``` Swift
 self.colorSlider.padding = 44.0
 ```
+
+## Sketchpad
+
+`ColorSlider` comes with a demo project called `Sketchpad` that's a simple drawing app for iPhone. To get it to run in Xcode, you must run `pod install`. Note that this does not require the pre-release version (0.36) of Cocoapods.
 
 ## How it Works
 
