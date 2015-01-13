@@ -31,30 +31,56 @@ import Foundation
 import CoreGraphics
 
 public class ColorSlider: UIControl {
+    // Currently selected color
     public var color: UIColor {
         return UIColor(h: hue, s: 1.0, l: lightness, alpha: 1.0)
     }
-    private let defaultLightness: CGFloat = 0.5
+    
+    // Settable properties
+    public var padding: CGFloat = 15.0
+    public var cornerRadius: CGFloat? {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    public var borderWidth: CGFloat? {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    public var borderColor: UIColor? {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    // Internal
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
     
+    // MARK: Initializers
     public override init() {
         super.init()
+        backgroundColor = UIColor.clearColor()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = UIColor.clearColor()
     }
     
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        backgroundColor = UIColor.clearColor()
     }
     
+    // MARK: UIControl methods
     override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
-        lightness = defaultLightness
+        // Set color based on initial touch
         updateForTouch(touch, inside: true)
+        lightness = 0.5
         
         sendActionsForControlEvents(UIControlEvents.TouchDown)
         return true
@@ -63,7 +89,11 @@ public class ColorSlider: UIControl {
     override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
-        updateForTouch(touch, inside: touchInside)
+        // Allow padding before switching to modifying lightness
+        var loc = touch.locationInView(self)
+        var insideX = loc.x > -padding && loc.x < frame.width + padding
+        var insideY = loc.y > -padding && loc.y < frame.height + padding
+        updateForTouch(touch, inside: insideX && insideY)
         
         sendActionsForControlEvents(UIControlEvents.ValueChanged)
         return true
@@ -81,7 +111,7 @@ public class ColorSlider: UIControl {
         }
     }
     
-    func updateForTouch (touch: UITouch, inside: Bool) {
+    private func updateForTouch (touch: UITouch, inside: Bool) {
         if inside {
             // Modify the hue at constant lightness
             var locationInView = touch.locationInView(self)
@@ -93,11 +123,61 @@ public class ColorSlider: UIControl {
             lightness = 1 - (locationInSuperview.y / self.superview!.frame.height)
         }
     }
+    
+    // MARK: Appearance
+    public override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        // Draw border
+        if cornerRadius != nil {
+            // Use the defined corner radius
+            layer.cornerRadius = cornerRadius!
+        } else {
+            // Default to pill shape
+            var shortestSide = (frame.width > frame.height) ? frame.height : frame.width
+            layer.cornerRadius = shortestSide / 2.0
+        }
+        
+        if borderWidth != nil {
+            // Use the defined border width
+            layer.borderWidth = borderWidth!
+        } else {
+            // Default to 1
+            layer.borderWidth = 1.0
+        }
+        
+        if borderColor != nil {
+            // Use the defined border color
+            layer.borderColor = borderColor!.CGColor
+        } else {
+            // Default to black
+            layer.borderColor = UIColor.blackColor().CGColor
+        }
+        
+        // Draw background
+        var backgroundGradientLayer = CAGradientLayer()
+        backgroundGradientLayer.colors = [UIColor(h: 1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.9, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.8, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.7, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.6, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.5, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.4, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.3, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.2, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                                          UIColor(h: 0.0, s: 1.0, l: 0.5, alpha: 1.0).CGColor]
+        backgroundGradientLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        backgroundGradientLayer.frame = self.bounds
+        layer.insertSublayer(backgroundGradientLayer, atIndex: 0)
+        
+        self.clipsToBounds = true
+    }
 }
 
-extension UIColor {
+public extension UIColor {
     // Adapted from https://github.com/thisandagain/color
-    convenience init(h: CGFloat, s: CGFloat, l: CGFloat, alpha: CGFloat) {
+    public convenience init(h: CGFloat, s: CGFloat, l: CGFloat, alpha: CGFloat) {
         var temp1: CGFloat = 0.0
         var temp2: CGFloat = 0.0
         var temp: [CGFloat] = [0.0, 0.0, 0.0]
