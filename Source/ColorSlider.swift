@@ -73,12 +73,17 @@ import CoreGraphics
             drawLayer.shadowColor = shadowColor.CGColor
         }
     }
-    @IBInspectable public var shadowOffsetX: CGFloat = 0.0 {
+    public var shadowOffset: CGSize = CGSizeMake(0.0, 0.0) {
+        didSet {
+            drawLayer.shadowOffset = shadowOffset
+        }
+    }
+    @IBInspectable private var shadowOffsetX: CGFloat = 0.0 {
         didSet {
             drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
         }
     }
-    @IBInspectable public var shadowOffsetY: CGFloat = 0.0 {
+    @IBInspectable private var shadowOffsetY: CGFloat = 0.0 {
         didSet {
             drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
         }

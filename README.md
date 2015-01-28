@@ -14,7 +14,7 @@ You can also simply copy the `ColorSlider.swift` file into your Xcode project.
 
 ## Usage
 
-The sample project `Sketchpad` provides an example of how to integrate `ColorSlider`, but you can also follow the steps below.
+The sample project `Sketchpad` provides an example of how to integrate `ColorSlider` with Interface Builder, but you can also follow the steps below. `ColorSlider` has several `IBInspectable` appearance properties that you can edit right from Interface Builder, if you choose to go that route.
 
 Create and add an instance of `ColorSlider` to your view hierarchy.
 
@@ -30,6 +30,7 @@ self.view.addSubview(self.colorSlider)
 - `.ValueChanged`
 - `.TouchUpInside`
 - `.TouchUpOutside`
+- `.TouchCancel`
 
 You can get the currently selected color with the `color` property.
 
@@ -43,19 +44,22 @@ func changedColor(slider: ColorSlider) {
 ```
 
 
-Customize border attributes:
+Customize appearance attributes:
 
 ``` Swift
 self.colorSlider.cornerRadius = 2.0
 self.colorSlider.borderWidth = 2.0
 self.colorSlider.borderColor = UIColor.whiteColor()
+self.colorSlider.shadowOpacity = 1.0
+self.colorSlider.shadowColor = UIColor.blackColor()
+self.colorSlider.shadowOffset = CGSizeMake(1.0, 1.0)
 ```
 
 
-To make it easier to select colors, you can specify padding around the bounds of the `ColorSlider` in which touch input will still edit the color hue.
+To make it easier to select colors, you can specify `UIEdgeInsets` as padding, in which touch input will still edit the color hue.
 
 ``` Swift
-self.colorSlider.padding = 44.0
+self.colorSlider.edgeInsets = UIEdgeInsetsMake(0.0, 44.0, 0.0, 44.0)
 ```
 
 ## Sketchpad
