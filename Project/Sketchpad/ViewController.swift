@@ -57,17 +57,23 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     }
     
     @IBAction func willChangeColor(slider: ColorSlider) {
+        updateColorViews(slider.color)
         drawingView.userInteractionEnabled = false
-        isChangingColor(slider)
     }
     
     @IBAction func isChangingColor(slider: ColorSlider) {
-        selectedColorView.backgroundColor = slider.color
+        updateColorViews(slider.color)
         drawingView.lineColor = slider.color
     }
     
     @IBAction func didChangeColor(slider: ColorSlider) {
+        updateColorViews(slider.color)
         drawingView.userInteractionEnabled = true
+    }
+    
+    func updateColorViews(color: UIColor) {
+        selectedColorView.backgroundColor = color
+        drawingView.lineColor = color
     }
     
     // MARK: ACEDrawingView Delegate

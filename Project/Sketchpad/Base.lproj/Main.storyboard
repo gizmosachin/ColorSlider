@@ -29,11 +29,11 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ayp-Vc-V9d" userLabel="ColorSlider" customClass="ColorSlider" customModule="Sketchpad" customModuleProvider="target">
-                                        <rect key="frame" x="566" y="48" width="10" height="150"/>
+                                        <rect key="frame" x="544" y="48" width="54" height="150"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="7jD-P6-urX"/>
-                                            <constraint firstAttribute="width" constant="10" id="sGW-fP-NGD"/>
+                                            <constraint firstAttribute="width" constant="54" id="sGW-fP-NGD"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -113,7 +113,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="610" y="537"/>
+            <point key="canvasLocation" x="613" y="536"/>
         </scene>
     </scenes>
     <resources>

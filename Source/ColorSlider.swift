@@ -30,31 +30,62 @@ import UIKit
 import Foundation
 import CoreGraphics
 
-public class ColorSlider: UIControl {
+@IBDesignable public class ColorSlider: UIControl {
     // Currently selected color
     public var color: UIColor {
         return UIColor(h: hue, s: 1.0, l: lightness, alpha: 1.0)
     }
     
     // Settable properties
-    public var padding: CGFloat = 15.0
-    public var cornerRadius: CGFloat? {
+    @IBInspectable public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 22.0, 0.0, 22.0) {
         didSet {
             setNeedsDisplay()
         }
     }
-    public var borderWidth: CGFloat? {
+    @IBInspectable public var cornerRadius: CGFloat = -1.0 {
         didSet {
-            setNeedsDisplay()
+            drawLayer.cornerRadius = cornerRadius
+            drawLayer.masksToBounds = true
         }
     }
-    public var borderColor: UIColor? {
+    @IBInspectable public var borderWidth: CGFloat = 1.0 {
         didSet {
-            setNeedsDisplay()
+            drawLayer.borderWidth = borderWidth
+        }
+    }
+    @IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
+        didSet {
+            drawLayer.borderColor = borderColor.CGColor
+        }
+    }
+    @IBInspectable public var shadowOpacity: Float = 0.0 {
+        didSet {
+            drawLayer.shadowOpacity = shadowOpacity
+        }
+    }
+    @IBInspectable public var shadowRadius: CGFloat = 0.0 {
+        didSet {
+            drawLayer.shadowRadius = shadowRadius
+        }
+    }
+    @IBInspectable public var shadowColor: UIColor = UIColor.clearColor() {
+        didSet {
+            drawLayer.shadowColor = shadowColor.CGColor
+        }
+    }
+    @IBInspectable public var shadowOffsetX: CGFloat = 0.0 {
+        didSet {
+            drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
+        }
+    }
+    @IBInspectable public var shadowOffsetY: CGFloat = 0.0 {
+        didSet {
+            drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
         }
     }
     
     // Internal
+    private var drawLayer: CAGradientLayer = CAGradientLayer()
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
     
@@ -75,52 +106,50 @@ public class ColorSlider: UIControl {
     }
     
     // MARK: UIControl methods
-    override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
-        // Set color based on initial touch
-        updateForTouch(touch, inside: true)
-        lightness = 0.5
+        updateForTouch(touch, modifyHue: true)
         
-        sendActionsForControlEvents(UIControlEvents.TouchDown)
+        sendActionsForControlEvents(.TouchDown)
         return true
     }
     
-    override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
-        // Allow padding before switching to modifying lightness
-        var loc = touch.locationInView(self)
-        var insideX = loc.x > -padding && loc.x < frame.width + padding
-        var insideY = loc.y > -padding && loc.y < frame.height + padding
-        updateForTouch(touch, inside: insideX && insideY)
+        updateForTouch(touch, modifyHue: touchInside)
         
-        sendActionsForControlEvents(UIControlEvents.ValueChanged)
+        sendActionsForControlEvents(.ValueChanged)
         return true
     }
     
-    override public func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+    public override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
         super.endTrackingWithTouch(touch, withEvent: event)
         
-        updateForTouch(touch, inside: touchInside)
+        updateForTouch(touch, modifyHue: touchInside)
         
         if touchInside {
-            sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+            sendActionsForControlEvents(.TouchUpInside)
         } else {
-            sendActionsForControlEvents(UIControlEvents.TouchUpOutside)
+            sendActionsForControlEvents(.TouchUpOutside)
         }
     }
     
-    private func updateForTouch (touch: UITouch, inside: Bool) {
-        if inside {
+    public override func cancelTrackingWithEvent(event: UIEvent?) {
+        sendActionsForControlEvents(.TouchCancel)
+    }
+    
+    private func updateForTouch (touch: UITouch, modifyHue: Bool) {
+        if modifyHue {
             // Modify the hue at constant lightness
             var locationInView = touch.locationInView(self)
-            hue = 1 - (locationInView.y / self.frame.height)
+            hue = 1 - (locationInView.y / frame.height)
             lightness = 0.5
         } else {
             // Modify the lightness for the current hue
             var locationInSuperview = touch.locationInView(self.superview)
-            lightness = 1 - (locationInSuperview.y / self.superview!.frame.height)
+            lightness = 1 - (locationInSuperview.y / superview!.frame.height)
         }
     }
     
@@ -128,50 +157,40 @@ public class ColorSlider: UIControl {
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
+        // Bounds - Edge Insets
+        var innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
+        
         // Draw border
-        if cornerRadius != nil {
+        if cornerRadius >= 0 {
             // Use the defined corner radius
-            layer.cornerRadius = cornerRadius!
+            drawLayer.cornerRadius = cornerRadius
         } else {
             // Default to pill shape
-            var shortestSide = (frame.width > frame.height) ? frame.height : frame.width
-            layer.cornerRadius = shortestSide / 2.0
-        }
-        
-        if borderWidth != nil {
-            // Use the defined border width
-            layer.borderWidth = borderWidth!
-        } else {
-            // Default to 1
-            layer.borderWidth = 1.0
-        }
-        
-        if borderColor != nil {
-            // Use the defined border color
-            layer.borderColor = borderColor!.CGColor
-        } else {
-            // Default to black
-            layer.borderColor = UIColor.blackColor().CGColor
+            var shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
+            drawLayer.cornerRadius = shortestSide / 2.0
         }
         
         // Draw background
-        var backgroundGradientLayer = CAGradientLayer()
-        backgroundGradientLayer.colors = [UIColor(h: 1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.9, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.8, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.7, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.6, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.5, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.4, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.3, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.2, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                                          UIColor(h: 0.0, s: 1.0, l: 0.5, alpha: 1.0).CGColor]
-        backgroundGradientLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-        backgroundGradientLayer.frame = self.bounds
-        layer.insertSublayer(backgroundGradientLayer, atIndex: 0)
+        drawLayer.colors = [UIColor(h: 1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.9, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.8, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.7, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.6, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.5, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.4, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.3, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.2, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
+                            UIColor(h: 0.0, s: 1.0, l: 0.5, alpha: 1.0).CGColor]
+        drawLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        drawLayer.frame = innerFrame
+        drawLayer.borderColor = borderColor.CGColor
+        drawLayer.borderWidth = borderWidth
+        if drawLayer.superlayer == nil {
+            layer.insertSublayer(drawLayer, atIndex: 0)
+        }
         
-        self.clipsToBounds = true
+        clipsToBounds = true
     }
 }
 
