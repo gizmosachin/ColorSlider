@@ -275,15 +275,37 @@ public enum ColorSliderOrientation {
     
     // MARK: - Color Preview popup
     var previewDimension: CGFloat = 32
+    var previewAnimationDuration = 0.15
     func showPreviewPopup(touch: UITouch) {
         // Currently, this method needs to be called _after_ updateForTouch
         println("Creating preview and showing")
         
+        // Create the preview view, set shape
         var preview = UIView(frame: CGRect(x: 0, y: 0, width: previewDimension, height: previewDimension))
         preview.layer.cornerRadius = previewDimension/2
         previewView = preview
+        
+        // Initialize preview in proper position, save frame
         updatePreview(touch)
+        var endFrame = preview.frame
+        
+        // Get frame for animation, set as current frame to navigate _from_
+        var startFrame = animationPositionForPreview(endFrame)
+        preview.frame = startFrame
+        
         addSubview(preview)
+        UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: .BeginFromCurrentState | .CurveEaseInOut, animations: { () -> Void in
+            preview.frame = endFrame
+            preview.layer.cornerRadius = self.previewDimension/2
+            
+            }, completion: nil)
+        
+        var cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
+        cornerAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        cornerAnimation.fromValue = startFrame.size.height/2
+        cornerAnimation.toValue = previewDimension/2
+        cornerAnimation.duration = previewAnimationDuration
+        preview.layer.addAnimation(cornerAnimation, forKey: "cornerRadius")
     }
     
     func updatePreview(touch: UITouch) {
@@ -298,8 +320,24 @@ public enum ColorSliderOrientation {
     
     func removePreview() {
         println("Removing preview")
-        previewView?.removeFromSuperview()
-        previewView = nil
+        
+        if let preview = previewView {
+            // Move to bar for animation
+            var endFrame = animationPositionForPreview(preview.frame)
+            
+            UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: .BeginFromCurrentState | .CurveEaseInOut, animations: { () -> Void in
+                preview.frame = endFrame
+                }, completion: { (completed: Bool) -> Void in
+                    preview.removeFromSuperview()
+                    self.previewView = nil
+            })
+            var cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
+            cornerAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            cornerAnimation.toValue = endFrame.size.height/2
+            cornerAnimation.fromValue = previewDimension/2
+            cornerAnimation.duration = previewAnimationDuration
+            preview.layer.addAnimation(cornerAnimation, forKey: "cornerRadius")
+        }
     }
     
     func positionForPreview(touch: UITouch) -> CGRect {
@@ -323,6 +361,19 @@ public enum ColorSliderOrientation {
             var y = -(previewDimension + 8)
             var frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
             return frameInBounds
+        }
+    }
+    
+    func animationPositionForPreview(position: CGRect) -> CGRect {
+        var animationSize: CGFloat = 5.0
+        if orientation == .Vertical {
+            var animationY = position.origin.y + ((previewDimension - animationSize) / 2)
+            var animationFrame = CGRect(x: CGRectGetWidth(bounds) / 2, y: animationY, width: animationSize, height: animationSize)
+            return animationFrame
+        } else {
+            var animationX = position.origin.x + ((previewDimension - animationSize) / 2)
+            var animationFrame = CGRect(x: animationX, y: CGRectGetHeight(bounds) / 2, width: animationSize, height: animationSize)
+            return animationFrame
         }
     }
 }
