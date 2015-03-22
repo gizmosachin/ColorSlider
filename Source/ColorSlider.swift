@@ -120,7 +120,7 @@ public enum ColorSliderOrientation {
         }
     }
     
-    @IBInspectable public var orientation: ColorSliderOrientation = .Vertical {
+    public var orientation: ColorSliderOrientation = .Vertical {
         didSet {
             switch orientation {
             case .Vertical:
@@ -209,6 +209,22 @@ public enum ColorSliderOrientation {
             } else if orientation == .Horizontal {
                 lightness = 1 - (locationInSuperview.x / superview!.frame.width)
             }
+        }
+    }
+    
+    public override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        // Expand the touch size to be as wide/tall as normal control
+        var idealTouchDimenson: CGFloat = 30
+        if orientation == .Vertical {
+            var widthDiff = (idealTouchDimenson - frame.size.width) / 2
+            var widthPad = widthDiff > 0 ? widthDiff : 0
+            var expandedRect = CGRectInset(bounds, -widthPad, 0)
+            return CGRectContainsPoint(expandedRect, point)
+        } else {
+            var heightDiff = (idealTouchDimenson - frame.size.height) / 2
+            var heightPad = heightDiff > 0 ? heightDiff : 0
+            var expandedRect = CGRectInset(bounds, 0, -heightPad)
+            return CGRectContainsPoint(expandedRect, point)
         }
     }
     
