@@ -137,21 +137,25 @@ public enum ColorSliderOrientation {
     private var drawLayer: CAGradientLayer = CAGradientLayer()
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
+    private var previewView: UIView?
     
     // MARK: Initializers
     public override init() {
         super.init()
         backgroundColor = UIColor.clearColor()
+        clipsToBounds = false
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.clearColor()
+        clipsToBounds = false
     }
     
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.clearColor()
+        clipsToBounds = false
     }
     
     // MARK: UIControl methods
@@ -159,6 +163,7 @@ public enum ColorSliderOrientation {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: true)
+        showPreviewPopup(touch)
         
         sendActionsForControlEvents(.TouchDown)
         return true
@@ -168,6 +173,7 @@ public enum ColorSliderOrientation {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: touchInside)
+        updatePreview(touch)
         
         sendActionsForControlEvents(.ValueChanged)
         return true
@@ -177,6 +183,7 @@ public enum ColorSliderOrientation {
         super.endTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: touchInside)
+        removePreview()
         
         if touchInside {
             sendActionsForControlEvents(.TouchUpInside)
@@ -264,8 +271,59 @@ public enum ColorSliderOrientation {
         if drawLayer.superlayer == nil {
             layer.insertSublayer(drawLayer, atIndex: 0)
         }
+    }
+    
+    // MARK: - Color Preview popup
+    var previewDimension: CGFloat = 32
+    func showPreviewPopup(touch: UITouch) {
+        // Currently, this method needs to be called _after_ updateForTouch
+        println("Creating preview and showing")
         
-        clipsToBounds = true
+        var preview = UIView(frame: CGRect(x: 0, y: 0, width: previewDimension, height: previewDimension))
+        preview.layer.cornerRadius = previewDimension/2
+        previewView = preview
+        updatePreview(touch)
+        addSubview(preview)
+    }
+    
+    func updatePreview(touch: UITouch) {
+        var location = touch.locationInView(self)
+        if let preview = previewView {
+            println("Updating preview")
+            var frame = positionForPreview(touch)
+            preview.frame = frame
+            preview.backgroundColor = color
+        }
+    }
+    
+    func removePreview() {
+        println("Removing preview")
+        previewView?.removeFromSuperview()
+        previewView = nil
+    }
+    
+    func positionForPreview(touch: UITouch) -> CGRect {
+        var location = touch.locationInView(self)
+        
+        if orientation == .Vertical {
+            var y = location.y - (previewDimension/2)
+            // Prevent preview from running past bounds
+            if y < 0 { y = 0}
+            if y + previewDimension > CGRectGetHeight(bounds) {y = CGRectGetHeight(bounds) - previewDimension }
+            
+            var x = -(previewDimension + 8)
+            var frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+            return frameInBounds
+        } else {
+            var x = location.x - (previewDimension/2)
+            // Prevent preview from running past bounds
+            if x < 0 { x = 0}
+            if x+previewDimension > CGRectGetWidth(bounds) { x = CGRectGetWidth(bounds) - previewDimension }
+            
+            var y = -(previewDimension + 8)
+            var frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+            return frameInBounds
+        }
     }
 }
 
