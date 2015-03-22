@@ -30,18 +30,49 @@ import UIKit
 import Foundation
 import CoreGraphics
 
+public enum ColorSliderOrientation {
+    case Vertical
+    case Horizontal
+}
+
 @IBDesignable public class ColorSlider: UIControl {
     // Currently selected color
     public var color: UIColor {
         return UIColor(h: hue, s: 1.0, l: lightness, alpha: 1.0)
     }
     
-    // Settable properties
-    @IBInspectable public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 22.0, 0.0, 22.0) {
+    // MARK: - Settable properties
+    
+    public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0) {
         didSet {
             setNeedsDisplay()
         }
     }
+    
+    @IBInspectable public var topInset: CGFloat = 0.0 {
+        didSet {
+            edgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        }
+    }
+    
+    @IBInspectable public var leftInset: CGFloat = 0.0 {
+        didSet {
+            edgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        }
+    }
+    
+    @IBInspectable public var bottomInset: CGFloat = 0.0 {
+        didSet {
+            edgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        }
+    }
+    
+    @IBInspectable public var rightInset: CGFloat = 0.0 {
+        didSet {
+            edgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        }
+    }
+    
     @IBInspectable public var cornerRadius: CGFloat = -1.0 {
         didSet {
             drawLayer.cornerRadius = cornerRadius
@@ -89,7 +120,20 @@ import CoreGraphics
         }
     }
     
-    // Internal
+    @IBInspectable public var orientation: ColorSliderOrientation = .Vertical {
+        didSet {
+            switch orientation {
+            case .Vertical:
+                drawLayer.startPoint = CGPointMake(0.5, 1)
+                drawLayer.endPoint = CGPointMake(0.5, 0)
+            case .Horizontal:
+                drawLayer.startPoint = CGPointMake(0, 0.5)
+                drawLayer.endPoint = CGPointMake(1, 0.5)
+            }
+        }
+    }
+    
+    // MARK: Internal properties
     private var drawLayer: CAGradientLayer = CAGradientLayer()
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
@@ -149,12 +193,22 @@ import CoreGraphics
         if modifyHue {
             // Modify the hue at constant lightness
             var locationInView = touch.locationInView(self)
-            hue = 1 - (locationInView.y / frame.height)
+            // TODO: Horizontal mode
+            if orientation == .Vertical {
+                hue = 1 - min(1, max(0, (locationInView.y / frame.height)))
+            } else if orientation == .Horizontal {
+                hue = 1 - min(1, max(0, (locationInView.x / frame.width)))
+            }
             lightness = 0.5
         } else {
             // Modify the lightness for the current hue
             var locationInSuperview = touch.locationInView(self.superview)
-            lightness = 1 - (locationInSuperview.y / superview!.frame.height)
+            // TODO: Horizontal mode
+            if orientation == .Vertical {
+                lightness = 1 - (locationInSuperview.y / superview!.frame.height)
+            } else if orientation == .Horizontal {
+                lightness = 1 - (locationInSuperview.x / superview!.frame.width)
+            }
         }
     }
     
