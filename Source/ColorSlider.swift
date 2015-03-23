@@ -278,8 +278,6 @@ public enum ColorSliderOrientation {
     var previewAnimationDuration = 0.15
     func showPreviewPopup(touch: UITouch) {
         // Currently, this method needs to be called _after_ updateForTouch
-        println("Creating preview and showing")
-        
         // Create the preview view, set shape
         var preview = UIView(frame: CGRect(x: 0, y: 0, width: previewDimension, height: previewDimension))
         preview.layer.cornerRadius = previewDimension/2
@@ -311,7 +309,6 @@ public enum ColorSliderOrientation {
     func updatePreview(touch: UITouch) {
         var location = touch.locationInView(self)
         if let preview = previewView {
-            println("Updating preview")
             var frame = positionForPreview(touch)
             preview.frame = frame
             preview.backgroundColor = color
@@ -319,8 +316,6 @@ public enum ColorSliderOrientation {
     }
     
     func removePreview() {
-        println("Removing preview")
-        
         if let preview = previewView {
             // Move to bar for animation
             var endFrame = animationPositionForPreview(preview.frame)
