@@ -15,7 +15,7 @@ Then, specify `ColorSlider` in your `Podfile`:
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'ColorSlider', :git => 'https://github.com/gizmosachin/ColorSlider'
+pod 'ColorSlider', '~> 1.2.1'
 ```
 
 Finally, run the following command:
