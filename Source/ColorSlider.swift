@@ -93,10 +93,10 @@ import CoreGraphics
     private var drawLayer: CAGradientLayer = CAGradientLayer()
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
-    
+	
     // MARK: Initializers
-    public override init() {
-        super.init()
+	convenience init() {
+        self.init()
         backgroundColor = UIColor.clearColor()
     }
     

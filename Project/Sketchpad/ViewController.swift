@@ -90,14 +90,14 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     @IBAction func share () {
         var trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
         var controller = UIActivityViewController(activityItems: [trimmedImage], applicationActivities: nil)
-        controller.completionHandler = {
-            activityType, completed in
-            if completed {
-                self.drawingView.clear()
-                self.drawingView.lineColor = UIColor.blackColor()
-                self.selectedColorView.backgroundColor = UIColor.blackColor()
-            }
-        }
+		controller.completionWithItemsHandler = {
+			activityType, completed, returnedItems, activityError in
+			if completed {
+				self.drawingView.clear()
+				self.drawingView.lineColor = UIColor.blackColor()
+				self.selectedColorView.backgroundColor = UIColor.blackColor()
+			}
+		}
         self.presentViewController(controller, animated: true, completion: nil)
     }
 }
