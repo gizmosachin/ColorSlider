@@ -4,11 +4,25 @@
 
 ## Installation
 
-`ColorSlider` is available for installation using a [pre-release](http://blog.cocoapods.org/Pod-Authors-Guide-to-CocoaPods-Frameworks/) version of [CocoaPods](http://cocoapods.org/), which you can install with `sudo gem install cocoapods --pre` in Terminal.
+`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/) 0.36 and above. You can install Cocoapods with the following command:
+
+```bash
+$ gem install cocoapods
+```
+Then, specify `ColorSlider` in your `Podfile`:
 
 ```ruby
+platform :ios, '8.0'
+use_frameworks!
+
 pod 'ColorSlider', :git => 'https://github.com/gizmosachin/ColorSlider'
-```	
+```
+
+Finally, run the following command:
+
+```bash
+$ pod install
+```
 
 You can also simply copy the `ColorSlider.swift` file into your Xcode project.
 
