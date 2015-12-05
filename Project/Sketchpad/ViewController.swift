@@ -88,8 +88,8 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     }
     
     @IBAction func share () {
-        var trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
-        var controller = UIActivityViewController(activityItems: [trimmedImage], applicationActivities: nil)
+        let trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
+        let controller = UIActivityViewController(activityItems: [trimmedImage], applicationActivities: nil)
 		controller.completionWithItemsHandler = {
 			activityType, completed, returnedItems, activityError in
 			if completed {
