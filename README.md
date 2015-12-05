@@ -4,7 +4,7 @@
 
 ## Installation
 
-`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/) 0.36 and above. You can install Cocoapods with the following command:
+`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/). You can install Cocoapods with the following command:
 
 ```bash
 $ gem install cocoapods
@@ -12,10 +12,10 @@ $ gem install cocoapods
 Then, specify `ColorSlider` in your `Podfile`:
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
-pod 'ColorSlider', '~> 1.2.1'
+pod 'ColorSlider', '~> 1.2.2'
 ```
 
 Finally, run the following command:
@@ -78,7 +78,7 @@ self.colorSlider.edgeInsets = UIEdgeInsetsMake(0.0, 44.0, 0.0, 44.0)
 
 ## Sketchpad
 
-`ColorSlider` comes with a demo project called `Sketchpad` that's a simple drawing app for iPhone. To get it to run in Xcode, you must run `pod install`. Note that this does not require the pre-release version (0.36) of Cocoapods.
+`ColorSlider` comes with a demo project called `Sketchpad` that's a simple drawing app for iPhone. To get it to run in Xcode, use Cocoapods and run `pod install`.
 
 ## How it Works
 
