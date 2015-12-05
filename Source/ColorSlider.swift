@@ -97,21 +97,25 @@ import CoreGraphics
     // MARK: Initializers
 	convenience init() {
         self.init()
-        backgroundColor = UIColor.clearColor()
+		commonInit()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.clearColor()
+       	commonInit()
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.clearColor()
+        commonInit()
     }
+	
+	func commonInit() {
+		backgroundColor = UIColor.clearColor()
+	}
     
     // MARK: UIControl methods
-    public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: true)
@@ -120,7 +124,7 @@ import CoreGraphics
         return true
     }
     
-    public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: touchInside)
@@ -129,16 +133,12 @@ import CoreGraphics
         return true
     }
     
-    public override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+    public override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         super.endTrackingWithTouch(touch, withEvent: event)
-        
-        updateForTouch(touch, modifyHue: touchInside)
-        
-        if touchInside {
-            sendActionsForControlEvents(.TouchUpInside)
-        } else {
-            sendActionsForControlEvents(.TouchUpOutside)
-        }
+		
+		guard let endTouch = touch else { return }
+        updateForTouch(endTouch, modifyHue: touchInside)
+		sendActionsForControlEvents(touchInside ? .TouchUpInside : .TouchUpOutside)
     }
     
     public override func cancelTrackingWithEvent(event: UIEvent?) {
@@ -148,12 +148,12 @@ import CoreGraphics
     private func updateForTouch (touch: UITouch, modifyHue: Bool) {
         if modifyHue {
             // Modify the hue at constant lightness
-            var locationInView = touch.locationInView(self)
+            let locationInView = touch.locationInView(self)
             hue = 1 - (locationInView.y / frame.height)
             lightness = 0.5
         } else {
             // Modify the lightness for the current hue
-            var locationInSuperview = touch.locationInView(self.superview)
+            let locationInSuperview = touch.locationInView(superview)
             lightness = 1 - (locationInSuperview.y / superview!.frame.height)
         }
     }
@@ -163,7 +163,7 @@ import CoreGraphics
         super.drawRect(rect)
         
         // Bounds - Edge Insets
-        var innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
+        let innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
         
         // Draw border
         if cornerRadius >= 0 {
@@ -171,22 +171,14 @@ import CoreGraphics
             drawLayer.cornerRadius = cornerRadius
         } else {
             // Default to pill shape
-            var shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
+            let shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
             drawLayer.cornerRadius = shortestSide / 2.0
         }
         
         // Draw background
-        drawLayer.colors = [UIColor(h: 1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.9, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.8, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.7, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.6, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.5, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.4, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.3, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.2, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.0, s: 1.0, l: 0.5, alpha: 1.0).CGColor]
+		drawLayer.colors = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0].map { (hue) -> CGColor in
+			return UIColor(h: hue, s: 1.0, l: 0.5, alpha: 1.0).CGColor
+		}
         drawLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
         drawLayer.frame = innerFrame
         drawLayer.borderColor = borderColor.CGColor
