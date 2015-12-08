@@ -7,3 +7,4 @@
 *.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 *.xcuserstate
 xcuserdata
+*/Pods/
