@@ -33,6 +33,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     @IBOutlet var colorSlider: ColorSlider!
     @IBOutlet var selectedColorView: UIView!
     @IBOutlet var undoButton: UIButton!
+	@IBOutlet var shareButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,18 +59,16 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: Colors
-    @IBAction func willChangeColor(slider: ColorSlider) {
-        updateColorViews(slider.color)
+    // MARK: ColorSlider Events
+    func willChangeColor(slider: ColorSlider) {
         drawingView.userInteractionEnabled = false
     }
     
-    @IBAction func isChangingColor(slider: ColorSlider) {
-        updateColorViews(slider.color)
-        drawingView.lineColor = slider.color
+   	func isChangingColor(slider: ColorSlider) {
+        // Respond to a change in color.
     }
     
-    @IBAction func didChangeColor(slider: ColorSlider) {
+    func didChangeColor(slider: ColorSlider) {
         updateColorViews(slider.color)
         drawingView.userInteractionEnabled = true
     }
