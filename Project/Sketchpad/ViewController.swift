@@ -36,10 +36,17 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		selectedColorView.clipsToBounds = true
+		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
+		selectedColorView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		selectedColorView.layer.borderWidth = 1.0
+		
         drawingView.delegate = self
         drawingView.lineWidth = 3.0
         undoButton.enabled = false
-        
+		
+		colorSlider.previewEnabled = true
         colorSlider.addTarget(self, action: "willChangeColor:", forControlEvents: .TouchDown)
         colorSlider.addTarget(self, action: "isChangingColor:", forControlEvents: .ValueChanged)
         colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpOutside)
@@ -52,10 +59,6 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     }
     
     // MARK: Colors
-    @IBAction func blackColor () {
-        drawingView.lineColor = UIColor.blackColor()
-    }
-    
     @IBAction func willChangeColor(slider: ColorSlider) {
         updateColorViews(slider.color)
         drawingView.userInteractionEnabled = false
