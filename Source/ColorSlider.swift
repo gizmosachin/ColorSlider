@@ -79,6 +79,7 @@ public enum ColorSliderOrientation {
 	@IBInspectable public var previewEnabled: Bool = false
     private var previewView: UIView = UIView()
 	private let previewDimension: CGFloat = 32
+	private let previewOffset: CGFloat = 44
 	private let previewAnimationDuration: NSTimeInterval = 0.15
 	
     // MARK: - Initializers
@@ -216,7 +217,7 @@ public enum ColorSliderOrientation {
     }
 	
     func removePreview() {
-		if !previewEnabled { return }
+		if !previewEnabled || previewView.superview == nil { return }
 		let endFrame = minimizedRectForRect(previewView.frame)
 		UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
 			self.previewView.frame = endFrame
@@ -228,8 +229,8 @@ public enum ColorSliderOrientation {
     func positionForPreview(touch: UITouch) -> CGRect {
         let location = touch.locationInView(self)
 		
-		var x = -CGFloat(44)
-		var y = location.y
+		var x = orientation == .Vertical ? -previewOffset : location.x
+		var y = orientation == .Vertical ? location.y : -previewOffset
 		
 		// Restrict preview to slider bounds
         if orientation == .Vertical {
