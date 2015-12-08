@@ -140,8 +140,8 @@ public enum ColorSliderOrientation {
     private var previewView: UIView?
     
     // MARK: Initializers
-    public override init() {
-        super.init()
+	convenience init() {
+        self.init()
         backgroundColor = UIColor.clearColor()
         clipsToBounds = false
     }
@@ -152,14 +152,14 @@ public enum ColorSliderOrientation {
         clipsToBounds = false
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.clearColor()
         clipsToBounds = false
     }
     
     // MARK: UIControl methods
-    public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: true)
@@ -169,7 +169,7 @@ public enum ColorSliderOrientation {
         return true
     }
     
-    public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: touchInside)
@@ -179,10 +179,11 @@ public enum ColorSliderOrientation {
         return true
     }
     
-    public override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+    public override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         super.endTrackingWithTouch(touch, withEvent: event)
-        
-        updateForTouch(touch, modifyHue: touchInside)
+		
+		guard let endTouch = touch else { return }
+        updateForTouch(endTouch, modifyHue: touchInside)
         removePreview()
         
         if touchInside {
@@ -199,7 +200,7 @@ public enum ColorSliderOrientation {
     private func updateForTouch (touch: UITouch, modifyHue: Bool) {
         if modifyHue {
             // Modify the hue at constant lightness
-            var locationInView = touch.locationInView(self)
+            let locationInView = touch.locationInView(self)
             // TODO: Horizontal mode
             if orientation == .Vertical {
                 hue = 1 - min(1, max(0, (locationInView.y / frame.height)))
@@ -209,7 +210,7 @@ public enum ColorSliderOrientation {
             lightness = 0.5
         } else {
             // Modify the lightness for the current hue
-            var locationInSuperview = touch.locationInView(self.superview)
+            let locationInSuperview = touch.locationInView(self.superview)
             // TODO: Horizontal mode
             if orientation == .Vertical {
                 lightness = 1 - (locationInSuperview.y / superview!.frame.height)
@@ -221,16 +222,16 @@ public enum ColorSliderOrientation {
     
     public override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
         // Expand the touch size to be as wide/tall as normal control
-        var idealTouchDimenson: CGFloat = 30
+        let idealTouchDimenson: CGFloat = 30
         if orientation == .Vertical {
-            var widthDiff = (idealTouchDimenson - frame.size.width) / 2
-            var widthPad = widthDiff > 0 ? widthDiff : 0
-            var expandedRect = CGRectInset(bounds, -widthPad, 0)
+            let widthDiff = (idealTouchDimenson - frame.size.width) / 2
+            let widthPad = widthDiff > 0 ? widthDiff : 0
+            let expandedRect = CGRectInset(bounds, -widthPad, 0)
             return CGRectContainsPoint(expandedRect, point)
         } else {
-            var heightDiff = (idealTouchDimenson - frame.size.height) / 2
-            var heightPad = heightDiff > 0 ? heightDiff : 0
-            var expandedRect = CGRectInset(bounds, 0, -heightPad)
+            let heightDiff = (idealTouchDimenson - frame.size.height) / 2
+            let heightPad = heightDiff > 0 ? heightDiff : 0
+            let expandedRect = CGRectInset(bounds, 0, -heightPad)
             return CGRectContainsPoint(expandedRect, point)
         }
     }
@@ -240,7 +241,7 @@ public enum ColorSliderOrientation {
         super.drawRect(rect)
         
         // Bounds - Edge Insets
-        var innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
+        let innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
         
         // Draw border
         if cornerRadius >= 0 {
@@ -248,22 +249,14 @@ public enum ColorSliderOrientation {
             drawLayer.cornerRadius = cornerRadius
         } else {
             // Default to pill shape
-            var shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
+			let shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
             drawLayer.cornerRadius = shortestSide / 2.0
         }
         
         // Draw background
-        drawLayer.colors = [UIColor(h: 1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.9, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.8, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.7, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.6, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.5, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.4, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.3, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.2, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.1, s: 1.0, l: 0.5, alpha: 1.0).CGColor,
-                            UIColor(h: 0.0, s: 1.0, l: 0.5, alpha: 1.0).CGColor]
+		drawLayer.colors = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0].map({ (hue) -> CGColor in
+			return UIColor(h: hue, s: 1.0, l: 0.5, alpha: 1.0).CGColor
+		})
         drawLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
         drawLayer.frame = innerFrame
         drawLayer.borderColor = borderColor.CGColor
@@ -279,26 +272,25 @@ public enum ColorSliderOrientation {
     func showPreviewPopup(touch: UITouch) {
         // Currently, this method needs to be called _after_ updateForTouch
         // Create the preview view, set shape
-        var preview = UIView(frame: CGRect(x: 0, y: 0, width: previewDimension, height: previewDimension))
+        let preview = UIView(frame: CGRect(x: 0, y: 0, width: previewDimension, height: previewDimension))
         preview.layer.cornerRadius = previewDimension/2
         previewView = preview
         
         // Initialize preview in proper position, save frame
         updatePreview(touch)
-        var endFrame = preview.frame
+        let endFrame = preview.frame
         
         // Get frame for animation, set as current frame to navigate _from_
-        var startFrame = animationPositionForPreview(endFrame)
+        let startFrame = animationPositionForPreview(endFrame)
         preview.frame = startFrame
         
         addSubview(preview)
-        UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: .BeginFromCurrentState | .CurveEaseInOut, animations: { () -> Void in
+        UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
             preview.frame = endFrame
             preview.layer.cornerRadius = self.previewDimension/2
-            
-            }, completion: nil)
+		}, completion: nil)
         
-        var cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
+        let cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
         cornerAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         cornerAnimation.fromValue = startFrame.size.height/2
         cornerAnimation.toValue = previewDimension/2
@@ -307,9 +299,8 @@ public enum ColorSliderOrientation {
     }
     
     func updatePreview(touch: UITouch) {
-        var location = touch.locationInView(self)
         if let preview = previewView {
-            var frame = positionForPreview(touch)
+            let frame = positionForPreview(touch)
             preview.frame = frame
             preview.backgroundColor = color
         }
@@ -318,15 +309,15 @@ public enum ColorSliderOrientation {
     func removePreview() {
         if let preview = previewView {
             // Move to bar for animation
-            var endFrame = animationPositionForPreview(preview.frame)
+            let endFrame = animationPositionForPreview(preview.frame)
             
-            UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: .BeginFromCurrentState | .CurveEaseInOut, animations: { () -> Void in
+            UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
                 preview.frame = endFrame
                 }, completion: { (completed: Bool) -> Void in
                     preview.removeFromSuperview()
                     self.previewView = nil
             })
-            var cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
+            let cornerAnimation = CABasicAnimation(keyPath: "cornerRadius")
             cornerAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             cornerAnimation.toValue = endFrame.size.height/2
             cornerAnimation.fromValue = previewDimension/2
@@ -336,7 +327,7 @@ public enum ColorSliderOrientation {
     }
     
     func positionForPreview(touch: UITouch) -> CGRect {
-        var location = touch.locationInView(self)
+        let location = touch.locationInView(self)
         
         if orientation == .Vertical {
             var y = location.y - (previewDimension/2)
@@ -344,8 +335,8 @@ public enum ColorSliderOrientation {
             if y < 0 { y = 0}
             if y + previewDimension > CGRectGetHeight(bounds) {y = CGRectGetHeight(bounds) - previewDimension }
             
-            var x = -(previewDimension + 8)
-            var frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+            let x = -(previewDimension + 8)
+            let frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
             return frameInBounds
         } else {
             var x = location.x - (previewDimension/2)
@@ -353,21 +344,21 @@ public enum ColorSliderOrientation {
             if x < 0 { x = 0}
             if x+previewDimension > CGRectGetWidth(bounds) { x = CGRectGetWidth(bounds) - previewDimension }
             
-            var y = -(previewDimension + 8)
-            var frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+            let y = -(previewDimension + 8)
+            let frameInBounds = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
             return frameInBounds
         }
     }
     
     func animationPositionForPreview(position: CGRect) -> CGRect {
-        var animationSize: CGFloat = 5.0
+        let animationSize: CGFloat = 5.0
         if orientation == .Vertical {
-            var animationY = position.origin.y + ((previewDimension - animationSize) / 2)
-            var animationFrame = CGRect(x: CGRectGetWidth(bounds) / 2, y: animationY, width: animationSize, height: animationSize)
+            let animationY = position.origin.y + ((previewDimension - animationSize) / 2)
+            let animationFrame = CGRect(x: CGRectGetWidth(bounds) / 2, y: animationY, width: animationSize, height: animationSize)
             return animationFrame
         } else {
-            var animationX = position.origin.x + ((previewDimension - animationSize) / 2)
-            var animationFrame = CGRect(x: animationX, y: CGRectGetHeight(bounds) / 2, width: animationSize, height: animationSize)
+            let animationX = position.origin.x + ((previewDimension - animationSize) / 2)
+            let animationFrame = CGRect(x: animationX, y: CGRectGetHeight(bounds) / 2, width: animationSize, height: animationSize)
             return animationFrame
         }
     }
