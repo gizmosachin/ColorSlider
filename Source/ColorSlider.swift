@@ -30,17 +30,32 @@ import UIKit
 import Foundation
 import CoreGraphics
 
+public enum ColorSliderOrientation {
+    case Vertical
+    case Horizontal
+}
+
 @IBDesignable public class ColorSlider: UIControl {
-    // Currently selected color
     public var color: UIColor {
-        return UIColor(h: hue, s: 1.0, l: lightness, alpha: 1.0)
+        return UIColor(h: hue, s: 1, l: lightness, alpha: 1)
     }
-    
-    // Settable properties
-    @IBInspectable public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 22.0, 0.0, 22.0) {
-        didSet {
-            setNeedsDisplay()
-        }
+	
+	public var orientation: ColorSliderOrientation = .Vertical {
+		didSet {
+			switch orientation {
+			case .Vertical:
+				drawLayer.startPoint = CGPointMake(0.5, 1)
+				drawLayer.endPoint = CGPointMake(0.5, 0)
+			case .Horizontal:
+				drawLayer.startPoint = CGPointMake(0, 0.5)
+				drawLayer.endPoint = CGPointMake(1, 0.5)
+			}
+		}
+	}
+	
+    // MARK: Appearance
+    public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20) {
+        didSet { setNeedsDisplay() }
     }
     @IBInspectable public var cornerRadius: CGFloat = -1.0 {
         didSet {
@@ -49,76 +64,56 @@ import CoreGraphics
         }
     }
     @IBInspectable public var borderWidth: CGFloat = 1.0 {
-        didSet {
-            drawLayer.borderWidth = borderWidth
-        }
+        didSet { drawLayer.borderWidth = borderWidth }
     }
     @IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
-        didSet {
-            drawLayer.borderColor = borderColor.CGColor
-        }
+        didSet { drawLayer.borderColor = borderColor.CGColor }
     }
-    @IBInspectable public var shadowOpacity: Float = 0.0 {
-        didSet {
-            drawLayer.shadowOpacity = shadowOpacity
-        }
-    }
-    @IBInspectable public var shadowRadius: CGFloat = 0.0 {
-        didSet {
-            drawLayer.shadowRadius = shadowRadius
-        }
-    }
-    @IBInspectable public var shadowColor: UIColor = UIColor.clearColor() {
-        didSet {
-            drawLayer.shadowColor = shadowColor.CGColor
-        }
-    }
-    public var shadowOffset: CGSize = CGSizeMake(0.0, 0.0) {
-        didSet {
-            drawLayer.shadowOffset = shadowOffset
-        }
-    }
-    @IBInspectable private var shadowOffsetX: CGFloat = 0.0 {
-        didSet {
-            drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
-        }
-    }
-    @IBInspectable private var shadowOffsetY: CGFloat = 0.0 {
-        didSet {
-            drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY)
-        }
-    }
-    
-    // Internal
+	
+    // MARK: Internal properties
     private var drawLayer: CAGradientLayer = CAGradientLayer()
     private var hue: CGFloat = 0.0
     private var lightness: CGFloat = 0.5
 	
-    // MARK: Initializers
+	// MARK: Preview view
+	@IBInspectable public var previewEnabled: Bool = false
+    private var previewView: UIView = UIView()
+	private let previewDimension: CGFloat = 32
+	private let previewOffset: CGFloat = 44
+	private let previewAnimationDuration: NSTimeInterval = 0.15
+	
+    // MARK: - Initializers
 	convenience init() {
         self.init()
-		commonInit()
+       	commonInit()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-       	commonInit()
+        commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+		commonInit()
     }
 	
 	func commonInit() {
 		backgroundColor = UIColor.clearColor()
+		clipsToBounds = false
+		
+		previewView.clipsToBounds = true
+		previewView.layer.cornerRadius = previewDimension / 2
+		previewView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		previewView.layer.borderWidth = 1.0
 	}
-    
-    // MARK: UIControl methods
+	
+    // MARK: - UIControl methods
     public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: true)
+        showPreview(touch)
         
         sendActionsForControlEvents(.TouchDown)
         return true
@@ -128,6 +123,7 @@ import CoreGraphics
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         updateForTouch(touch, modifyHue: touchInside)
+        updatePreview(touch)
         
         sendActionsForControlEvents(.ValueChanged)
         return true
@@ -138,6 +134,8 @@ import CoreGraphics
 		
 		guard let endTouch = touch else { return }
         updateForTouch(endTouch, modifyHue: touchInside)
+        removePreview()
+		
 		sendActionsForControlEvents(touchInside ? .TouchUpInside : .TouchUpOutside)
     }
     
@@ -145,20 +143,25 @@ import CoreGraphics
         sendActionsForControlEvents(.TouchCancel)
     }
     
-    private func updateForTouch (touch: UITouch, modifyHue: Bool) {
+    private func updateForTouch(touch: UITouch, modifyHue: Bool) {
         if modifyHue {
-            // Modify the hue at constant lightness
+            // Modify hue at constant lightness
             let locationInView = touch.locationInView(self)
-            hue = 1 - (locationInView.y / frame.height)
+			let top = orientation == .Vertical ? locationInView.y : locationInView.x
+			let bottom = orientation == .Vertical ? frame.height : frame.width
+			hue = 1 - min(1, max(0, (top / bottom)))
             lightness = 0.5
         } else {
-            // Modify the lightness for the current hue
-            let locationInSuperview = touch.locationInView(superview)
-            lightness = 1 - (locationInSuperview.y / superview!.frame.height)
+            // Modify lightness for the current hue
+			guard let _superview = superview else { return }
+			let locationInSuperview = touch.locationInView(_superview)
+			let top = orientation == .Vertical ? locationInSuperview.y : locationInSuperview.x
+			let bottom = orientation == .Vertical ? _superview.frame.height : _superview.frame.width
+			lightness = 1 - (top / bottom)
         }
     }
-    
-    // MARK: Appearance
+	
+    // MARK: - Appearance
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
@@ -171,25 +174,87 @@ import CoreGraphics
             drawLayer.cornerRadius = cornerRadius
         } else {
             // Default to pill shape
-            let shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
+			let shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
             drawLayer.cornerRadius = shortestSide / 2.0
         }
         
         // Draw background
-		drawLayer.colors = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0].map { (hue) -> CGColor in
-			return UIColor(h: hue, s: 1.0, l: 0.5, alpha: 1.0).CGColor
-		}
-        drawLayer.locations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+		let locations: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        drawLayer.locations = locations
+		drawLayer.colors = locations.reverse().map({ (hue) -> CGColor in
+			return UIColor(h: hue, s: 1, l: 0.5, alpha: 1).CGColor
+		})
         drawLayer.frame = innerFrame
         drawLayer.borderColor = borderColor.CGColor
         drawLayer.borderWidth = borderWidth
         if drawLayer.superlayer == nil {
             layer.insertSublayer(drawLayer, atIndex: 0)
         }
+    }
+    
+    // MARK: - Preview
+    func showPreview(touch: UITouch) {
+		if !previewEnabled { return }
+		
+        // Initialize preview in proper position, save frame
+        updatePreview(touch)
+        let endFrame = previewView.frame
         
-        clipsToBounds = true
+        // Get frame for animation, set as current frame to navigate _from_
+        previewView.frame = minimizedRectForRect(endFrame)
+        
+        addSubview(previewView)
+        UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
+            self.previewView.frame = endFrame
+		}, completion: nil)
+    }
+    
+    func updatePreview(touch: UITouch) {
+		if !previewEnabled { return }
+		let frame = positionForPreview(touch)
+		previewView.frame = frame
+		previewView.backgroundColor = color
+    }
+	
+    func removePreview() {
+		if !previewEnabled || previewView.superview == nil { return }
+		let endFrame = minimizedRectForRect(previewView.frame)
+		UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
+			self.previewView.frame = endFrame
+		}, completion: { (completed: Bool) -> Void in
+			self.previewView.removeFromSuperview()
+		})
+    }
+	
+    func positionForPreview(touch: UITouch) -> CGRect {
+        let location = touch.locationInView(self)
+		
+		var x = orientation == .Vertical ? -previewOffset : location.x
+		var y = orientation == .Vertical ? location.y : -previewOffset
+		
+		// Restrict preview to slider bounds
+        if orientation == .Vertical {
+			y = max(0, location.y - (previewDimension / 2))
+			y = min(bounds.height - previewDimension, y)
+        } else {
+			x = max(0, location.x - (previewDimension / 2))
+			x = min(bounds.width - previewDimension, x)
+        }
+		
+		return CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+    }
+    
+    func minimizedRectForRect(rect: CGRect) -> CGRect {
+        let minimizedDimension: CGFloat = 5.0
+		let position = orientation == .Vertical ? rect.origin.y : rect.origin.x
+		let minimizedPosition = position + ((previewDimension - minimizedDimension) / 2)
+		let x = orientation == .Vertical ? bounds.width / 2 : minimizedPosition
+		let y = orientation == .Vertical ? minimizedPosition : bounds.height / 2
+		return CGRect(x: x, y: y, width: minimizedDimension, height: minimizedDimension)
     }
 }
+
+// MARK: -
 
 public extension UIColor {
     // Adapted from https://github.com/thisandagain/color

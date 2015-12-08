@@ -33,13 +33,21 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     @IBOutlet var colorSlider: ColorSlider!
     @IBOutlet var selectedColorView: UIView!
     @IBOutlet var undoButton: UIButton!
+	@IBOutlet var shareButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		selectedColorView.clipsToBounds = true
+		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
+		selectedColorView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		selectedColorView.layer.borderWidth = 1.0
+		
         drawingView.delegate = self
         drawingView.lineWidth = 3.0
         undoButton.enabled = false
-        
+		
+		colorSlider.previewEnabled = true
         colorSlider.addTarget(self, action: "willChangeColor:", forControlEvents: .TouchDown)
         colorSlider.addTarget(self, action: "isChangingColor:", forControlEvents: .ValueChanged)
         colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpOutside)
@@ -51,22 +59,16 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: Colors
-    @IBAction func blackColor () {
-        drawingView.lineColor = UIColor.blackColor()
-    }
-    
-    @IBAction func willChangeColor(slider: ColorSlider) {
-        updateColorViews(slider.color)
+    // MARK: ColorSlider Events
+    func willChangeColor(slider: ColorSlider) {
         drawingView.userInteractionEnabled = false
     }
     
-    @IBAction func isChangingColor(slider: ColorSlider) {
-        updateColorViews(slider.color)
-        drawingView.lineColor = slider.color
+   	func isChangingColor(slider: ColorSlider) {
+        // Respond to a change in color.
     }
     
-    @IBAction func didChangeColor(slider: ColorSlider) {
+    func didChangeColor(slider: ColorSlider) {
         updateColorViews(slider.color)
         drawingView.userInteractionEnabled = true
     }
