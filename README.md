@@ -2,6 +2,8 @@
 
 `ColorSlider` is a Snapchat-style color picker written in [Swift](https://developer.apple.com/swift/). It supports changing color hue when dragging inside the bounds of the control and modifying color lightness when dragging outside its bounds, allowing you to select black and white.
 
+![ColorSlider](https://raw.githubusercontent.com/gizmosachin/ColorSlider/master/ColorSlider.gif)
+
 ## Installation
 
 `ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/). You can install Cocoapods with the following command:
