@@ -56,24 +56,6 @@ public enum ColorSliderOrientation {
     @IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
         didSet { drawLayer.borderColor = borderColor.CGColor }
     }
-    @IBInspectable public var shadowOpacity: Float = 0.0 {
-        didSet { drawLayer.shadowOpacity = shadowOpacity }
-    }
-    @IBInspectable public var shadowRadius: CGFloat = 0.0 {
-        didSet { drawLayer.shadowRadius = shadowRadius }
-    }
-    @IBInspectable public var shadowColor: UIColor = UIColor.clearColor() {
-        didSet { drawLayer.shadowColor = shadowColor.CGColor }
-    }
-    public var shadowOffset: CGSize = CGSizeMake(0.0, 0.0) {
-        didSet { drawLayer.shadowOffset = shadowOffset }
-    }
-    @IBInspectable private var shadowOffsetX: CGFloat = 0.0 {
-        didSet { drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY) }
-    }
-    @IBInspectable private var shadowOffsetY: CGFloat = 0.0 {
-        didSet { drawLayer.shadowOffset = CGSizeMake(shadowOffsetX, shadowOffsetY) }
-    }
     
     public var orientation: ColorSliderOrientation = .Vertical {
         didSet {
