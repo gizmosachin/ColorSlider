@@ -39,8 +39,21 @@ public enum ColorSliderOrientation {
     public var color: UIColor {
         return UIColor(h: hue, s: 1, l: lightness, alpha: 1)
     }
-    
-    // MARK: - Settable properties
+	
+	public var orientation: ColorSliderOrientation = .Vertical {
+		didSet {
+			switch orientation {
+			case .Vertical:
+				drawLayer.startPoint = CGPointMake(0.5, 1)
+				drawLayer.endPoint = CGPointMake(0.5, 0)
+			case .Horizontal:
+				drawLayer.startPoint = CGPointMake(0, 0.5)
+				drawLayer.endPoint = CGPointMake(1, 0.5)
+			}
+		}
+	}
+	
+    // MARK: Appearance
     public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20) {
         didSet { setNeedsDisplay() }
     }
@@ -56,19 +69,6 @@ public enum ColorSliderOrientation {
     @IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
         didSet { drawLayer.borderColor = borderColor.CGColor }
     }
-    
-    public var orientation: ColorSliderOrientation = .Vertical {
-        didSet {
-            switch orientation {
-				case .Vertical:
-					drawLayer.startPoint = CGPointMake(0.5, 1)
-					drawLayer.endPoint = CGPointMake(0.5, 0)
-				case .Horizontal:
-					drawLayer.startPoint = CGPointMake(0, 0.5)
-					drawLayer.endPoint = CGPointMake(1, 0.5)
-			}
-		}
-	}
 	
     // MARK: Internal properties
     private var drawLayer: CAGradientLayer = CAGradientLayer()
@@ -103,6 +103,8 @@ public enum ColorSliderOrientation {
 		
 		previewView.clipsToBounds = true
 		previewView.layer.cornerRadius = previewDimension / 2
+		previewView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		previewView.layer.borderWidth = 1.0
 	}
 	
     // MARK: - UIControl methods
