@@ -44,28 +44,30 @@
                                     <constraint firstAttribute="height" constant="44" id="12m-I4-8S1"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem width="5" style="plain" systemItem="fixedSpace" id="A9v-mp-8hI"/>
                                     <barButtonItem enabled="NO" title="Undo" id="Gox-sb-bPu">
                                         <connections>
                                             <action selector="undo:" destination="vXZ-lx-hvc" id="NUR-g8-yt2"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="lHp-A1-Eon"/>
+                                    <barButtonItem style="plain" id="Gtc-Hm-Q6I">
+                                        <view key="customView" contentMode="scaleToFill" id="Tkp-oL-zYD" userLabel="Color">
+                                            <rect key="frame" x="285" y="7" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </view>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="CGR-Uv-EZe"/>
-                                    <barButtonItem systemItem="action" id="ggF-NE-aLH">
+                                    <barButtonItem enabled="NO" systemItem="action" id="ggF-NE-aLH">
                                         <connections>
                                             <action selector="share:" destination="vXZ-lx-hvc" id="03v-8U-uip"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="5" style="plain" systemItem="fixedSpace" id="r3L-3K-daZ"/>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tkp-oL-zYD" userLabel="Color">
-                                <rect key="frame" x="285" y="563" width="30" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="BGh-Db-qka"/>
-                                    <constraint firstAttribute="height" constant="30" id="Fjw-w7-Iam"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -76,16 +78,8 @@
                             <constraint firstItem="dTH-uc-efn" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="bxH-hv-TLe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dTH-uc-efn" secondAttribute="trailing" constant="-20" id="cA0-gk-hw3"/>
                             <constraint firstItem="JEh-4R-rV9" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="gTJ-Hy-0Ig"/>
-                            <constraint firstItem="Tkp-oL-zYD" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="jWK-cl-BpQ"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Tkp-oL-zYD" secondAttribute="bottom" constant="7" id="w8b-QT-qOX"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="JEh-4R-rV9" secondAttribute="bottom" id="y1D-xQ-wbv"/>
-                            <constraint firstItem="Tkp-oL-zYD" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="z4a-ez-UJV"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="jWK-cl-BpQ"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="colorSlider" destination="Ayp-Vc-V9d" id="4eo-tc-06U"/>

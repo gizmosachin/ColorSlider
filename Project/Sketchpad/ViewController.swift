@@ -38,11 +38,6 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		selectedColorView.clipsToBounds = true
-		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
-		selectedColorView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
-		selectedColorView.layer.borderWidth = 1.0
-		
         drawingView.delegate = self
         drawingView.lineWidth = 3.0
         undoButton.enabled = false
@@ -53,6 +48,15 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
         colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpOutside)
         colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpInside)
     }
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		
+		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
+		selectedColorView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		selectedColorView.layer.borderWidth = 1.0
+		selectedColorView.clipsToBounds = true
+	}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -80,14 +84,19 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     
     // MARK: ACEDrawingView Delegate
     func drawingView(view: ACEDrawingView, didEndDrawUsingTool tool: AnyObject) {
-        undoButton.enabled = drawingView.canUndo()
+        updateButtons()
     }
     
     // MARK: Actions
 	@IBAction func undo(sender: UIBarButtonItem) {
         drawingView.undoLatestStep()
-        undoButton.enabled = drawingView.canUndo()
+        updateButtons()
     }
+	
+	func updateButtons() {
+		undoButton.enabled = drawingView.canUndo()
+		shareButton.enabled = drawingView.canUndo()
+	}
     
 	@IBAction func share(sender: UIBarButtonItem) {
         let trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
@@ -104,4 +113,3 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 		presentViewController(controller, animated: true, completion: nil)
     }
 }
-
