@@ -78,9 +78,9 @@ public enum ColorSliderOrientation {
 	// MARK: Preview view
 	@IBInspectable public var previewEnabled: Bool = false
     private var previewView: UIView = UIView()
-	private let previewDimension: CGFloat = 32
+	private let previewDimension: CGFloat = 30
 	private let previewOffset: CGFloat = 44
-	private let previewAnimationDuration: NSTimeInterval = 0.15
+	private let previewAnimationDuration: NSTimeInterval = 0.10
 	
     // MARK: - Initializers
 	convenience init() {
@@ -198,14 +198,11 @@ public enum ColorSliderOrientation {
 		
         // Initialize preview in proper position, save frame
         updatePreview(touch)
-        let endFrame = previewView.frame
-        
-        // Get frame for animation, set as current frame to navigate _from_
-        previewView.frame = minimizedRectForRect(endFrame)
+		previewView.transform = minimizedTransformForRect(previewView.frame)
         
         addSubview(previewView)
         UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
-            self.previewView.frame = endFrame
+            self.previewView.transform = CGAffineTransformIdentity
 		}, completion: nil)
     }
     
@@ -218,11 +215,12 @@ public enum ColorSliderOrientation {
 	
     func removePreview() {
 		if !previewEnabled || previewView.superview == nil { return }
-		let endFrame = minimizedRectForRect(previewView.frame)
+		
 		UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
-			self.previewView.frame = endFrame
+			self.previewView.transform = self.minimizedTransformForRect(self.previewView.frame)
 		}, completion: { (completed: Bool) -> Void in
 			self.previewView.removeFromSuperview()
+			self.previewView.transform = CGAffineTransformIdentity
 		})
     }
 	
@@ -244,13 +242,17 @@ public enum ColorSliderOrientation {
 		return CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
     }
     
-    func minimizedRectForRect(rect: CGRect) -> CGRect {
+    func minimizedTransformForRect(rect: CGRect) -> CGAffineTransform {
         let minimizedDimension: CGFloat = 5.0
-		let position = orientation == .Vertical ? rect.origin.y : rect.origin.x
-		let minimizedPosition = position + ((previewDimension - minimizedDimension) / 2)
-		let x = orientation == .Vertical ? bounds.width / 2 : minimizedPosition
-		let y = orientation == .Vertical ? minimizedPosition : bounds.height / 2
-		return CGRect(x: x, y: y, width: minimizedDimension, height: minimizedDimension)
+		
+		let scale = minimizedDimension / previewDimension
+		let scaleTransform = CGAffineTransformMakeScale(scale, scale)
+		
+		let tx = orientation == .Vertical ? previewOffset : 0
+		let ty = orientation == .Vertical ? 0 : previewOffset
+		let translationTransform = CGAffineTransformMakeTranslation(tx, ty)
+		
+		return CGAffineTransformConcat(scaleTransform, translationTransform)
     }
 }
 
