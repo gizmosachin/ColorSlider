@@ -32,8 +32,8 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     @IBOutlet var drawingView: ACEDrawingView!
     @IBOutlet var colorSlider: ColorSlider!
     @IBOutlet var selectedColorView: UIView!
-    @IBOutlet var undoButton: UIButton!
-	@IBOutlet var shareButton: UIButton!
+    @IBOutlet var undoButton: UIBarButtonItem!
+	@IBOutlet var shareButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,12 +84,12 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     }
     
     // MARK: Actions
-    @IBAction func undo () {
+	@IBAction func undo(sender: UIBarButtonItem) {
         drawingView.undoLatestStep()
         undoButton.enabled = drawingView.canUndo()
     }
     
-    @IBAction func share () {
+	@IBAction func share(sender: UIBarButtonItem) {
         let trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
         let controller = UIActivityViewController(activityItems: [trimmedImage], applicationActivities: nil)
 		controller.completionWithItemsHandler = {
@@ -100,7 +100,8 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 				self.selectedColorView.backgroundColor = UIColor.blackColor()
 			}
 		}
-        self.presentViewController(controller, animated: true, completion: nil)
+		controller.popoverPresentationController?.barButtonItem = sender
+		presentViewController(controller, animated: true, completion: nil)
     }
 }
 

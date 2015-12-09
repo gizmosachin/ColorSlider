@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -43,7 +43,19 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="12m-I4-8S1"/>
                                 </constraints>
-                                <items/>
+                                <items>
+                                    <barButtonItem enabled="NO" title="Undo" id="Gox-sb-bPu">
+                                        <connections>
+                                            <action selector="undo:" destination="vXZ-lx-hvc" id="NUR-g8-yt2"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CGR-Uv-EZe"/>
+                                    <barButtonItem systemItem="action" id="ggF-NE-aLH">
+                                        <connections>
+                                            <action selector="share:" destination="vXZ-lx-hvc" id="03v-8U-uip"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tkp-oL-zYD" userLabel="Color">
                                 <rect key="frame" x="285" y="563" width="30" height="30"/>
@@ -54,86 +66,24 @@
                                     <constraint firstAttribute="height" constant="30" id="Fjw-w7-Iam"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gC8-qr-6Yf">
-                                <rect key="frame" x="520" y="552" width="80" height="48"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="6tN-hK-Nev"/>
-                                    <constraint firstAttribute="height" constant="28" id="Heu-6i-bpx"/>
-                                    <constraint firstAttribute="height" constant="48" id="QXd-DZ-Jnv"/>
-                                    <constraint firstAttribute="width" constant="27" id="kJ7-ff-5lB"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" image="Share">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Heu-6i-bpx"/>
-                                        <exclude reference="kJ7-ff-5lB"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="share" destination="vXZ-lx-hvc" eventType="touchUpInside" id="SRD-Cv-gZJ"/>
-                                </connections>
-                            </button>
-                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UOQ-Og-Fz8">
-                                <rect key="frame" x="0.0" y="556" width="90" height="44"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="7ed-SE-N9l"/>
-                                    <constraint firstAttribute="height" constant="18" id="Ro3-Cr-Xn0"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="74" id="aWp-yP-wHn"/>
-                                    <constraint firstAttribute="height" constant="44" id="cP1-fF-JHn"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="dN4-k9-8eO"/>
-                                    <constraint firstAttribute="width" constant="38" id="vTR-8Y-Mgc"/>
-                                </constraints>
-                                <state key="normal" title="Undo">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Ro3-Cr-Xn0"/>
-                                        <exclude reference="aWp-yP-wHn"/>
-                                        <exclude reference="dN4-k9-8eO"/>
-                                        <exclude reference="vTR-8Y-Mgc"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="undo" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wDs-z6-IRb"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JEh-4R-rV9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="44R-HC-3ya"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="dTH-uc-efn" secondAttribute="bottom" id="5pd-Yz-MkY"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="UOQ-Og-Fz8" secondAttribute="bottom" id="7ad-ei-dow"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="gC8-qr-6Yf" secondAttribute="bottom" constant="14" id="92E-T3-7Jk"/>
-                            <constraint firstItem="gC8-qr-6Yf" firstAttribute="top" secondItem="dTH-uc-efn" secondAttribute="bottom" id="9pe-76-BhM"/>
-                            <constraint firstItem="UOQ-Og-Fz8" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="JHq-in-uCT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JEh-4R-rV9" secondAttribute="trailing" constant="-20" id="L05-hv-BKV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gC8-qr-6Yf" secondAttribute="trailing" constant="-20" id="abG-dj-QqT"/>
                             <constraint firstItem="dTH-uc-efn" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-20" id="bxH-hv-TLe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dTH-uc-efn" secondAttribute="trailing" constant="-20" id="cA0-gk-hw3"/>
                             <constraint firstItem="JEh-4R-rV9" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="gTJ-Hy-0Ig"/>
                             <constraint firstItem="Tkp-oL-zYD" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="jWK-cl-BpQ"/>
-                            <constraint firstItem="gC8-qr-6Yf" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="-20" id="mMf-rH-Q0d"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Tkp-oL-zYD" secondAttribute="bottom" constant="7" id="w8b-QT-qOX"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="JEh-4R-rV9" secondAttribute="bottom" id="y1D-xQ-wbv"/>
                             <constraint firstItem="Tkp-oL-zYD" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="z4a-ez-UJV"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="gC8-qr-6Yf" secondAttribute="bottom" id="zkd-yx-Mg4"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="jWK-cl-BpQ"/>
-                                <exclude reference="92E-T3-7Jk"/>
-                                <exclude reference="9pe-76-BhM"/>
-                                <exclude reference="mMf-rH-Q0d"/>
                             </mask>
                         </variation>
                     </view>
@@ -141,8 +91,8 @@
                         <outlet property="colorSlider" destination="Ayp-Vc-V9d" id="4eo-tc-06U"/>
                         <outlet property="drawingView" destination="JEh-4R-rV9" id="RG7-tL-A6P"/>
                         <outlet property="selectedColorView" destination="Tkp-oL-zYD" id="jK9-GF-wns"/>
-                        <outlet property="shareButton" destination="gC8-qr-6Yf" id="079-0L-B41"/>
-                        <outlet property="undoButton" destination="UOQ-Og-Fz8" id="waZ-9E-htW"/>
+                        <outlet property="shareButton" destination="ggF-NE-aLH" id="9dg-YI-m6f"/>
+                        <outlet property="undoButton" destination="Gox-sb-bPu" id="jwA-um-joR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -150,7 +100,4 @@
             <point key="canvasLocation" x="613" y="536"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Share" width="21" height="28"/>
-    </resources>
 </document>
