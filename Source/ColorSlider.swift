@@ -77,15 +77,15 @@ public enum ColorSliderOrientation {
 	
 	// MARK: Preview view
 	@IBInspectable public var previewEnabled: Bool = false
-    private var previewView: UIView = UIView()
+	private var previewView: UIView = UIView()
 	private let previewDimension: CGFloat = 30
 	private let previewOffset: CGFloat = 44
 	private let previewAnimationDuration: NSTimeInterval = 0.10
 	
     // MARK: - Initializers
-	convenience init() {
-        self.init()
-       	commonInit()
+	init() {
+		super.init(frame: CGRectZero)
+		commonInit()
     }
     
     public override init(frame: CGRect) {
