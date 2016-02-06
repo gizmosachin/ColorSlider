@@ -8,3 +8,4 @@
 *.xcuserstate
 xcuserdata
 */Pods/
+Podfile.lock
