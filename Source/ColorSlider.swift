@@ -260,15 +260,18 @@ public enum ColorSliderOrientation {
 
 public extension UIColor {
     // Adapted from https://github.com/thisandagain/color
-    public convenience init(h: CGFloat, s: CGFloat, l: CGFloat, alpha: CGFloat) {
-        var temp1: CGFloat = 0.0
-        var temp2: CGFloat = 0.0
-        var temp: [CGFloat] = [0.0, 0.0, 0.0]
-        var i = 0
-        
-        var outR: CGFloat = 0.0
-        var outG: CGFloat = 0.0
-        var outB: CGFloat = 0.0
+    public convenience init(h _h: CGFloat, s _s: CGFloat, l _l: CGFloat, alpha: CGFloat) {
+		let h = Double(_h)
+		let s = Double(_s)
+		let l = Double(_l)
+		
+        var temp1 = 0.0
+        var temp2 = 0.0
+        var temp = [0.0, 0.0, 0.0]
+		
+        var outR = 0.0
+        var outG = 0.0
+        var outB = 0.0
         
         // Check for saturation. If there isn't any just return the luminance value for each, which results in gray.
         if (s == 0.0) {
@@ -288,7 +291,7 @@ public extension UIColor {
             temp[1] = h
             temp[2] = h - 1.0 / 3.0
             
-            for (i = 0; i < 3; ++i) {
+            for i in 0..<3 {
                 // Adjust the range
                 if (temp[i] < 0.0) {
                     temp[i] += 1.0
@@ -318,6 +321,6 @@ public extension UIColor {
             outG = temp[1]
             outB = temp[2]
         }
-        self.init(red: outR, green: outG, blue: outB, alpha: alpha)
+        self.init(red: CGFloat(outR), green: CGFloat(outG), blue: CGFloat(outB), alpha: alpha)
     }
 }
