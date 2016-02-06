@@ -4,28 +4,45 @@
 
 ![ColorSlider](https://raw.githubusercontent.com/gizmosachin/ColorSlider/master/ColorSlider.gif)
 
+![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider)
+
 ## Installation
 
-`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/). You can install Cocoapods with the following command:
+### CocoaPods
 
-``` bash
-$ gem install cocoapods
-```
-
-Then, specify `ColorSlider` in your `Podfile`:
+`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/). To integrate, add the following to your Podfile`:
 
 ``` ruby
 platform :ios, '9.0'
 use_frameworks!
 
-pod 'ColorSlider', '~> 2.1'
+pod 'ColorSlider', '~> 2.2'
 ```
 
-Finally, run the following command:
+### Carthage
 
-``` bash
-$ pod install
+`ColorSlider` is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
+
+``` odgl
+github "gizmosachin/ColorSlider" >= 2.2
 ```
+
+### Swift Package Manager
+
+`ColorSlider` is also available for installation using the [Swift Package Manager](https://swift.org/package-manager/). Add the following to your `Package.swift`:
+
+``` swift
+import PackageDescription
+
+let package = Package(
+    name: "MyProject",
+    dependencies: [
+        .Package(url: “https://github.com/gizmosachin/ColorSlider.git”, majorVersion: 0),
+    ]
+)
+```
+
+### Manual
 
 You can also simply copy the `ColorSlider.swift` file into your Xcode project.
 
@@ -36,7 +53,7 @@ The sample project `Sketchpad` provides an example of how to integrate `ColorSli
 Create and add an instance of `ColorSlider` to your view hierarchy.
 
 ``` Swift
-colorSlider = ColorSlider()
+let colorSlider = ColorSlider()
 colorSlider.frame = CGRectMake(0, 0, 10, 150)
 view.addSubview(colorSlider)
 ```
@@ -60,7 +77,7 @@ func changedColor(slider: ColorSlider) {
 }
 ```
 
-Enable a live color preview:
+Enable live color preview:
 
 ``` swift
 colorSlider.previewEnabled = true
@@ -75,11 +92,9 @@ colorSlider.borderColor = UIColor.whiteColor()
 colorSlider.edgeInsets = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0)
 ```
 
-
-
 ## Sketchpad
 
-`ColorSlider` comes with a demo project called `Sketchpad`, a simple drawing app. To get it to run in Xcode, use Cocoapods and run `pod install` on the root directory. Then, open `Project > Sketchpad.xcworkspace`.
+`ColorSlider` comes with an example project called `Sketchpad`, a simple drawing app. To try it, install [CocoaPods](http://cocoapods.org/) and run `pod install` under the `Example` directory. Then, open `Example > Sketchpad.xcworkspace`.
 
 ## How it Works
 
