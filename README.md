@@ -37,7 +37,7 @@ import PackageDescription
 let package = Package(
     name: "MyProject",
     dependencies: [
-        .Package(url: “https://github.com/gizmosachin/ColorSlider.git”, majorVersion: 0),
+        .Package(url: "https://github.com/gizmosachin/ColorSlider.git", majorVersion: 0),
     ]
 )
 ```
