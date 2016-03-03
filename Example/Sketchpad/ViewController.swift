@@ -152,6 +152,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 				self.drawingView.clear()
 				self.drawingView.lineColor = UIColor.blackColor()
 				self.selectedColorView.backgroundColor = UIColor.blackColor()
+				self.updateButtons()
 			}
 		}
 		controller.popoverPresentationController?.barButtonItem = shareItem
