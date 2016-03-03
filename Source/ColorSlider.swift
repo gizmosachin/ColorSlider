@@ -25,44 +25,42 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-/**
-	Create and add an instance of  ColorSlider to your view hierarchy.
-
-	``` Swift
-	let colorSlider = ColorSlider()
-	colorSlider.frame = CGRectMake(0, 0, 12, 150)
-	view.addSubview(colorSlider)
-	```
-
-	ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
-	- `.TouchDown`
-	- `.ValueChanged`
-	- `.TouchUpInside`
-	- `.TouchUpOutside`
-	- `.TouchCancel`
-
-	You can get the currently selected color with the `color` property.
-	```
-	colorSlider.addTarget(self, action: "changedColor:", forControlEvents: .ValueChanged)
-
-	func changedColor(slider: ColorSlider) {
-	var color = slider.color
-	// ...
-	}
-	```
-
-	Enable live color preview:
-	```
-	colorSlider.previewEnabled = true
-	```
-
-	Customize appearance:
-	```
-	colorSlider.orientation = .Horizontal
-	colorSlider.borderWidth = 2.0
-	colorSlider.borderColor = UIColor.whiteColor()
-	```
-*/
+///	Create and add an instance of  ColorSlider to your view hierarchy.
+///
+///	``` Swift
+///	let colorSlider = ColorSlider()
+///	colorSlider.frame = CGRectMake(0, 0, 12, 150)
+///	view.addSubview(colorSlider)
+///	```
+///
+///	ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
+///	- `.TouchDown`
+///	- `.ValueChanged`
+///	- `.TouchUpInside`
+///	- `.TouchUpOutside`
+///	- `.TouchCancel`
+///
+///	You can get the currently selected color with the `color` property.
+///	```
+///	colorSlider.addTarget(self, action: "changedColor:", forControlEvents: .ValueChanged)
+///
+///	func changedColor(slider: ColorSlider) {
+///	var color = slider.color
+///	// ...
+///	}
+///	```
+///
+///	Enable live color preview:
+///	```
+///	colorSlider.previewEnabled = true
+///	```
+///
+///	Customize appearance:
+///	```
+///	colorSlider.orientation = .Horizontal
+///	colorSlider.borderWidth = 2.0
+///	colorSlider.borderColor = UIColor.whiteColor()
+///	```
 
 import UIKit
 import Foundation
@@ -75,13 +73,12 @@ import CoreGraphics
 	}
 	
 	// MARK: Customization
-	/**
-		The display orientation of the `ColorSlider`.
-		- `Vertical`: displays vertically
-		- `Horizontal`: displays horizontally
-	*/
+	/// The display orientation of the `ColorSlider`.
 	public enum Orientation {
+		/// Displays `ColorSlider` vertically.
 		case Vertical
+		
+		/// Displays `ColorSlider` horizontally.
 		case Horizontal
 	}
 	
@@ -150,7 +147,6 @@ import CoreGraphics
     }
 	
 	/// Creates a `ColorSlider` with a frame of `frame`.
-	/// - parameter frame: The initial frame of the `ColorSlider`.
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -186,7 +182,7 @@ import CoreGraphics
 		previewView.layer.borderWidth = 1.0
 	}
 	
-    // MARK: - UIControl overrides
+    // MARK: - UIControl
 	/// Begins tracking a touch when the user drags on the `ColorSlider`.
     public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
@@ -233,11 +229,9 @@ import CoreGraphics
     }
 	
 	// MARK: -
-	/**
-		Updates the `ColorSlider` color.
-		- parameter touch: The touch that triggered the update.
-		- parameter touchInside: A boolean value that is `true` if `touch` was inside the frame of the `ColorSlider`.
-	*/
+	///	Updates the `ColorSlider` color.
+	///	- parameter touch: The touch that triggered the update.
+	///	- parameter touchInside: A boolean value that is `true` if `touch` was inside the frame of the `ColorSlider`.
     private func updateForTouch(touch: UITouch, touchInside: Bool) {
         if touchInside {
             // Modify hue at constant brightness
@@ -269,7 +263,6 @@ import CoreGraphics
         }
     }
 	
-    // MARK: - Appearance
 	/// Draws necessary parts of the `ColorSlider`.
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
@@ -286,10 +279,8 @@ import CoreGraphics
     }
     
     // MARK: - Preview
-	/**
-		Shows the color preview.
-		- parameter touch: The touch that triggered the update.
-	*/
+	///	Shows the color preview.
+	///	- parameter touch: The touch that triggered the update.
     private func showPreview(touch: UITouch) {
 		if !previewEnabled { return }
 		
@@ -303,10 +294,8 @@ import CoreGraphics
 		}, completion: nil)
     }
 	
-	/**
-		Updates the color preview.
-		- parameter touch: The touch that triggered the update.
-	*/
+	///	Updates the color preview.
+	///	- parameter touch: The touch that triggered the update.
     private func updatePreview(touch: UITouch) {
 		if !previewEnabled { return }
 		
@@ -330,9 +319,7 @@ import CoreGraphics
 		previewView.backgroundColor = color
     }
 	
-	/**
-		Removes the color preview.
-	*/
+	/// Removes the color preview
     private func removePreview() {
 		if !previewEnabled || previewView.superview == nil { return }
 		
@@ -344,11 +331,9 @@ import CoreGraphics
 		})
     }
 	
-	/**
-		Calculates the transform from `rect` to the minimized preview view.
-		- parameter rect: The actual frame of the preview view.
-		- returns: The transform from `rect` to generate the minimized preview view.
-	*/
+	///	Calculates the transform from `rect` to the minimized preview view.
+	///	- parameter rect: The actual frame of the preview view.
+	///	- returns: The transform from `rect` to generate the minimized preview view.
     private func minimizedTransformForRect(rect: CGRect) -> CGAffineTransform {
         let minimizedDimension: CGFloat = 5.0
 		
