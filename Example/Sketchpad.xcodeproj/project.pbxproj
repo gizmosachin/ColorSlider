@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0375B1DC1A638D9B00990FEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0375B1DB1A638D9B00990FEB /* AppDelegate.swift */; };
 		0375B1DE1A638D9B00990FEB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0375B1DD1A638D9B00990FEB /* ViewController.swift */; };
-		0375B1E11A638D9B00990FEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0375B1DF1A638D9B00990FEB /* Main.storyboard */; };
 		0375B1E31A638D9B00990FEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0375B1E21A638D9B00990FEB /* Images.xcassets */; };
 		0375B1E61A638D9B00990FEB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0375B1E41A638D9B00990FEB /* LaunchScreen.xib */; };
 		0375B1FC1A63975F00990FEB /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0375B1FB1A63975F00990FEB /* Podfile */; };
@@ -23,7 +22,6 @@
 		0375B1DA1A638D9B00990FEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0375B1DB1A638D9B00990FEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0375B1DD1A638D9B00990FEB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0375B1E01A638D9B00990FEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0375B1E21A638D9B00990FEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0375B1E51A638D9B00990FEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0375B1FB1A63975F00990FEB /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -71,7 +69,6 @@
 				0375B1DB1A638D9B00990FEB /* AppDelegate.swift */,
 				0375B1DD1A638D9B00990FEB /* ViewController.swift */,
 				03E8FAC81A64B36D00568880 /* ColorSlider.swift */,
-				0375B1DF1A638D9B00990FEB /* Main.storyboard */,
 				0375B1E41A638D9B00990FEB /* LaunchScreen.xib */,
 				0375B1D91A638D9B00990FEB /* Supporting Files */,
 			);
@@ -167,7 +164,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0375B1E11A638D9B00990FEB /* Main.storyboard in Resources */,
 				0375B1E61A638D9B00990FEB /* LaunchScreen.xib in Resources */,
 				0375B1FC1A63975F00990FEB /* Podfile in Resources */,
 				0375B1E31A638D9B00990FEB /* Images.xcassets in Resources */,
@@ -238,14 +234,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0375B1DF1A638D9B00990FEB /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0375B1E01A638D9B00990FEB /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0375B1E41A638D9B00990FEB /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
