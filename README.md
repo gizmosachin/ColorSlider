@@ -1,35 +1,86 @@
-## ColorSlider
+# ColorSlider
 
-`ColorSlider` is a Snapchat-style color picker written in [Swift](https://developer.apple.com/swift/). It supports changing color hue when dragging inside the bounds of the control and modifying color lightness when dragging outside its bounds, allowing you to select black and white.
+ColorSlider is a [Swift](https://developer.apple.com/swift/) color picker with a live preview.
+
+Inspired by Snapchat, ColorSlider lets you drag vertically to pick a range of colors and drag to the edges of the superview to select black and white. You can configure and customize `ColorSlider` via a simple API, and receive callbacks via `UIControlEvents`.
 
 ![ColorSlider](https://raw.githubusercontent.com/gizmosachin/ColorSlider/master/ColorSlider.gif)
 
 ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider)
 
+
+## Usage
+
+Create and add an instance of  ColorSlider to your view hierarchy.
+
+``` Swift
+let colorSlider = ColorSlider()
+colorSlider.frame = CGRectMake(0, 0, 12, 150)
+view.addSubview(colorSlider)
+```
+
+ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
+
+- `.TouchDown`
+- `.ValueChanged`
+- `.TouchUpInside`
+- `.TouchUpOutside`
+- `.TouchCancel`
+
+You can get the currently selected color with the `color` property.
+
+``` Swift
+colorSlider.addTarget(self, action: "changedColor:", forControlEvents: .ValueChanged)
+
+func changedColor(slider: ColorSlider) {
+    var color = slider.color
+    // ...
+}
+```
+
+Enable live color preview:
+
+``` swift
+colorSlider.previewEnabled = true
+```
+
+Use a horizontal slider:
+
+```swift
+colorSlider.orientation = .Horizontal
+```
+
+Customize appearance attributes:
+
+``` Swift
+colorSlider.borderWidth = 2.0
+colorSlider.borderColor = UIColor.whiteColor()
+```
+
 ## Installation
 
 ### CocoaPods
 
-`ColorSlider` is available for installation using [CocoaPods](http://cocoapods.org/). To integrate, add the following to your Podfile`:
+ColorSlider is available for installation using [CocoaPods](http://cocoapods.org/). To integrate, add the following to your Podfile`:
 
 ``` ruby
 platform :ios, '9.0'
 use_frameworks!
 
-pod 'ColorSlider', '~> 2.2'
+pod 'ColorSlider', '~> 2.3'
 ```
 
 ### Carthage
 
-`ColorSlider` is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
+ColorSlider  is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
 
 ``` odgl
-github "gizmosachin/ColorSlider" >= 2.2
+github "gizmosachin/ColorSlider" >= 2.3
 ```
 
 ### Swift Package Manager
 
-`ColorSlider` is also available for installation using the [Swift Package Manager](https://swift.org/package-manager/). Add the following to your `Package.swift`:
+ColorSlider is also available for installation using the [Swift Package Manager](https://swift.org/package-manager/). Add the following to your `Package.swift`:
 
 ``` swift
 import PackageDescription
@@ -44,61 +95,23 @@ let package = Package(
 
 ### Manual
 
-You can also simply copy the `ColorSlider.swift` file into your Xcode project.
+You can also simply copy  `ColorSlider.swift`  into your Xcode project.
 
-## Usage
+## Example Project
 
-The sample project `Sketchpad` provides an example of how to integrate `ColorSlider` with Interface Builder, but you can also follow the steps below. `ColorSlider` has several `IBInspectable` appearance properties that you can edit right from Interface Builder, if you choose to go that route.
-
-Create and add an instance of `ColorSlider` to your view hierarchy.
-
-``` Swift
-let colorSlider = ColorSlider()
-colorSlider.frame = CGRectMake(0, 0, 10, 150)
-view.addSubview(colorSlider)
-```
-
-`ColorSlider` is a subclass of `UIControl` and supports the following `UIControlEvents`:
-
-- `.TouchDown`
-- `.ValueChanged`
-- `.TouchUpInside`
-- `.TouchUpOutside`
-- `.TouchCancel`
-
-You can get the currently selected color with the `color` property.
-
-``` Swift
-colorSlider.addTarget(self, action: "changedColor:", forControlEvents: UIControlEvents.ValueChanged)
-
-func changedColor(slider: ColorSlider) {
-    var myColor = slider.color
-    // ...
-}
-```
-
-Enable live color preview:
-
-``` swift
-colorSlider.previewEnabled = true
-```
-
-Customize appearance attributes:
-
-``` Swift
-colorSlider.cornerRadius = 2.0
-colorSlider.borderWidth = 2.0
-colorSlider.borderColor = UIColor.whiteColor()
-colorSlider.edgeInsets = UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0)
-```
-
-## Sketchpad
-
-`ColorSlider` comes with an example project called `Sketchpad`, a simple drawing app. To try it, install [CocoaPods](http://cocoapods.org/) and run `pod install` under the `Example` directory. Then, open `Example > Sketchpad.xcworkspace`.
+ColorSlider comes with an example project called Sketchpad, a simple drawing app. To try it, install [CocoaPods](http://cocoapods.org/) and run `pod install` under the `Example` directory. Then, open `Sketchpad.xcworkspace`.
 
 ## How it Works
 
-`ColorSlider` uses [HSL](http://en.wikipedia.org/wiki/HSL_and_HSV) and defaults to saturation 100% and lightness: 50%. Dragging up and down modifies the color hue. When you slide your finger outside the bounds of the `ColorSlider`, you can modify the lightness of the color, allowing you to select black and white.
+ColorSlider uses [HSB](https://en.wikipedia.org/wiki/HSB) and defaults to a saturation and brightness: 100%. 
+
+When the `orientation` is set to `.Vertical`, dragging vertically adjusts the hue, and dragging outside adjusts the saturation and brightness as follows:
+
+- Inside the frame, dragging vertically adjusts the hue
+- Outside the frame, dragging horizontally adjusts the saturation
+- Outside the frame, dragging vertically adjusts the brightness
+
+Adjusting the brightness lets you select black and white by first dragging on the slider, then moving your finger outside the frame to the top left (to select white) or bottom left (to select black) of the superview.
 
 ## License
 
