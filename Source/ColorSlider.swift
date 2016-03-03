@@ -31,7 +31,7 @@ import Foundation
 import CoreGraphics
 
 @IBDesignable public class ColorSlider: UIControl {
-	
+	/// The current color of the `ColorSlider`.
 	public var color: UIColor {
 		return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
 	}
@@ -41,6 +41,8 @@ import CoreGraphics
 		case Vertical
 		case Horizontal
 	}
+	
+	/// The orientation of the `ColorSlider`. Defaults to `.Vertical`.
 	public var orientation: Orientation = .Vertical {
 		didSet {
 			switch orientation {
@@ -53,12 +55,18 @@ import CoreGraphics
 			}
 		}
 	}
+	
+	/// A boolean value that determines whether or not a color preview is shown while dragging.
 	@IBInspectable public var previewEnabled: Bool = false
+	
+	/// The width of the ColorSlider's border.
 	@IBInspectable public var borderWidth: CGFloat = 1.0 {
 		didSet {
 			drawLayer.borderWidth = borderWidth
 		}
 	}
+	
+	/// The color of the ColorSlider's border.
 	@IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
 		didSet {
 			drawLayer.borderColor = borderColor.CGColor
@@ -66,15 +74,29 @@ import CoreGraphics
 	}
 	
     // MARK: Internal
+	/// Internal `CAGradientLayer` used for drawing the `ColorSlider`.
     private var drawLayer: CAGradientLayer = CAGradientLayer()
+	
+	/// The hue of the current color.
     private var hue: CGFloat = 0
+	
+	/// The saturation of the current color.
 	private var saturation: CGFloat = 1
+	
+	/// The brightness of the current color.
     private var brightness: CGFloat = 1
 	
 	// MARK: Preview view
+	/// The color preview view. Only shown if `previewEnabled` is set to `true`.
 	private var previewView: UIView = UIView()
+	
+	/// The edge length of the preview view.
 	private let previewDimension: CGFloat = 30
+	
+	/// The amount that the `previewView` is drawn away from the `ColorSlider` bar.
 	private let previewOffset: CGFloat = 44
+	
+	/// The duration of the preview show or hide animation.
 	private let previewAnimationDuration: NSTimeInterval = 0.10
 	
     // MARK: - Initializers
@@ -159,6 +181,11 @@ import CoreGraphics
     }
 	
 	// MARK: -
+	/**
+		Updates the `ColorSlider` color.
+		- parameter touch: The touch that triggered the update.
+		- parameter touchInside: A boolean value that is `true` if `touch` was inside the frame of the `ColorSlider`.
+	*/
     private func updateForTouch(touch: UITouch, touchInside: Bool) {
         if touchInside {
             // Modify hue at constant brightness
@@ -206,6 +233,10 @@ import CoreGraphics
     }
     
     // MARK: - Preview
+	/**
+		Shows the color preview.
+		- parameter touch: The touch that triggered the update.
+	*/
     private func showPreview(touch: UITouch) {
 		if !previewEnabled { return }
 		
@@ -218,7 +249,11 @@ import CoreGraphics
             self.previewView.transform = CGAffineTransformIdentity
 		}, completion: nil)
     }
-    
+	
+	/**
+		Updates the color preview.
+		- parameter touch: The touch that triggered the update.
+	*/
     private func updatePreview(touch: UITouch) {
 		if !previewEnabled { return }
 		
@@ -236,12 +271,15 @@ import CoreGraphics
 			x = min(bounds.width - previewDimension, x)
 		}
 		
-		// Update the preview view
+		// Update the preview
 		let previewFrame = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
 		previewView.frame = previewFrame
 		previewView.backgroundColor = color
     }
 	
+	/**
+		Removes the color preview.
+	*/
     private func removePreview() {
 		if !previewEnabled || previewView.superview == nil { return }
 		
@@ -252,7 +290,12 @@ import CoreGraphics
 			self.previewView.transform = CGAffineTransformIdentity
 		})
     }
-    
+	
+	/**
+		Calculates the transform from `rect` to the minimized preview view.
+		- parameter rect: The actual frame of the preview view.
+		- returns: The transform from `rect` to generate the minimized preview view.
+	*/
     private func minimizedTransformForRect(rect: CGRect) -> CGAffineTransform {
         let minimizedDimension: CGFloat = 5.0
 		
