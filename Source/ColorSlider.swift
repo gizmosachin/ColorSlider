@@ -30,60 +30,55 @@ import UIKit
 import Foundation
 import CoreGraphics
 
-public enum ColorSliderOrientation {
-    case Vertical
-    case Horizontal
-}
-
 @IBDesignable public class ColorSlider: UIControl {
-    public var color: UIColor {
-        return UIColor(h: hue, s: 1, l: lightness, alpha: 1)
-    }
 	
-	public var orientation: ColorSliderOrientation = .Vertical {
+	public var color: UIColor {
+		return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+	}
+	
+	// MARK: Customization
+	public enum Orientation {
+		case Vertical
+		case Horizontal
+	}
+	public var orientation: Orientation = .Vertical {
 		didSet {
 			switch orientation {
 			case .Vertical:
-				drawLayer.startPoint = CGPointMake(0.5, 1)
-				drawLayer.endPoint = CGPointMake(0.5, 0)
+				drawLayer.startPoint = CGPoint(x: 0.5, y: 1)
+				drawLayer.endPoint = CGPoint(x: 0.5, y: 0)
 			case .Horizontal:
-				drawLayer.startPoint = CGPointMake(0, 0.5)
-				drawLayer.endPoint = CGPointMake(1, 0.5)
+				drawLayer.startPoint = CGPoint(x: 0, y: 0.5)
+				drawLayer.endPoint = CGPoint(x: 1, y: 0.5)
 			}
 		}
 	}
+	@IBInspectable public var previewEnabled: Bool = false
+	@IBInspectable public var borderWidth: CGFloat = 1.0 {
+		didSet {
+			drawLayer.borderWidth = borderWidth
+		}
+	}
+	@IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
+		didSet {
+			drawLayer.borderColor = borderColor.CGColor
+		}
+	}
 	
-    // MARK: Appearance
-    public var edgeInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20) {
-        didSet { setNeedsDisplay() }
-    }
-    @IBInspectable public var cornerRadius: CGFloat = -1.0 {
-        didSet {
-            drawLayer.cornerRadius = cornerRadius
-            drawLayer.masksToBounds = true
-        }
-    }
-    @IBInspectable public var borderWidth: CGFloat = 1.0 {
-        didSet { drawLayer.borderWidth = borderWidth }
-    }
-    @IBInspectable public var borderColor: UIColor = UIColor.blackColor() {
-        didSet { drawLayer.borderColor = borderColor.CGColor }
-    }
-	
-    // MARK: Internal properties
+    // MARK: Internal
     private var drawLayer: CAGradientLayer = CAGradientLayer()
-    private var hue: CGFloat = 0.0
-    private var lightness: CGFloat = 0.5
+    private var hue: CGFloat = 0
+	private var saturation: CGFloat = 1
+    private var brightness: CGFloat = 1
 	
 	// MARK: Preview view
-	@IBInspectable public var previewEnabled: Bool = false
 	private var previewView: UIView = UIView()
 	private let previewDimension: CGFloat = 30
 	private let previewOffset: CGFloat = 44
 	private let previewAnimationDuration: NSTimeInterval = 0.10
 	
     // MARK: - Initializers
-	init() {
+	public init() {
 		super.init(frame: CGRectZero)
 		commonInit()
     }
@@ -91,16 +86,29 @@ public enum ColorSliderOrientation {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
-    }
-    
+	}
+	
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 		commonInit()
     }
 	
-	func commonInit() {
+	public func commonInit() {
 		backgroundColor = UIColor.clearColor()
-		clipsToBounds = false
+		
+		drawLayer.masksToBounds = true
+		drawLayer.cornerRadius = 3.0
+		drawLayer.borderColor = borderColor.CGColor
+		drawLayer.borderWidth = borderWidth
+		drawLayer.startPoint = CGPoint(x: 0.5, y: 1)
+		drawLayer.endPoint = CGPoint(x: 0.5, y: 0)
+		
+		// Draw gradient
+		let hues: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+		drawLayer.locations = hues
+		drawLayer.colors = hues.map({ (hue) -> CGColor in
+			return UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1).CGColor
+		})
 		
 		previewView.clipsToBounds = true
 		previewView.layer.cornerRadius = previewDimension / 2
@@ -108,11 +116,16 @@ public enum ColorSliderOrientation {
 		previewView.layer.borderWidth = 1.0
 	}
 	
-    // MARK: - UIControl methods
+    // MARK: - UIControl overrides
     public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
-        
-        updateForTouch(touch, modifyHue: true)
+		
+		// Reset saturation and brightness
+		saturation = 1.0
+		brightness = 1.0
+		
+        updateForTouch(touch, touchInside: true)
+		
         showPreview(touch)
         
         sendActionsForControlEvents(.TouchDown)
@@ -122,7 +135,8 @@ public enum ColorSliderOrientation {
     public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
-        updateForTouch(touch, modifyHue: touchInside)
+        updateForTouch(touch, touchInside: touchInside)
+		
         updatePreview(touch)
         
         sendActionsForControlEvents(.ValueChanged)
@@ -133,7 +147,8 @@ public enum ColorSliderOrientation {
         super.endTrackingWithTouch(touch, withEvent: event)
 		
 		guard let endTouch = touch else { return }
-        updateForTouch(endTouch, modifyHue: touchInside)
+        updateForTouch(endTouch, touchInside: touchInside)
+		
         removePreview()
 		
 		sendActionsForControlEvents(touchInside ? .TouchUpInside : .TouchUpOutside)
@@ -142,22 +157,36 @@ public enum ColorSliderOrientation {
     public override func cancelTrackingWithEvent(event: UIEvent?) {
         sendActionsForControlEvents(.TouchCancel)
     }
-    
-    private func updateForTouch(touch: UITouch, modifyHue: Bool) {
-        if modifyHue {
-            // Modify hue at constant lightness
+	
+	// MARK: -
+    private func updateForTouch(touch: UITouch, touchInside: Bool) {
+        if touchInside {
+            // Modify hue at constant brightness
             let locationInView = touch.locationInView(self)
-			let top = orientation == .Vertical ? locationInView.y : locationInView.x
-			let bottom = orientation == .Vertical ? frame.height : frame.width
-			hue = 1 - min(1, max(0, (top / bottom)))
-            lightness = 0.5
+			
+			// Calculate based on orientation
+			if orientation == .Vertical {
+				hue = 1 - max(0, min(1, (locationInView.y / frame.height)))
+			} else {
+				hue = 1 - max(0, min(1, (locationInView.x / frame.width)))
+			}
+            brightness = 1
+			
         } else {
-            // Modify lightness for the current hue
+            // Modify saturation and brightness for the current hue
 			guard let _superview = superview else { return }
 			let locationInSuperview = touch.locationInView(_superview)
-			let top = orientation == .Vertical ? locationInSuperview.y : locationInSuperview.x
-			let bottom = orientation == .Vertical ? _superview.frame.height : _superview.frame.width
-			lightness = 1 - (top / bottom)
+			let horizontalPercent = max(0, min(1, (locationInSuperview.x / _superview.frame.width)))
+			let verticalPercent = max(0, min(1, (locationInSuperview.y / _superview.frame.height)))
+			
+			// Calculate based on orientation
+			if orientation == .Vertical {
+				saturation = horizontalPercent
+				brightness = 1 - verticalPercent
+			} else {
+				saturation = verticalPercent
+				brightness = 1 - horizontalPercent
+			}
         }
     }
 	
@@ -165,35 +194,19 @@ public enum ColorSliderOrientation {
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
-        // Bounds - Edge Insets
-        let innerFrame = UIEdgeInsetsInsetRect(bounds, edgeInsets)
-        
-        // Draw border
-        if cornerRadius >= 0 {
-            // Use the defined corner radius
-            drawLayer.cornerRadius = cornerRadius
-        } else {
-            // Default to pill shape
-			let shortestSide = (innerFrame.width > innerFrame.height) ? innerFrame.height : innerFrame.width
-            drawLayer.cornerRadius = shortestSide / 2.0
-        }
-        
+		// Draw pill shape
+		let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
+		drawLayer.cornerRadius = shortestSide / 2.0
+		
         // Draw background
-		let locations: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-        drawLayer.locations = locations
-		drawLayer.colors = locations.reverse().map({ (hue) -> CGColor in
-			return UIColor(h: hue, s: 1, l: 0.5, alpha: 1).CGColor
-		})
-        drawLayer.frame = innerFrame
-        drawLayer.borderColor = borderColor.CGColor
-        drawLayer.borderWidth = borderWidth
+		drawLayer.frame = bounds
         if drawLayer.superlayer == nil {
             layer.insertSublayer(drawLayer, atIndex: 0)
         }
     }
     
     // MARK: - Preview
-    func showPreview(touch: UITouch) {
+    private func showPreview(touch: UITouch) {
 		if !previewEnabled { return }
 		
         // Initialize preview in proper position, save frame
@@ -206,14 +219,30 @@ public enum ColorSliderOrientation {
 		}, completion: nil)
     }
     
-    func updatePreview(touch: UITouch) {
+    private func updatePreview(touch: UITouch) {
 		if !previewEnabled { return }
-		let frame = positionForPreview(touch)
-		previewView.frame = frame
+		
+		// Calculate the position of the preview
+		let location = touch.locationInView(self)
+		var x = orientation == .Vertical ? -previewOffset : location.x
+		var y = orientation == .Vertical ? location.y : -previewOffset
+		
+		// Restrict preview frame to slider bounds
+		if orientation == .Vertical {
+			y = max(0, location.y - (previewDimension / 2))
+			y = min(bounds.height - previewDimension, y)
+		} else {
+			x = max(0, location.x - (previewDimension / 2))
+			x = min(bounds.width - previewDimension, x)
+		}
+		
+		// Update the preview view
+		let previewFrame = CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
+		previewView.frame = previewFrame
 		previewView.backgroundColor = color
     }
 	
-    func removePreview() {
+    private func removePreview() {
 		if !previewEnabled || previewView.superview == nil { return }
 		
 		UIView.animateWithDuration(previewAnimationDuration, delay: 0, options: [.BeginFromCurrentState, .CurveEaseInOut], animations: { () -> Void in
@@ -223,26 +252,8 @@ public enum ColorSliderOrientation {
 			self.previewView.transform = CGAffineTransformIdentity
 		})
     }
-	
-    func positionForPreview(touch: UITouch) -> CGRect {
-        let location = touch.locationInView(self)
-		
-		var x = orientation == .Vertical ? -previewOffset : location.x
-		var y = orientation == .Vertical ? location.y : -previewOffset
-		
-		// Restrict preview to slider bounds
-        if orientation == .Vertical {
-			y = max(0, location.y - (previewDimension / 2))
-			y = min(bounds.height - previewDimension, y)
-        } else {
-			x = max(0, location.x - (previewDimension / 2))
-			x = min(bounds.width - previewDimension, x)
-        }
-		
-		return CGRect(x: x, y: y, width: previewDimension, height: previewDimension)
-    }
     
-    func minimizedTransformForRect(rect: CGRect) -> CGAffineTransform {
+    private func minimizedTransformForRect(rect: CGRect) -> CGAffineTransform {
         let minimizedDimension: CGFloat = 5.0
 		
 		let scale = minimizedDimension / previewDimension
@@ -253,74 +264,5 @@ public enum ColorSliderOrientation {
 		let translationTransform = CGAffineTransformMakeTranslation(tx, ty)
 		
 		return CGAffineTransformConcat(scaleTransform, translationTransform)
-    }
-}
-
-// MARK: -
-
-public extension UIColor {
-    // Adapted from https://github.com/thisandagain/color
-    public convenience init(h _h: CGFloat, s _s: CGFloat, l _l: CGFloat, alpha: CGFloat) {
-		let h = Double(_h)
-		let s = Double(_s)
-		let l = Double(_l)
-		
-        var temp1 = 0.0
-        var temp2 = 0.0
-        var temp = [0.0, 0.0, 0.0]
-		
-        var outR = 0.0
-        var outG = 0.0
-        var outB = 0.0
-        
-        // Check for saturation. If there isn't any just return the luminance value for each, which results in gray.
-        if (s == 0.0) {
-            outR = l
-            outG = l
-            outB = l
-        } else {
-            if l < 0.5 {
-                temp2 = l * (1.0 + s)
-            } else {
-                temp2 = l + s - l * s
-                temp1 = 2.0 * l - temp2
-            }
-            
-            // Compute intermediate values based on hue
-            temp[0] = h + 1.0 / 3.0
-            temp[1] = h
-            temp[2] = h - 1.0 / 3.0
-            
-            for i in 0..<3 {
-                // Adjust the range
-                if (temp[i] < 0.0) {
-                    temp[i] += 1.0
-                }
-                if (temp[i] > 1.0) {
-                    temp[i] -= 1.0
-                }
-                
-                
-                if 6.0 * temp[i] < 1.0 {
-                    temp[i] = temp1 + (temp2 - temp1) * 6.0 * temp[i]
-                } else {
-                    if 2.0 * temp[i] < 1.0 {
-                        temp[i] = temp2
-                    } else {
-                        if (3.0 * temp[i] < 2.0) {
-                            temp[i] = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - temp[i]) * 6.0
-                        } else {
-                            temp[i] = temp1
-                        }
-                    }
-                }
-            }
-            
-            // Assign temporary values to R, G, B
-            outR = temp[0]
-            outG = temp[1]
-            outB = temp[2]
-        }
-        self.init(red: CGFloat(outR), green: CGFloat(outG), blue: CGFloat(outB), alpha: alpha)
     }
 }
