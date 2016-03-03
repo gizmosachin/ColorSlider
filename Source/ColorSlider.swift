@@ -25,6 +25,44 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+/**
+	Create and add an instance of  ColorSlider to your view hierarchy.
+
+	``` Swift
+	let colorSlider = ColorSlider()
+	colorSlider.frame = CGRectMake(0, 0, 12, 150)
+	view.addSubview(colorSlider)
+	```
+
+	ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
+	- `.TouchDown`
+	- `.ValueChanged`
+	- `.TouchUpInside`
+	- `.TouchUpOutside`
+	- `.TouchCancel`
+
+	You can get the currently selected color with the `color` property.
+	```
+	colorSlider.addTarget(self, action: "changedColor:", forControlEvents: .ValueChanged)
+
+	func changedColor(slider: ColorSlider) {
+	var color = slider.color
+	// ...
+	}
+	```
+
+	Enable live color preview:
+	```
+	colorSlider.previewEnabled = true
+	```
+
+	Customize appearance:
+	```
+	colorSlider.orientation = .Horizontal
+	colorSlider.borderWidth = 2.0
+	colorSlider.borderColor = UIColor.whiteColor()
+	```
+*/
 
 import UIKit
 import Foundation
@@ -37,6 +75,11 @@ import CoreGraphics
 	}
 	
 	// MARK: Customization
+	/**
+		The display orientation of the `ColorSlider`.
+		- `Vertical`: displays vertically
+		- `Horizontal`: displays horizontally
+	*/
 	public enum Orientation {
 		case Vertical
 		case Horizontal
@@ -100,21 +143,26 @@ import CoreGraphics
 	private let previewAnimationDuration: NSTimeInterval = 0.10
 	
     // MARK: - Initializers
+	/// Creates a `ColorSlider` with a frame of `CGRect.zero`.
 	public init() {
-		super.init(frame: CGRectZero)
+		super.init(frame: CGRect.zero)
 		commonInit()
     }
-    
+	
+	/// Creates a `ColorSlider` with a frame of `frame`.
+	/// - parameter frame: The initial frame of the `ColorSlider`.
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
 	}
 	
+	/// Creates a `ColorSlider` from Interface Builder.
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 		commonInit()
     }
 	
+	/// Sets up internal views.
 	public func commonInit() {
 		backgroundColor = UIColor.clearColor()
 		
@@ -139,6 +187,7 @@ import CoreGraphics
 	}
 	
     // MARK: - UIControl overrides
+	/// Begins tracking a touch when the user drags on the `ColorSlider`.
     public override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
 		
@@ -153,7 +202,8 @@ import CoreGraphics
         sendActionsForControlEvents(.TouchDown)
         return true
     }
-    
+	
+	/// Continues tracking a touch as the user drags on the `ColorSlider`.
     public override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
@@ -164,7 +214,8 @@ import CoreGraphics
         sendActionsForControlEvents(.ValueChanged)
         return true
     }
-    
+	
+	/// Ends tracking a touch when the user finishes dragging on the `ColorSlider`.
     public override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
         super.endTrackingWithTouch(touch, withEvent: event)
 		
@@ -175,7 +226,8 @@ import CoreGraphics
 		
 		sendActionsForControlEvents(touchInside ? .TouchUpInside : .TouchUpOutside)
     }
-    
+	
+	/// Cancels tracking a touch when the user cancels dragging on the `ColorSlider`.
     public override func cancelTrackingWithEvent(event: UIEvent?) {
         sendActionsForControlEvents(.TouchCancel)
     }
@@ -218,6 +270,7 @@ import CoreGraphics
     }
 	
     // MARK: - Appearance
+	/// Draws necessary parts of the `ColorSlider`.
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
