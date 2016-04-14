@@ -30,7 +30,7 @@ ColorSlider is a subclass of `UIControl` and supports the following `UIControlEv
 You can get the currently selected color with the `color` property.
 
 ``` Swift
-colorSlider.addTarget(self, action: "changedColor:", forControlEvents: .ValueChanged)
+colorSlider.addTarget(self, action: #selector(ViewController.changedColor(_:)), forControlEvents: .ValueChanged)
 
 func changedColor(slider: ColorSlider) {
     var color = slider.color

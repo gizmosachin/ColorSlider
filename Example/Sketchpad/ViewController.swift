@@ -63,14 +63,14 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 		
 		colorSlider.previewEnabled = true
 		colorSlider.orientation = .Vertical
-		colorSlider.addTarget(self, action: "willChangeColor:", forControlEvents: .TouchDown)
-		colorSlider.addTarget(self, action: "isChangingColor:", forControlEvents: .ValueChanged)
-		colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpOutside)
-		colorSlider.addTarget(self, action: "didChangeColor:", forControlEvents: .TouchUpInside)
+		colorSlider.addTarget(self, action: #selector(ViewController.willChangeColor(_:)), forControlEvents: .TouchDown)
+		colorSlider.addTarget(self, action: #selector(ViewController.isChangingColor(_:)), forControlEvents: .ValueChanged)
+		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), forControlEvents: .TouchUpOutside)
+		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), forControlEvents: .TouchUpInside)
 		view.addSubview(colorSlider)
 		
-		undoItem = UIBarButtonItem(title: "Undo", style: .Plain, target: self, action: "undo")
-		shareItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+		undoItem = UIBarButtonItem(title: "Undo", style: .Plain, target: self, action: #selector(ViewController.undo))
+		shareItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ViewController.share))
 		
 		let flexibleSpacingItem = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 		undoItem.enabled = false
