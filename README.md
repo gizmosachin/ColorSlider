@@ -67,7 +67,7 @@ ColorSlider is available for installation using [CocoaPods](http://cocoapods.org
 platform :ios, '9.0'
 use_frameworks!
 
-pod 'ColorSlider', '~> 2.3'
+pod 'ColorSlider', '~> 2.4'
 ```
 
 ### Carthage
@@ -75,7 +75,7 @@ pod 'ColorSlider', '~> 2.3'
 ColorSlider  is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
 
 ``` odgl
-github "gizmosachin/ColorSlider" >= 2.3
+github "gizmosachin/ColorSlider" >= 2.4
 ```
 
 ### Swift Package Manager
