@@ -57,6 +57,8 @@ colorSlider.borderWidth = 2.0
 colorSlider.borderColor = UIColor.whiteColor()
 ```
 
+[Please see the documentation](http://gizmosachin.github.io/ColorSlider/docs) and check out the sample app (Sketchpad) for more details.
+
 ## Installation
 
 ### CocoaPods
