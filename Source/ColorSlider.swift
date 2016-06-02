@@ -206,7 +206,7 @@ import CoreGraphics
 			if orientation == .Vertical {
 				hue = 1 - max(0, min(1, (locationInView.y / frame.height)))
 			} else {
-				hue = 1 - max(0, min(1, (locationInView.x / frame.width)))
+				hue = max(0, min(1, (locationInView.x / frame.width)))
 			}
             brightness = 1
 			
