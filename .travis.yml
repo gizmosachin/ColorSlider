@@ -9,5 +9,5 @@ before_install:
   - brew reinstall xctool
 script:
   - xcodebuild -showsdks
-  - xctool -project ColorSlider/ColorSlider.xcodeproj -scheme ColorSlider -sdk iphonesimulator9.2 build analyze
+  - xctool -project ColorSlider/ColorSlider.xcodeproj -scheme ColorSlider -sdk iphonesimulator10.0 build analyze
 
