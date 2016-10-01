@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'ColorSlider'
-  s.version = '2.5.1'
+  s.version = '3.0'
   s.summary = 'Snapchat-style color picker with live preview'
   s.homepage = 'http://github.com/gizmosachin/ColorSlider'
   s.license = 'MIT'

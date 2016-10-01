@@ -38,7 +38,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 	let selectedColorView: UIView
 	let selectedColorItem: UIBarButtonItem
 	
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		drawingView = ACEDrawingView()
 		colorSlider = ColorSlider()
 		
@@ -62,19 +62,19 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 		view.addSubview(drawingView)
 		
 		colorSlider.previewEnabled = true
-		colorSlider.orientation = .Vertical
-		colorSlider.addTarget(self, action: #selector(ViewController.willChangeColor(_:)), forControlEvents: .TouchDown)
-		colorSlider.addTarget(self, action: #selector(ViewController.isChangingColor(_:)), forControlEvents: .ValueChanged)
-		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), forControlEvents: .TouchUpOutside)
-		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), forControlEvents: .TouchUpInside)
+		colorSlider.orientation = .vertical
+		colorSlider.addTarget(self, action: #selector(ViewController.willChangeColor(_:)), for: .touchDown)
+		colorSlider.addTarget(self, action: #selector(ViewController.isChangingColor(_:)), for: .valueChanged)
+		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), for: .touchUpOutside)
+		colorSlider.addTarget(self, action: #selector(ViewController.didChangeColor(_:)), for: .touchUpInside)
 		view.addSubview(colorSlider)
 		
-		undoItem = UIBarButtonItem(title: "Undo", style: .Plain, target: self, action: #selector(ViewController.undo))
-		shareItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ViewController.share))
+		undoItem = UIBarButtonItem(title: "Undo", style: .plain, target: self, action: #selector(ViewController.undo))
+		shareItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(ViewController.share))
 		
-		let flexibleSpacingItem = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-		undoItem.enabled = false
-		selectedColorView.backgroundColor = UIColor.blackColor()
+		let flexibleSpacingItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+		undoItem.isEnabled = false
+		selectedColorView.backgroundColor = UIColor.black
 		selectedColorItem.width = 30
 		toolbar.items = [undoItem, flexibleSpacingItem, selectedColorItem, flexibleSpacingItem, shareItem]
 		view.addSubview(toolbar)
@@ -96,7 +96,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 
 		selectedColorView.frame = CGRect(x: 0, y: 0, width: selectedColorItem.width, height: selectedColorItem.width)
 		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
-		selectedColorView.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.3).CGColor
+		selectedColorView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
 		selectedColorView.layer.borderWidth = 1.0
 		selectedColorView.clipsToBounds = true
 	}
@@ -108,27 +108,27 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 	
 	
     // MARK: - ColorSlider Events
-    func willChangeColor(slider: ColorSlider) {
-        drawingView.userInteractionEnabled = false
+    func willChangeColor(_ slider: ColorSlider) {
+        drawingView.isUserInteractionEnabled = false
     }
     
-   	func isChangingColor(slider: ColorSlider) {
+   	func isChangingColor(_ slider: ColorSlider) {
         // Respond to a change in color.
     }
     
-    func didChangeColor(slider: ColorSlider) {
+    func didChangeColor(_ slider: ColorSlider) {
         updateColorViews(slider.color)
-        drawingView.userInteractionEnabled = true
+        drawingView.isUserInteractionEnabled = true
     }
     
-    func updateColorViews(color: UIColor) {
+    func updateColorViews(_ color: UIColor) {
         selectedColorView.backgroundColor = color
         drawingView.lineColor = color
     }
 	
 	
     // MARK: - ACEDrawingView Delegate
-    func drawingView(view: ACEDrawingView, didEndDrawUsingTool tool: AnyObject) {
+    func drawingView(_ view: ACEDrawingView, didEndDrawUsingTool tool: AnyObject) {
         updateButtons()
     }
     
@@ -139,23 +139,23 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
     }
 	
 	func updateButtons() {
-		undoItem.enabled = drawingView.canUndo()
-		shareItem.enabled = drawingView.canUndo()
+		undoItem.isEnabled = drawingView.canUndo()
+		shareItem.isEnabled = drawingView.canUndo()
 	}
     
 	func share() {
-        let trimmedImage = drawingView.image.imageByTrimmingTransparentPixels()
-        let controller = UIActivityViewController(activityItems: [trimmedImage], applicationActivities: nil)
+        let trimmedImage = drawingView.image.trimmingTransparentPixels()
+        let controller = UIActivityViewController(activityItems: [trimmedImage!], applicationActivities: nil)
 		controller.completionWithItemsHandler = {
 			activityType, completed, returnedItems, activityError in
 			if completed {
 				self.drawingView.clear()
-				self.drawingView.lineColor = UIColor.blackColor()
-				self.selectedColorView.backgroundColor = UIColor.blackColor()
+				self.drawingView.lineColor = UIColor.black
+				self.selectedColorView.backgroundColor = UIColor.black
 				self.updateButtons()
 			}
 		}
 		controller.popoverPresentationController?.barButtonItem = shareItem
-		presentViewController(controller, animated: true, completion: nil)
+		present(controller, animated: true, completion: nil)
     }
 }

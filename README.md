@@ -8,6 +8,14 @@ Inspired by Snapchat, ColorSlider lets you drag vertically to pick a range of co
 
 ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider)
 
+## Version Compatibility
+
+Current Swift compatibility breakdown:
+
+| Swift Version | Framework Version |
+| ------------- | ----------------- |
+| 3.0	        | master          	|
+| 2.3	        | 2.5.1        		|
 
 ## Usage
 
@@ -21,18 +29,18 @@ view.addSubview(colorSlider)
 
 ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
 
-- `.TouchDown`
-- `.ValueChanged`
-- `.TouchUpInside`
-- `.TouchUpOutside`
-- `.TouchCancel`
+- `.touchDown`
+- `.valueChanged`
+- `.touchUpInside`
+- `.touchUpOutside`
+- `.touchCancel`
 
 You can get the currently selected color with the `color` property.
 
 ``` Swift
-colorSlider.addTarget(self, action: #selector(ViewController.changedColor(_:)), forControlEvents: .ValueChanged)
+colorSlider.addTarget(self, action: #selector(ViewController.changedColor(_:)), forControlEvents: .valueChanged)
 
-func changedColor(slider: ColorSlider) {
+func changedColor(_ slider: ColorSlider) {
     var color = slider.color
     // ...
 }
@@ -47,7 +55,7 @@ colorSlider.previewEnabled = true
 Use a horizontal slider:
 
 ```swift
-colorSlider.orientation = .Horizontal
+colorSlider.orientation = .horizontal
 ```
 
 Customize appearance attributes:
@@ -69,7 +77,7 @@ ColorSlider is available for installation using [CocoaPods](http://cocoapods.org
 platform :ios, '9.0'
 use_frameworks!
 
-pod 'ColorSlider', '~> 2.5'
+pod 'ColorSlider', '~> 3.0'
 ```
 
 ### Carthage
@@ -77,7 +85,7 @@ pod 'ColorSlider', '~> 2.5'
 ColorSlider  is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
 
 ``` odgl
-github "gizmosachin/ColorSlider" >= 2.5
+github "gizmosachin/ColorSlider" >= 3.0
 ```
 
 ### Swift Package Manager
@@ -107,7 +115,7 @@ ColorSlider comes with an example project called Sketchpad, a simple drawing app
 
 ColorSlider uses [HSB](https://en.wikipedia.org/wiki/HSB) and defaults to a saturation and brightness: 100%. 
 
-When the `orientation` is set to `.Vertical`, dragging vertically adjusts the hue, and dragging outside adjusts the saturation and brightness as follows:
+When the `orientation` is set to `.vertical`, dragging vertically adjusts the hue, and dragging outside adjusts the saturation and brightness as follows:
 
 - Inside the frame, dragging vertically adjusts the hue
 - Outside the frame, dragging horizontally adjusts the saturation
