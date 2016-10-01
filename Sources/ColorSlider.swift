@@ -71,7 +71,7 @@ import CoreGraphics
 	}
 	
 	/// The color of the ColorSlider's border.
-	@IBInspectable public var borderColor: UIColor = UIColor.black() {
+	@IBInspectable public var borderColor: UIColor = UIColor.black {
 		didSet {
 			drawLayer.borderColor = borderColor.cgColor
 		}
@@ -124,7 +124,7 @@ import CoreGraphics
 	
 	/// Sets up internal views.
 	public func commonInit() {
-		backgroundColor = UIColor.clear()
+		backgroundColor = UIColor.clear
 		
 		drawLayer.masksToBounds = true
 		drawLayer.cornerRadius = 3.0
@@ -135,14 +135,16 @@ import CoreGraphics
 		
 		// Draw gradient
 		let hues: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-		drawLayer.locations = hues
+		drawLayer.locations = hues.map({ (hue) -> NSNumber in
+			return NSNumber(floatLiteral: Double(hue))
+		})
 		drawLayer.colors = hues.map({ (hue) -> CGColor in
 			return UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1).cgColor
 		})
 		
 		previewView.clipsToBounds = true
 		previewView.layer.cornerRadius = previewDimension / 2
-		previewView.layer.borderColor = UIColor.black().withAlphaComponent(0.3).cgColor
+		previewView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
 		previewView.layer.borderWidth = 1.0
 	}
 	
@@ -312,6 +314,6 @@ import CoreGraphics
 		let ty = orientation == .vertical ? 0 : previewOffset
 		let translationTransform = CGAffineTransform(translationX: tx, y: ty)
 		
-		return scaleTransform.concat(translationTransform)
+		return scaleTransform.concatenating(translationTransform)
     }
 }

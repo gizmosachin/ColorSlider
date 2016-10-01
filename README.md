@@ -8,6 +8,14 @@ Inspired by Snapchat, ColorSlider lets you drag vertically to pick a range of co
 
 ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider)
 
+## Version Compatibility
+
+Current Swift compatibility breakdown:
+
+| Swift Version | Framework Version |
+| ------------- | ----------------- |
+| 3.0	        | master          	|
+| 2.3	        | 2.5.1        		|
 
 ## Usage
 

@@ -74,7 +74,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 		
 		let flexibleSpacingItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		undoItem.isEnabled = false
-		selectedColorView.backgroundColor = UIColor.black()
+		selectedColorView.backgroundColor = UIColor.black
 		selectedColorItem.width = 30
 		toolbar.items = [undoItem, flexibleSpacingItem, selectedColorItem, flexibleSpacingItem, shareItem]
 		view.addSubview(toolbar)
@@ -96,7 +96,7 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 
 		selectedColorView.frame = CGRect(x: 0, y: 0, width: selectedColorItem.width, height: selectedColorItem.width)
 		selectedColorView.layer.cornerRadius = selectedColorView.frame.width / 2.0
-		selectedColorView.layer.borderColor = UIColor.black().withAlphaComponent(0.3).cgColor
+		selectedColorView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
 		selectedColorView.layer.borderWidth = 1.0
 		selectedColorView.clipsToBounds = true
 	}
@@ -150,8 +150,8 @@ class ViewController: UIViewController, ACEDrawingViewDelegate {
 			activityType, completed, returnedItems, activityError in
 			if completed {
 				self.drawingView.clear()
-				self.drawingView.lineColor = UIColor.black()
-				self.selectedColorView.backgroundColor = UIColor.black()
+				self.drawingView.lineColor = UIColor.black
+				self.selectedColorView.backgroundColor = UIColor.black
 				self.updateButtons()
 			}
 		}
