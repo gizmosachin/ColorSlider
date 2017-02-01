@@ -27,6 +27,7 @@
 //  SOFTWARE.
 
 import UIKit
+import ACEDrawingView
 
 class ViewController: UIViewController, ACEDrawingViewDelegate {
 	let drawingView: ACEDrawingView

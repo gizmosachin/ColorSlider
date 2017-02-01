@@ -6,5 +6,5 @@
 //  Copyright (c) 2015 Sachin Patel. All rights reserved.
 //
 
-#import "ACEDrawingView.h"
-#import "UIImage+Trim.h"
+#import <ACEDrawingView/ACEDrawingView.h>
+#import <UIImageTrim/UIImage+Trim.h>
