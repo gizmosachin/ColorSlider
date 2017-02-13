@@ -27,6 +27,8 @@
 //  SOFTWARE.
 
 import UIKit
+import ACEDrawingView
+import UIImageTrim
 
 class ViewController: UIViewController, ACEDrawingViewDelegate {
 	let drawingView: ACEDrawingView
