@@ -77,10 +77,21 @@ import CoreGraphics
 		}
 	}
 	
-    // MARK: Internal
+	@IBInspectable public var borderRadius: CGFloat = 3.0 {
+		didSet {
+			drawLayer.cornerRadius = borderRadius
+		}
+	}
+
+	// MARK: Internal
+
 	/// Internal `CAGradientLayer` used for drawing the `ColorSlider`.
-    private var drawLayer: CAGradientLayer = CAGradientLayer()
-	
+	private lazy var drawLayer: CAGradientLayer = {
+		let dl = CAGradientLayer()
+		self.layer.insertSublayer(dl, at: 0)
+		return dl
+	}()
+
 	/// The hue of the current color.
     private var hue: CGFloat = 0
 	
@@ -126,8 +137,9 @@ import CoreGraphics
 	public func commonInit() {
 		backgroundColor = UIColor.clear
 		
+		drawLayer.frame = layer.bounds
 		drawLayer.masksToBounds = true
-		drawLayer.cornerRadius = 3.0
+		drawLayer.cornerRadius = borderRadius
 		drawLayer.borderColor = borderColor.cgColor
 		drawLayer.borderWidth = borderWidth
 		drawLayer.startPoint = CGPoint(x: 0.5, y: 1)
@@ -229,23 +241,22 @@ import CoreGraphics
 			}
         }
     }
-	
-	/// Draws necessary parts of the `ColorSlider`.
-    public override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
-		// Draw pill shape
-		let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
-		drawLayer.cornerRadius = shortestSide / 2.0
-		
-        // Draw background
-		drawLayer.frame = bounds
-        if drawLayer.superlayer == nil {
-            layer.insertSublayer(drawLayer, at: 0)
-        }
-    }
-    
-    // MARK: - Preview
+
+	private func layout(_ sublayer: CALayer, parent layer: CALayer) {
+		guard sublayer != previewView.layer else {
+			return
+		}
+
+		sublayer.frame = layer.bounds
+	}
+
+	public override func layoutSublayers(of layer: CALayer) {
+		super.layoutSublayers(of: layer)
+
+		layer.sublayers?.forEach { layout($0, parent: layer) }
+	}
+
+	// MARK: - Preview
 	///	Shows the color preview.
 	///
 	///	- parameter touch: The touch that triggered the update.
