@@ -77,6 +77,18 @@ import CoreGraphics
 		}
 	}
 	
+    /// The rounded appearance of the slider's corners.
+    @IBInspectable public var isRounded: Bool = true {
+        didSet {
+            if isRounded {
+                let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
+                drawLayer.cornerRadius = shortestSide / 2.0
+            } else {
+                drawLayer.cornerRadius = 0
+            }
+        }
+    }
+    
     // MARK: Internal
 	/// Internal `CAGradientLayer` used for drawing the `ColorSlider`.
     private var drawLayer: CAGradientLayer = CAGradientLayer()
@@ -235,8 +247,12 @@ import CoreGraphics
         super.draw(rect)
         
 		// Draw pill shape
-		let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
-		drawLayer.cornerRadius = shortestSide / 2.0
+        if isRounded {
+            let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
+            drawLayer.cornerRadius = shortestSide / 2.0
+        } else {
+            drawLayer.cornerRadius = 0
+        }
 		
         // Draw background
 		drawLayer.frame = bounds
