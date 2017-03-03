@@ -96,33 +96,33 @@ import CoreGraphics
     
     // MARK: Internal
 	/// Internal `CAGradientLayer` used for drawing the `ColorSlider`.
-	private lazy var drawLayer: CAGradientLayer = {
+	fileprivate lazy var drawLayer: CAGradientLayer = {
 		let drawLayer = CAGradientLayer()
 		self.layer.insertSublayer(drawLayer, at: 0)
 		return drawLayer
 	}()
 
 	/// The hue of the current color.
-    private var hue: CGFloat = 0
+    fileprivate var hue: CGFloat = 0
 	
 	/// The saturation of the current color.
-	private var saturation: CGFloat = 1
+	fileprivate var saturation: CGFloat = 1
 	
 	/// The brightness of the current color.
-    private var brightness: CGFloat = 1
+    fileprivate var brightness: CGFloat = 1
 	
 	// MARK: Preview view
 	/// The color preview view. Only shown if `previewEnabled` is set to `true`.
-	private var previewView: UIView = UIView()
+	fileprivate var previewView: UIView = UIView()
 	
 	/// The edge length of the preview view.
-	private let previewDimension: CGFloat = 30
+	fileprivate let previewDimension: CGFloat = 30
 	
 	/// The amount that the `previewView` is drawn away from the `ColorSlider` bar.
-	private let previewOffset: CGFloat = 44
+	fileprivate let previewOffset: CGFloat = 44
 	
 	/// The duration of the preview show or hide animation.
-	private let previewAnimationDuration: TimeInterval = 0.10
+	fileprivate let previewAnimationDuration: TimeInterval = 0.10
 	
     // MARK: - Initializers
 	/// Creates a `ColorSlider` with a frame of `CGRect.zero`.
@@ -221,7 +221,7 @@ import CoreGraphics
 	///
 	///	- parameter touch: The touch that triggered the update.
 	///	- parameter touchInside: A boolean value that is `true` if `touch` was inside the frame of the `ColorSlider`.
-    private func updateForTouch(_ touch: UITouch, touchInside: Bool) {
+    fileprivate func updateForTouch(_ touch: UITouch, touchInside: Bool) {
         if touchInside {
             // Modify hue at constant brightness
             let locationInView = touch.location(in: self)
@@ -253,7 +253,7 @@ import CoreGraphics
     }
 	
 	/// Draws necessary parts of the `ColorSlider`.
-	private func layout(_ sublayer: CALayer, parent layer: CALayer) {
+	fileprivate func layout(_ sublayer: CALayer, parent layer: CALayer) {
 		guard sublayer != previewView.layer else { return }
 		updateCornerRadius()
 		sublayer.frame = layer.bounds
@@ -277,7 +277,7 @@ import CoreGraphics
 	///	Shows the color preview.
 	///
 	///	- parameter touch: The touch that triggered the update.
-    private func showPreview(_ touch: UITouch) {
+    fileprivate func showPreview(_ touch: UITouch) {
 		if !previewEnabled { return }
 		
         // Initialize preview in proper position, save frame
@@ -293,7 +293,7 @@ import CoreGraphics
 	///	Updates the color preview.
 	///
 	///	- parameter touch: The touch that triggered the update.
-    private func updatePreview(_ touch: UITouch) {
+    fileprivate func updatePreview(_ touch: UITouch) {
 		if !previewEnabled { return }
 		
 		// Calculate the position of the preview
@@ -317,7 +317,7 @@ import CoreGraphics
     }
 	
 	/// Removes the color preview
-    private func removePreview() {
+    fileprivate func removePreview() {
 		if !previewEnabled || previewView.superview == nil { return }
 		
 		UIView.animate(withDuration: previewAnimationDuration, delay: 0, options: [.beginFromCurrentState, .curveEaseInOut], animations: { () -> Void in
@@ -332,7 +332,7 @@ import CoreGraphics
 	///
 	///	- parameter rect: The actual frame of the preview view.
 	///	- returns: The transform from `rect` to generate the minimized preview view.
-    private func minimizedTransform(for rect: CGRect) -> CGAffineTransform {
+    fileprivate func minimizedTransform(for rect: CGRect) -> CGAffineTransform {
         let minimizedDimension: CGFloat = 5.0
 		
 		let scale = minimizedDimension / previewDimension
