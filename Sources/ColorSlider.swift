@@ -255,6 +255,7 @@ import CoreGraphics
 	/// Draws necessary parts of the `ColorSlider`.
 	private func layout(_ sublayer: CALayer, parent layer: CALayer) {
 		guard sublayer != previewView.layer else { return }
+		updateCornerRadius()
 		sublayer.frame = layer.bounds
 	}
 	
