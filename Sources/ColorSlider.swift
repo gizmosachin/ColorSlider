@@ -77,19 +77,29 @@ import CoreGraphics
 		}
 	}
 	
-	@IBInspectable public var borderRadius: CGFloat = 3.0 {
+	/// The corner radius of the ColorSlider.
+	/// seealso: setsCornerRadiusAutomatically
+	@IBInspectable public var cornerRadius: CGFloat = 0.0 {
 		didSet {
-			drawLayer.cornerRadius = borderRadius
+			updateCornerRadius()
 		}
 	}
 
-	// MARK: Internal
-
+	/// Whether the slider should automatically adjust its corner radius.
+	/// When this value is `true`, `cornerRadius` is ignored.
+	/// When this value is `false`, the `cornerRadius` is used.
+    @IBInspectable public var setsCornerRadiusAutomatically: Bool = true {
+        didSet {
+        	updateCornerRadius()
+        }
+    }
+    
+    // MARK: Internal
 	/// Internal `CAGradientLayer` used for drawing the `ColorSlider`.
 	private lazy var drawLayer: CAGradientLayer = {
-		let dl = CAGradientLayer()
-		self.layer.insertSublayer(dl, at: 0)
-		return dl
+		let drawLayer = CAGradientLayer()
+		self.layer.insertSublayer(drawLayer, at: 0)
+		return drawLayer
 	}()
 
 	/// The hue of the current color.
@@ -139,11 +149,11 @@ import CoreGraphics
 		
 		drawLayer.frame = layer.bounds
 		drawLayer.masksToBounds = true
-		drawLayer.cornerRadius = borderRadius
 		drawLayer.borderColor = borderColor.cgColor
 		drawLayer.borderWidth = borderWidth
 		drawLayer.startPoint = CGPoint(x: 0.5, y: 1)
 		drawLayer.endPoint = CGPoint(x: 0.5, y: 0)
+		updateCornerRadius()
 		
 		// Draw gradient
 		let hues: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
@@ -241,22 +251,36 @@ import CoreGraphics
 			}
         }
     }
+	
+	/// Draws necessary parts of the `ColorSlider`.
+    public override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+		// Draw pill shape
+        if isRounded {
+            let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
+            drawLayer.cornerRadius = shortestSide / 2.0
+        } else {
+            drawLayer.cornerRadius = 0
+        }
+		
+        // Draw background
+		drawLayer.frame = bounds
+        if drawLayer.superlayer == nil {
+            layer.insertSublayer(drawLayer, at: 0)
+        }
+    }
 
-	private func layout(_ sublayer: CALayer, parent layer: CALayer) {
-		guard sublayer != previewView.layer else {
-			return
-		}
-
-		sublayer.frame = layer.bounds
+	func updateCornerRadius() {
+		if setsCornerRadiusAutomatically {
+        	let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
+        	drawLayer.cornerRadius = shortestSide / 2.0
+        } else {
+        	drawLayer.cornerRadius = cornerRadius
+        }
 	}
-
-	public override func layoutSublayers(of layer: CALayer) {
-		super.layoutSublayers(of: layer)
-
-		layer.sublayers?.forEach { layout($0, parent: layer) }
-	}
-
-	// MARK: - Preview
+    
+    // MARK: - Preview
 	///	Shows the color preview.
 	///
 	///	- parameter touch: The touch that triggered the update.
