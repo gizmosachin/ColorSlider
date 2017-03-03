@@ -253,23 +253,15 @@ import CoreGraphics
     }
 	
 	/// Draws necessary parts of the `ColorSlider`.
-    public override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
-		// Draw pill shape
-        if isRounded {
-            let shortestSide = (bounds.width > bounds.height) ? bounds.height : bounds.width
-            drawLayer.cornerRadius = shortestSide / 2.0
-        } else {
-            drawLayer.cornerRadius = 0
-        }
-		
-        // Draw background
-		drawLayer.frame = bounds
-        if drawLayer.superlayer == nil {
-            layer.insertSublayer(drawLayer, at: 0)
-        }
-    }
+	private func layout(_ sublayer: CALayer, parent layer: CALayer) {
+		guard sublayer != previewView.layer else { return }
+		sublayer.frame = layer.bounds
+	}
+	
+	public override func layoutSublayers(of layer: CALayer) {
+		super.layoutSublayers(of: layer)
+		layer.sublayers?.forEach { layout($0, parent: layer) }
+	}
 
 	func updateCornerRadius() {
 		if setsCornerRadiusAutomatically {
