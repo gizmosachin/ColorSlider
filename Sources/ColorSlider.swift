@@ -207,8 +207,9 @@ import CoreGraphics
         updateForTouch(endTouch, touchInside: isTouchInside)
 		
         removePreview()
-		
-		sendActions(for: isTouchInside ? .touchUpInside : .touchUpOutside)
+
+		guard !isTouchInside else { return }
+		sendActions(for: .touchUpOutside)
     }
 	
 	/// Cancels tracking a touch when the user cancels dragging on the `ColorSlider`.
