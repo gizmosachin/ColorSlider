@@ -9,3 +9,4 @@
 xcuserdata
 */Pods/
 Podfile.lock
+Build/
