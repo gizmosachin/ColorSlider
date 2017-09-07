@@ -1,44 +1,37 @@
-# ColorSlider
+<p align="center">
+<img src="./ColorSlider.gif" width="65%">
+</p>
 
-ColorSlider is a [Swift](https://developer.apple.com/swift/) color picker with a live preview.
+---
 
-Inspired by Snapchat, ColorSlider lets you drag vertically to pick a range of colors and drag to the edges of the superview to select black and white. You can configure and customize `ColorSlider` via a simple API, and receive callbacks via `UIControlEvents`.
+ColorSlider is an iOS color picker with live preview written in [Swift](https://developer.apple.com/swift/).
 
-![ColorSlider](https://raw.githubusercontent.com/gizmosachin/ColorSlider/master/ColorSlider.gif)
+[![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider) ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Swift Version](https://img.shields.io/badge/language-swift%204.0-brightgreen.svg)](https://developer.apple.com/swift) [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
-![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider)
-
-## Version Compatibility
-
-Current Swift compatibility breakdown:
-
-| Swift Version | Framework Version |
-| ------------- | ----------------- |
-| 3.0	        | master          	|
-| 2.3	        | 2.5.1        		|
+|           | Features                                 |
+| :-------: | :--------------------------------------- |
+| :ghost: | "[Snapchat](http://snapchat.com)-style" color picker |
+| :rainbow: | Extensible live preview                  |
+| :art: | Customizable appearance                  |
+| :cyclone: | Vertical and horizontal support          |
+| :musical_keyboard: | Black and white colors included          |
+| :books: | Fully [documented](http://gizmosachin.github.io/ColorSlider) |
+| :baby_chick: | [Swift 4](https://developer.apple.com/swift/) |
 
 ## Usage
 
-Create and add an instance of  ColorSlider to your view hierarchy.
+Create and add a ColorSlider to your view:
 
 ``` Swift
-let colorSlider = ColorSlider()
+let colorSlider = ColorSlider(orientation: .vertical, previewSide: .left)
 colorSlider.frame = CGRectMake(0, 0, 12, 150)
 view.addSubview(colorSlider)
 ```
 
-ColorSlider is a subclass of `UIControl` and supports the following `UIControlEvents`:
-
-- `.touchDown`
-- `.valueChanged`
-- `.touchUpInside`
-- `.touchUpOutside`
-- `.touchCancel`
-
-You can get the currently selected color with the `color` property.
+Respond to changes in color using `UIControlEvents`:
 
 ``` Swift
-colorSlider.addTarget(self, action: #selector(ViewController.changedColor(_:)), forControlEvents: .valueChanged)
+colorSlider.addTarget(self, action: #selector(changedColor(_:)), forControlEvents: .valueChanged)
 
 func changedColor(_ slider: ColorSlider) {
     var color = slider.color
@@ -46,83 +39,82 @@ func changedColor(_ slider: ColorSlider) {
 }
 ```
 
-Enable live color preview:
-
-``` swift
-colorSlider.previewEnabled = true
-```
-
-Use a horizontal slider:
-
-```swift
-colorSlider.orientation = .horizontal
-```
-
 Customize appearance attributes:
 
 ``` Swift
-colorSlider.borderWidth = 2.0
-colorSlider.borderColor = UIColor.white
+// Add a border
+colorSlider.gradientView.layer.borderWidth = 2.0
+colorSlider.gradientView.layer.borderColor = UIColor.white
+
+// Disable rounded corners
+colorSlider.gradientView.automaticallyAdjustsCornerRadius = false
 ```
 
-[Please see the documentation](http://gizmosachin.github.io/ColorSlider/) and check out the sample app (Sketchpad) for more details.
+### Preview
+
+`ColorSlider` has a live preview that tracks touches along it. You can customize it:
+
+``` Swift
+let previewView = ColorSlider.DefaultPreviewView()
+previewView.side = .right
+previewView.animationDuration = 0.2
+previewView.offsetAmount = 50
+
+let colorSlider = ColorSlider(orientation: .vertical, previewView: previewView)
+```
+
+Create your own live preview by subclassing `DefaultPreviewView` or implementing `ColorSliderPreviewing` in your `UIView` subclass.
+Then, just pass your preview instance to the initializer:
+``` Swift
+let customPreviewView = MyCustomPreviewView()
+let colorSlider = ColorSlider(orientation: .vertical, previewView: customPreviewView)
+```
+ColorSlider will automatically update your view's `center` as touches move on the slider. 
+By default, it'll also resize your preview automatically. Set `colorSlider.autoresizesSubviews` to `false` to disable autoresizing.
+
+To disable the preview, simply pass `nil` to ColorSlider's initializer:
+``` Swift
+let colorSlider = ColorSlider(orientation: .vertical, previewView: nil)
+```
+
+See the [documentation](http://gizmosachin.github.io/ColorSlider) for more details on custom previews.
+
+### Documentation
+
+ColorSlider is fully documented [here](http://gizmosachin.github.io/ColorSlider).
 
 ## Installation
 
-### CocoaPods
-
-ColorSlider is available for installation using [CocoaPods](http://cocoapods.org/). To integrate, add the following to your Podfile`:
+### [CocoaPods](https://cocoapods.org/)
 
 ``` ruby
 platform :ios, '9.0'
-use_frameworks!
-
-pod 'ColorSlider', '~> 3.0.1'
+pod 'ColorSlider', '~> 4.0'
 ```
 
-### Carthage
-
-ColorSlider  is also available for installation using [Carthage](https://github.com/Carthage/Carthage). To integrate, add the following to your `Cartfile`:
+### [Carthage](https://github.com/Carthage/Carthage)
 
 ``` odgl
-github "gizmosachin/ColorSlider" >= 3.0.1
+github "gizmosachin/ColorSlider" >= 4.0
 ```
 
-### Swift Package Manager
+## Version Compatibility
 
-ColorSlider is also available for installation using the [Swift Package Manager](https://swift.org/package-manager/). Add the following to your `Package.swift`:
+| Swift Version | Framework Version |
+| ------------- | ----------------- |
+| 4.0           | master            |
+| 3.0           | 3.0.1             |
 
-``` swift
-import PackageDescription
+## Demo
 
-let package = Package(
-    name: "MyProject",
-    dependencies: [
-        .Package(url: "https://github.com/gizmosachin/ColorSlider.git", majorVersion: 0),
-    ]
-)
-```
+Please see the `Demo` directory for a basic iOS project that uses `ColorSlider`.
 
-### Manual
+## Contributing
 
-You can also simply copy  `ColorSlider.swift`  into your Xcode project.
+ColorSlider is a community - contributions and discussions are welcome!
 
-## Example Project
-
-ColorSlider comes with an example project called Sketchpad, a simple drawing app. To try it, install [CocoaPods](http://cocoapods.org/) and run `pod install` under the `Example` directory. Then, open `Sketchpad.xcworkspace`.
-
-## How it Works
-
-ColorSlider uses [HSB](https://en.wikipedia.org/wiki/HSB) and defaults to a saturation and brightness: 100%. 
-
-When the `orientation` is set to `.vertical`, dragging vertically adjusts the hue, and dragging outside adjusts the saturation and brightness as follows:
-
-- Inside the frame, dragging vertically adjusts the hue
-- Outside the frame, dragging horizontally adjusts the saturation
-- Outside the frame, dragging vertically adjusts the brightness
-
-Adjusting the brightness lets you select black and white by first dragging on the slider, then moving your finger outside the frame to the top left (to select white) or bottom left (to select black) of the superview.
+Please read the [contributing guidelines](Contributing.md) prior to submitting a Pull Request.
 
 ## License
 
-ColorSlider is available under the MIT license, see the [LICENSE](https://github.com/gizmosachin/ColorSlider/blob/master/LICENSE) file for more information.
+ColorSlider is available under the MIT license, see the [LICENSE](LICENSE) file for more information.
