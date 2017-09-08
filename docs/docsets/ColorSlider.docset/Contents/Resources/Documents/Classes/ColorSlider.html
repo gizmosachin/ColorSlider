@@ -35,8 +35,13 @@
               <li class="nav-group-task">
                 <a href="../Classes/ColorSlider.html">ColorSlider</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/ColorSlider/Orientation.html">– Orientation</a>
+                <a href="../Enums/Orientation.html">Orientation</a>
               </li>
             </ul>
           </li>
@@ -48,11 +53,56 @@
             <h1>ColorSlider</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@IBDesignable</span> <span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">ColorSlider</span><span class="p">:</span> <span class="kt">UIControl</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ColorSlider</span><span class="p">:</span> <span class="kt">UIControl</span></code></pre>
 
                 </div>
               </div>
-            <p>The main ColorSlider class.</p>
+            <p>ColorSlider is a customizable color picker with live preview.</p>
+
+<p>Inspired by Snapchat, ColorSlider lets you drag to select black, white, or any color in between.
+Customize <code>ColorSlider</code> and its preview via a simple API, and receive callbacks via <code>UIControlEvents</code>.</p>
+
+<p>Use the convenience initializer to create a <code>.vertical</code> ColorSlider with a live preview that appears to the <code>.left</code> of it:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">colorSlider</span> <span class="o">=</span> <span class="kt">ColorSlider</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="nv">previewSide</span><span class="p">:</span> <span class="o">.</span><span class="k">left</span><span class="p">)</span>
+</code></pre>
+
+<p>You can create a custom preview view using the <code>ColorSliderPreviewing</code> protocol, or by subclassing <code>DefaultPreviewView</code>.
+To pass in a custom preview view, simply use the default initializer instead:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myPreviewView</span> <span class="o">=</span> <span class="kt">MyPreviewView</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">colorSlider</span> <span class="o">=</span> <span class="kt">ColorSlider</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="nv">previewView</span><span class="p">:</span> <span class="n">myPreviewView</span><span class="p">)</span>
+</code></pre>
+
+<p>ColorSlider is a <code>UIControl</code> subclass and fully supports the following <code>UIControlEvents</code>:</p>
+
+<ul>
+<li><code>.valueChanged</code></li>
+<li><code>.touchDown</code></li>
+<li><code>.touchUpInside</code></li>
+<li><code>.touchUpOutside</code></li>
+<li><code>.touchCancel</code></li>
+</ul>
+
+<p>Once adding your class as a target, you can get callbacks via the <code>color</code> property:</p>
+<pre class="highlight swift"><code><span class="n">colorSlider</span><span class="o">.</span><span class="nf">addTarget</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">action</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">ViewController.changedColor(_:)</span><span class="kd">)</span><span class="p">,</span> <span class="nv">forControlEvents</span><span class="p">:</span> <span class="o">.</span><span class="n">valueChanged</span><span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">changedColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">slider</span><span class="p">:</span> <span class="kt">ColorSlider</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">color</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">color</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Customize the appearance of ColorSlider by setting properties on the <code>gradientView</code>:</p>
+<pre class="highlight swift"><code><span class="c1">// Add a border</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
+
+<span class="c1">// Disable rounded corners</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">automaticallyAdjustsCornerRadius</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre>
+
+<p>ColorSlider uses the <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSB</a> color standard internally.
+You can set the <code>defaultSaturation</code> of your ColorSlider to change the saturation of colors on the slider.
+See the <code>GradientView</code> and <code>HSBColor</code> for more details on how colors are calculated.</p>
 
           </section>
           <section class="section task-group-section">
@@ -61,9 +111,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider5colorCSo7UIColor"></a>
+                    <a name="/c:@M@ColorSlider@objc(cs)ColorSlider(py)color"></a>
                     <a name="//apple_ref/swift/Property/color" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider5colorCSo7UIColor">color</a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)ColorSlider(py)color">color</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -71,7 +121,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The current color of the <code>ColorSlider</code>.</p>
+                        <p>The last selected color.</p>
 
                       </div>
                       <div class="declaration">
@@ -85,23 +135,12 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Customization"></a>
-                <a name="//apple_ref/swift/Section/Customization" class="dashAnchor"></a>
-                <a href="#/Customization">
-                  <h3 class="section-name">Customization</h3>
-                </a>
-              </div>
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:OC11ColorSlider11ColorSlider11Orientation"></a>
-                    <a name="//apple_ref/swift/Enum/Orientation" class="dashAnchor"></a>
-                    <a class="token" href="#/s:OC11ColorSlider11ColorSlider11Orientation">Orientation</a>
+                    <a name="/c:@M@ColorSlider@objc(cs)ColorSlider(py)defaultSaturation"></a>
+                    <a name="//apple_ref/swift/Property/defaultSaturation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)ColorSlider(py)defaultSaturation">defaultSaturation</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -109,15 +148,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The display orientation of the <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code>.</p>
+                        <p>The saturation of all colors in the <code><a href="../Classes/ColorSlider.html#/s:11ColorSliderAAC12gradientViewXev">gradientView</a></code>.
+Defaults to <code>1.0</code>.</p>
 
-                        <a href="../Classes/ColorSlider/Orientation.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Orientation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">defaultSaturation</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
 
                         </div>
                       </div>
@@ -127,9 +166,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider11orientationOS0_11Orientation"></a>
-                    <a name="//apple_ref/swift/Property/orientation" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider11orientationOS0_11Orientation">orientation</a>
+                    <a name="/s:11ColorSliderAAC12gradientViewXev"></a>
+                    <a name="//apple_ref/swift/Property/gradientView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSliderAAC12gradientViewXev">gradientView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -137,14 +176,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The orientation of the <code>ColorSlider</code>. Defaults to <code>.Vertical</code>.</p>
+                        <p>The background gradient view.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">orientation</span><span class="p">:</span> <span class="kt"><a href="../Classes/ColorSlider/Orientation.html">Orientation</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">vertical</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">gradientView</span><span class="p">:</span> <span class="kt">GradientView</span></code></pre>
 
                         </div>
                       </div>
@@ -154,9 +193,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider14previewEnabledSb"></a>
-                    <a name="//apple_ref/swift/Property/previewEnabled" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider14previewEnabledSb">previewEnabled</a>
+                    <a name="/s:11ColorSliderAAC11previewViewXev"></a>
+                    <a name="//apple_ref/swift/Property/previewView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSliderAAC11previewViewXev">previewView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -164,125 +203,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A boolean value that determines whether or not a color preview is shown while dragging.</p>
+                        <p>The preview view, passed in the required initializer.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBInspectable</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">previewEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider11borderWidthV12CoreGraphics7CGFloat"></a>
-                    <a name="//apple_ref/swift/Property/borderWidth" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider11borderWidthV12CoreGraphics7CGFloat">borderWidth</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The width of the ColorSlider&rsquo;s border.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBInspectable</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">borderWidth</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mf">1.0</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider11borderColorCSo7UIColor"></a>
-                    <a name="//apple_ref/swift/Property/borderColor" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider11borderColorCSo7UIColor">borderColor</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The color of the ColorSlider&rsquo;s border.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBInspectable</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">borderColor</span><span class="p">:</span> <span class="kt">UIColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">black</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider12cornerRadiusV12CoreGraphics7CGFloat"></a>
-                    <a name="//apple_ref/swift/Property/cornerRadius" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider12cornerRadiusV12CoreGraphics7CGFloat">cornerRadius</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The corner radius of the ColorSlider.
-seealso: setsCornerRadiusAutomatically</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBInspectable</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cornerRadius</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mf">0.0</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC11ColorSlider11ColorSlider29setsCornerRadiusAutomaticallySb"></a>
-                    <a name="//apple_ref/swift/Property/setsCornerRadiusAutomatically" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC11ColorSlider11ColorSlider29setsCornerRadiusAutomaticallySb">setsCornerRadiusAutomatically</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Whether the slider should automatically adjust its corner radius.
-When this value is <code>true</code>, <code><a href="../Classes/ColorSlider.html#/s:vC11ColorSlider11ColorSlider12cornerRadiusV12CoreGraphics7CGFloat">cornerRadius</a></code> is ignored.
-When this value is <code>false</code>, the <code><a href="../Classes/ColorSlider.html#/s:vC11ColorSlider11ColorSlider12cornerRadiusV12CoreGraphics7CGFloat">cornerRadius</a></code> is used.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBInspectable</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">setsCornerRadiusAutomatically</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">previewView</span><span class="p">:</span> <span class="kt">PreviewView</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -293,19 +221,19 @@ When this value is <code>false</code>, the <code><a href="../Classes/ColorSlider
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Initializers"></a>
-                <a name="//apple_ref/swift/Section/Initializers" class="dashAnchor"></a>
-                <a href="#/Initializers">
-                  <h3 class="section-name">Initializers</h3>
+                <a name="/Init"></a>
+                <a name="//apple_ref/swift/Section/Init" class="dashAnchor"></a>
+                <a href="#/Init">
+                  <h3 class="section-name">Init</h3>
                 </a>
               </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC11ColorSlider11ColorSlidercFT_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlidercFT_S0_">init()</a>
+                    <a name="/s:11ColorSliderAACXeXecfc"></a>
+                    <a name="//apple_ref/swift/Method/init(orientation:previewView:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSliderAACXeXecfc">init(orientation:previewView:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -313,247 +241,46 @@ When this value is <code>false</code>, the <code><a href="../Classes/ColorSlider
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Creates a <code>ColorSlider</code> with a frame of <code>CGRect.zero</code>.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="kt"><a href="../Enums/Orientation.html">Orientation</a></span><span class="p">,</span> <span class="nv">previewView</span><span class="p">:</span> <span class="kt">PreviewView</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlidercFT5frameVSC6CGRect_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(frame:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlidercFT5frameVSC6CGRect_S0_">init(frame:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a <code>ColorSlider</code> with a frame of <code>frame</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">CGRect</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlidercFT5coderCSo7NSCoder_GSqS0__"></a>
-                    <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlidercFT5coderCSo7NSCoder_GSqS0__">init(coder:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a <code>ColorSlider</code> from Interface Builder.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider10commonInitFT_T_"></a>
-                    <a name="//apple_ref/swift/Method/commonInit()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider10commonInitFT_T_">commonInit()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Sets up internal views.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">commonInit</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/UIControl"></a>
-                <a name="//apple_ref/swift/Section/UIControl" class="dashAnchor"></a>
-                <a href="#/UIControl">
-                  <h3 class="section-name">UIControl</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider13beginTrackingFTCSo7UITouch4withGSqCSo7UIEvent__Sb"></a>
-                    <a name="//apple_ref/swift/Method/beginTracking(_:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider13beginTrackingFTCSo7UITouch4withGSqCSo7UIEvent__Sb">beginTracking(_:with:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Begins tracking a touch when the user drags on the <code>ColorSlider</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">beginTracking</span><span class="p">(</span><span class="n">_</span> <span class="nv">touch</span><span class="p">:</span> <span class="kt">UITouch</span><span class="p">,</span> <span class="n">with</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">UIEvent</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider16continueTrackingFTCSo7UITouch4withGSqCSo7UIEvent__Sb"></a>
-                    <a name="//apple_ref/swift/Method/continueTracking(_:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider16continueTrackingFTCSo7UITouch4withGSqCSo7UIEvent__Sb">continueTracking(_:with:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Continues tracking a touch as the user drags on the <code>ColorSlider</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">continueTracking</span><span class="p">(</span><span class="n">_</span> <span class="nv">touch</span><span class="p">:</span> <span class="kt">UITouch</span><span class="p">,</span> <span class="n">with</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">UIEvent</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider11endTrackingFTGSqCSo7UITouch_4withGSqCSo7UIEvent__T_"></a>
-                    <a name="//apple_ref/swift/Method/endTracking(_:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider11endTrackingFTGSqCSo7UITouch_4withGSqCSo7UIEvent__T_">endTracking(_:with:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Ends tracking a touch when the user finishes dragging on the <code>ColorSlider</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">endTracking</span><span class="p">(</span><span class="n">_</span> <span class="nv">touch</span><span class="p">:</span> <span class="kt">UITouch</span><span class="p">?,</span> <span class="n">with</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">UIEvent</span><span class="p">?)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider14cancelTrackingFT4withGSqCSo7UIEvent__T_"></a>
-                    <a name="//apple_ref/swift/Method/cancelTracking(with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider14cancelTrackingFT4withGSqCSo7UIEvent__T_">cancelTracking(with:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Cancels tracking a touch when the user cancels dragging on the <code>ColorSlider</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">cancelTracking</span><span class="p">(</span><span class="n">with</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">UIEvent</span><span class="p">?)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC11ColorSlider11ColorSlider15layoutSublayersFT2ofCSo7CALayer_T_"></a>
-                    <a name="//apple_ref/swift/Method/layoutSublayers(of:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC11ColorSlider11ColorSlider15layoutSublayersFT2ofCSo7CALayer_T_">layoutSublayers(of:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBDesignable</span> <span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">ColorSlider</span><span class="p">:</span> <span class="kt">UIControl</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>orientation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The orientation of the ColorSlider.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>previewView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional preview view that stays anchored to the slider. See ColorSliderPreviewing.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -564,7 +291,7 @@ When this value is <code>false</code>, the <code><a href="../Classes/ColorSlider
         </section>
         <section id="footer">
           <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

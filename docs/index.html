@@ -34,8 +34,13 @@
               <li class="nav-group-task">
                 <a href="Classes/ColorSlider.html">ColorSlider</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes/ColorSlider/Orientation.html">– Orientation</a>
+                <a href="Enums/Orientation.html">Orientation</a>
               </li>
             </ul>
           </li>
@@ -47,16 +52,105 @@
             
             <h1 id='colorslider' class='heading'>ColorSlider</h1>
 
-<p>ColorSlider is a <a href="https://developer.apple.com/swift/">Swift</a> color picker with a live preview.</p>
-
-<p>Inspired by Snapchat, ColorSlider lets you drag vertically to pick a range of colors and drag to the edges of the superview to select black and white. You can configure and customize <code>ColorSlider</code> via a simple API, and receive callbacks via <code>UIControlEvents</code>.</p>
+<p>ColorSlider is an iOS color picker with live preview written in <a href="https://developer.apple.com/swift/">Swift</a>.</p>
 
 <p><img src="https://raw.githubusercontent.com/gizmosachin/ColorSlider/master/ColorSlider.gif" alt="ColorSlider"></p>
 
-<p><img src="https://img.shields.io/cocoapods/v/ColorSlider.svg" alt="Pod Version"> <a href="https://travis-ci.org/gizmosachin/ColorSlider"><img src="https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master" alt="Build Status"></a></p>
-<h2 id='version-compatibility' class='heading'>Version Compatibility</h2>
+<p><a href="https://travis-ci.org/gizmosachin/ColorSlider"><img src="https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master" alt="Build Status"></a> <img src="https://img.shields.io/cocoapods/v/ColorSlider.svg" alt="Pod Version"> <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift%204.0-brightgreen.svg" alt="Swift Version"></a> <a href="https://github.com/gizmosachin/ColorSlider/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="GitHub license"></a></p>
 
-<p>Current Swift compatibility breakdown:</p>
+<table><thead>
+<tr>
+<th style="text-align: center"></th>
+<th style="text-align: left">Features</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">&#128123;</td>
+<td style="text-align: left"><q>[Snapchat](http://snapchat.com)-style</q> color picker</td>
+</tr>
+<tr>
+<td style="text-align: center">&#127912;</td>
+<td style="text-align: left">Extensible live preview</td>
+</tr>
+<tr>
+<td style="text-align: center">&#127744;</td>
+<td style="text-align: left">Customizable appearance</td>
+</tr>
+<tr>
+<td style="text-align: center">&#127929;</td>
+<td style="text-align: left">Black and white colors included</td>
+</tr>
+<tr>
+<td style="text-align: center">&#128214;</td>
+<td style="text-align: left">Fully <a href="http://gizmosachin.github.io/ColorSlider">documented</a></td>
+</tr>
+<tr>
+<td style="text-align: center">&#128038;</td>
+<td style="text-align: left"><a href="https://developer.apple.com/swift/">Swift 4</a></td>
+</tr>
+</tbody></table>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>Create and add a ColorSlider to your view:</p>
+<pre class="highlight plaintext"><code>let colorSlider = ColorSlider(orientation: .vertical, previewSide: .left)
+colorSlider.frame = CGRectMake(0, 0, 12, 150)
+view.addSubview(colorSlider)
+</code></pre>
+
+<p>Respond to changes in color using <code>UIControlEvents</code>:</p>
+<pre class="highlight plaintext"><code>colorSlider.addTarget(self, action: #selector(changedColor(_:)), forControlEvents: .valueChanged)
+
+func changedColor(_ slider: ColorSlider) {
+    var color = slider.color
+    // ...
+}
+</code></pre>
+
+<p>Customize appearance attributes:</p>
+<pre class="highlight plaintext"><code>// Add a border
+colorSlider.gradientView.layer.borderWidth = 2.0
+colorSlider.gradientView.layer.borderColor = UIColor.white
+
+// Disable rounded corners
+colorSlider.gradientView.automaticallyAdjustsCornerRadius = false
+</code></pre>
+<h3 id='preview' class='heading'>Preview</h3>
+
+<p><code>ColorSlider</code> has a live preview that tracks touches along it. You can customize it:</p>
+<pre class="highlight plaintext"><code>let previewView = ColorSlider.DefaultPreviewView()
+previewView.side = .right
+previewView.animationDuration = 0.2
+previewView.offsetAmount = 50
+
+let colorSlider = ColorSlider(orientation: .vertical, previewView: previewView)
+</code></pre>
+
+<p>Create your own live preview by subclassing <code>DefaultPreviewView</code> or implementing <code>ColorSliderPreviewing</code> in your <code>UIView</code> subclass.
+Then, just pass your preview instance to the initializer:</p>
+<pre class="highlight plaintext"><code>let customPreviewView = MyCustomPreviewView()
+let colorSlider = ColorSlider(orientation: .vertical, previewView: customPreviewView)
+</code></pre>
+
+<p>ColorSlider will automatically update your view&rsquo;s <code>center</code> as touches move on the slider. 
+By default, it&rsquo;ll also resize your preview automatically. Set <code>colorSlider.autoresizesSubviews</code> to <code>false</code> to disable autoresizing.</p>
+
+<p>To disable the preview, simply pass <code>nil</code> to ColorSlider&rsquo;s initializer:</p>
+<pre class="highlight plaintext"><code>let colorSlider = ColorSlider(orientation: .vertical, previewView: nil)
+</code></pre>
+
+<p>See the <a href="http://gizmosachin.github.io/ColorSlider">documentation</a> for more details on custom previews.</p>
+<h3 id='documentation' class='heading'>Documentation</h3>
+
+<p>ColorSlider is fully documented <a href="http://gizmosachin.github.io/ColorSlider">here</a>.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org/">CocoaPods</a></h3>
+<pre class="highlight ruby"><code><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'9.0'</span>
+<span class="n">pod</span> <span class="s1">'ColorSlider'</span><span class="p">,</span> <span class="s1">'~&gt; 4.0'</span>
+</code></pre>
+<h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/Carthage/Carthage">Carthage</a></h3>
+<pre class="highlight plaintext"><code>github "gizmosachin/ColorSlider" &gt;= 4.0
+</code></pre>
+<h2 id='version-compatibility' class='heading'>Version Compatibility</h2>
 
 <table><thead>
 <tr>
@@ -65,100 +159,22 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>3.0</td>
+<td>4.0</td>
 <td>master</td>
 </tr>
 <tr>
-<td>2.3</td>
-<td>2.5.1</td>
+<td>3.0</td>
+<td>3.0.1</td>
 </tr>
 </tbody></table>
-<h2 id='usage' class='heading'>Usage</h2>
+<h2 id='samples' class='heading'>Samples</h2>
 
-<p>Create and add an instance of  ColorSlider to your view hierarchy.</p>
-<pre class="highlight plaintext"><code>let colorSlider = ColorSlider()
-colorSlider.frame = CGRectMake(0, 0, 12, 150)
-view.addSubview(colorSlider)
-</code></pre>
+<p>Please see the <code>Samples</code> directory for a sample playground and iOS project that integrate <code>ColorSlider</code>.</p>
+<h2 id='contributing' class='heading'>Contributing</h2>
 
-<p>ColorSlider is a subclass of <code>UIControl</code> and supports the following <code>UIControlEvents</code>:</p>
+<p>ColorSlider is a community - contributions and discussions are welcome!</p>
 
-<ul>
-<li><code>.touchDown</code></li>
-<li><code>.valueChanged</code></li>
-<li><code>.touchUpInside</code></li>
-<li><code>.touchUpOutside</code></li>
-<li><code>.touchCancel</code></li>
-</ul>
-
-<p>You can get the currently selected color with the <code>color</code> property.</p>
-<pre class="highlight plaintext"><code>colorSlider.addTarget(self, action: #selector(ViewController.changedColor(_:)), forControlEvents: .valueChanged)
-
-func changedColor(_ slider: ColorSlider) {
-    var color = slider.color
-    // ...
-}
-</code></pre>
-
-<p>Enable live color preview:</p>
-<pre class="highlight swift"><code><span class="n">colorSlider</span><span class="o">.</span><span class="n">previewEnabled</span> <span class="o">=</span> <span class="kc">true</span>
-</code></pre>
-
-<p>Use a horizontal slider:</p>
-<pre class="highlight swift"><code><span class="n">colorSlider</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="o">.</span><span class="n">horizontal</span>
-</code></pre>
-
-<p>Customize appearance attributes:</p>
-<pre class="highlight plaintext"><code>colorSlider.borderWidth = 2.0
-colorSlider.borderColor = UIColor.white
-</code></pre>
-
-<p><a href="http://gizmosachin.github.io/ColorSlider/docs">Please see the documentation</a> and check out the sample app (Sketchpad) for more details.</p>
-<h2 id='installation' class='heading'>Installation</h2>
-<h3 id='cocoapods' class='heading'>CocoaPods</h3>
-
-<p>ColorSlider is available for installation using <a href="http://cocoapods.org/">CocoaPods</a>. To integrate, add the following to your Podfile`:</p>
-<pre class="highlight ruby"><code><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'9.0'</span>
-<span class="n">use_frameworks!</span>
-
-<span class="n">pod</span> <span class="s1">'ColorSlider'</span><span class="p">,</span> <span class="s1">'~&gt; 3.0.1'</span>
-</code></pre>
-<h3 id='carthage' class='heading'>Carthage</h3>
-
-<p>ColorSlider  is also available for installation using <a href="https://github.com/Carthage/Carthage">Carthage</a>. To integrate, add the following to your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "gizmosachin/ColorSlider" &gt;= 3.0.1
-</code></pre>
-<h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
-
-<p>ColorSlider is also available for installation using the <a href="https://swift.org/package-manager/">Swift Package Manager</a>. Add the following to your <code>Package.swift</code>:</p>
-<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">PackageDescription</span>
-
-<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
-    <span class="nv">name</span><span class="p">:</span> <span class="s">"MyProject"</span><span class="p">,</span>
-    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/gizmosachin/ColorSlider.git"</span><span class="p">,</span> <span class="nv">majorVersion</span><span class="p">:</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-</code></pre>
-<h3 id='manual' class='heading'>Manual</h3>
-
-<p>You can also simply copy  <code>ColorSlider.swift</code>  into your Xcode project.</p>
-<h2 id='example-project' class='heading'>Example Project</h2>
-
-<p>ColorSlider comes with an example project called Sketchpad, a simple drawing app. To try it, install <a href="http://cocoapods.org/">CocoaPods</a> and run <code>pod install</code> under the <code>Example</code> directory. Then, open <code>Sketchpad.xcworkspace</code>.</p>
-<h2 id='how-it-works' class='heading'>How it Works</h2>
-
-<p>ColorSlider uses <a href="https://en.wikipedia.org/wiki/HSB">HSB</a> and defaults to a saturation and brightness: 100%. </p>
-
-<p>When the <code>orientation</code> is set to <code>.vertical</code>, dragging vertically adjusts the hue, and dragging outside adjusts the saturation and brightness as follows:</p>
-
-<ul>
-<li>Inside the frame, dragging vertically adjusts the hue</li>
-<li>Outside the frame, dragging horizontally adjusts the saturation</li>
-<li>Outside the frame, dragging vertically adjusts the brightness</li>
-</ul>
-
-<p>Adjusting the brightness lets you select black and white by first dragging on the slider, then moving your finger outside the frame to the top left (to select white) or bottom left (to select black) of the superview.</p>
+<p>Please read the <a href="https://github.com/gizmosachin/ColorSlider/blob/master/Contributing.md">contributing guidelines</a> prior to submitting a Pull Request.</p>
 <h2 id='license' class='heading'>License</h2>
 
 <p>ColorSlider is available under the MIT license, see the <a href="https://github.com/gizmosachin/ColorSlider/blob/master/LICENSE">LICENSE</a> file for more information.</p>
@@ -167,7 +183,7 @@ colorSlider.borderColor = UIColor.white
         </section>
         <section id="footer">
           <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
