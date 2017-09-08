@@ -1,7 +1,0 @@
-platform :ios, '9.0'
-use_frameworks!
-
-target 'Sketchpad' do
-	pod 'ACEDrawingView'
-	pod 'UIImageTrim', :git => 'https://github.com/gizmosachin/UIImageTrim'
-end
