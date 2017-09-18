@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   # source
   s.source = { :git => 'https://github.com/gizmosachin/ColorSlider.git', :tag => s.version }
-  s.source_files = 'Sources/**'
+  s.source_files = 'Sources/**', 'Sources/Internal/**'
 
   # platform
   s.platform = :ios
