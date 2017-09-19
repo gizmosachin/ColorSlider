@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DefaultPreviewView Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/DefaultPreviewView" class="dashAnchor"></a>
+    <a title="DefaultPreviewView Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ColorSlider Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/gizmosachin/ColorSlider"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="dash-feed://https%3A%2F%2Fgizmosachin%2Egithub%2Eio%2FColorSlider%2Fdocsets%2FColorSlider%2Exml"><img src="../img/dash.png"/>Install in Dash</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ColorSlider Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        DefaultPreviewView Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ColorSlider.html">ColorSlider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView.html">DefaultPreviewView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GradientView.html">GradientView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Orientation.html">Orientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PreviewState.html">PreviewState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ColorSliderPreviewing.html">ColorSliderPreviewing</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>DefaultPreviewView</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultPreviewView</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+
+                </div>
+              </div>
+            <p>The default preview view of a <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code>.</p>
+
+<p>Appears to the given <code>side</code> of the associated <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code> at the point of the currently
+selected color with an offset of <code>offsetAmount</code> and a scale given by <code>scaleAmounts</code> for a given state.</p>
+
+<p>You can subclass this class and pass it as a preview to <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code> to customize its appearance or animation.
+You may also create your own custom <code>UIView</code> and conform to the <code>PreviewView</code> protocol and pass that to <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code>&lsquo;s initializer.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)animationDuration"></a>
+                    <a name="//apple_ref/swift/Property/animationDuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)animationDuration">animationDuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The animation duration when showing the preview. Defaults to <code>0.15</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">animationDuration</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.15</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider18DefaultPreviewViewC4SideO"></a>
+                    <a name="//apple_ref/swift/Enum/Side" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider18DefaultPreviewViewC4SideO">Side</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The side of the <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code> on which to show the preview view.</p>
+
+                        <a href="../Classes/DefaultPreviewView/Side.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Side</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider18DefaultPreviewViewC4sideAC4SideOv"></a>
+                    <a name="//apple_ref/swift/Property/side" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider18DefaultPreviewViewC4sideAC4SideOv">side</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The side of the ColorSlider that the preview should show on. Defaults to <code>.left</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">side</span><span class="p">:</span> <span class="kt"><a href="../Classes/DefaultPreviewView/Side.html">Side</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider18DefaultPreviewViewC12scaleAmountss10DictionaryVyAA0D5StateO12CoreGraphics7CGFloatVGv"></a>
+                    <a name="//apple_ref/swift/Property/scaleAmounts" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider18DefaultPreviewViewC12scaleAmountss10DictionaryVyAA0D5StateO12CoreGraphics7CGFloatVGv">scaleAmounts</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The scale of the slider for each preview state.
+Defaults to:</p>
+
+<ul>
+<li><code>.inactive</code>: <code>1</code></li>
+<li><code>.activeFixed</code>: <code>1.2</code></li>
+<li><code>.active</code>: <code>1.6</code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scaleAmounts</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Enums/PreviewState.html">PreviewState</a></span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="nv">inactive</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offsetAmount"></a>
+                    <a name="//apple_ref/swift/Property/offsetAmount" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offsetAmount">offsetAmount</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The number of points to offset the preview view from the slider when the state is set to <code>.active</code>. Defaults to <code>50</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">offsetAmount</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">50</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offset"></a>
+                    <a name="//apple_ref/swift/Property/offset" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offset">offset</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The actual offset of the preview view, calculated from <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offsetAmount">offsetAmount</a></code> and <code><a href="../Classes/DefaultPreviewView.html#/s:11ColorSlider18DefaultPreviewViewC4sideAC4SideOv">side</a></code>.
+This value is calculated automatically in <code>calculateOffset</code> and should only be modified externally by subclasses.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">CGPoint</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)colorView"></a>
+                    <a name="//apple_ref/swift/Property/colorView" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)colorView">colorView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The view that displays the current color as its <code>backgroundColor</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">colorView</span><span class="p">:</span> <span class="kt">UIView</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)hapticsEnabled"></a>
+                    <a name="//apple_ref/swift/Property/hapticsEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)hapticsEnabled">hapticsEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable haptics on iPhone 7 and above for state transitions to/from <code>.activeFixed</code>. Defaults to <code>true</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hapticsEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider18DefaultPreviewViewCA2C4SideO4side_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(side:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider18DefaultPreviewViewCA2C4SideO4side_tcfc">init(side:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize with a specific side.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">side</span><span class="p">:</span> <span class="kt"><a href="../Classes/DefaultPreviewView/Side.html">Side</a></span> <span class="o">=</span> <span class="o">.</span><span class="k">left</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>side</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The side of the <code>ColorSlider</code> to show on. Defaults to <code>.left</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView(im)calculateOffset"></a>
+                    <a name="//apple_ref/swift/Method/calculateOffset()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(im)calculateOffset">calculateOffset()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calculate the offset of the preview view when <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offset">offset</a></code> or <code><a href="../Classes/DefaultPreviewView.html#/s:11ColorSlider18DefaultPreviewViewC4sideAC4SideOv">side</a></code> are set.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">calculateOffset</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@ColorSlider@objc(cs)DefaultPreviewView(im)colorChangedTo:"></a>
+                    <a name="//apple_ref/swift/Method/colorChanged(to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@ColorSlider@objc(cs)DefaultPreviewView(im)colorChangedTo:">colorChanged(to:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the <code>backgroundColor</code> of <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)colorView">colorView</a></code> to the new <code>color</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">colorChanged</span><span class="p">(</span><span class="n">to</span> <span class="nv">color</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>color</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new color.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider18DefaultPreviewViewC10transitionyAA0D5StateO2to_tF"></a>
+                    <a name="//apple_ref/swift/Method/transition(to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider18DefaultPreviewViewC10transitionyAA0D5StateO2to_tF">transition(to:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Animating to the <code>CGAffineTransform</code> with:</p>
+<li>Translation: <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offset">offset</a></code></li>
+<li>Scale: <code>scaleAmounts[state]</code></li>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offsetAmount">offsetAmount</a></code>
+
+</div>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Classes/DefaultPreviewView.html#/s:11ColorSlider18DefaultPreviewViewC12scaleAmountss10DictionaryVyAA0D5StateO12CoreGraphics7CGFloatVGv">scaleAmounts</a></code>
+
+</div>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Classes/DefaultPreviewView.html#/c:@M@ColorSlider@objc(cs)DefaultPreviewView(py)offset">offset</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">transition</span><span class="p">(</span><span class="n">to</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Enums/PreviewState.html">PreviewState</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>state</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The new state to transition to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

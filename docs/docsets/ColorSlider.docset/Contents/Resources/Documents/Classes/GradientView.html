@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GradientView Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/GradientView" class="dashAnchor"></a>
+    <a title="GradientView Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ColorSlider Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/gizmosachin/ColorSlider"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="dash-feed://https%3A%2F%2Fgizmosachin%2Egithub%2Eio%2FColorSlider%2Fdocsets%2FColorSlider%2Exml"><img src="../img/dash.png"/>Install in Dash</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ColorSlider Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GradientView Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ColorSlider.html">ColorSlider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView.html">DefaultPreviewView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GradientView.html">GradientView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Orientation.html">Orientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PreviewState.html">PreviewState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ColorSliderPreviewing.html">ColorSliderPreviewing</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GradientView</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GradientView</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+
+                </div>
+              </div>
+            <p>A gradient view that acts as the background of any <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code>.
+This class draws colors based on the <code>orientation</code> passed to the initializer
+and determines the output color of <code><a href="../Classes/ColorSlider.html">ColorSlider</a></code> after a touch event.</p>
+
+<p>Customize the appearance of ColorSlider by setting layer properties on
+this class, including <code>borderWidth</code>, <code>borderColor</code>, and <code>cornerRadius</code>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)GradientView(py)automaticallyAdjustsCornerRadius"></a>
+                    <a name="//apple_ref/swift/Property/automaticallyAdjustsCornerRadius" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)GradientView(py)automaticallyAdjustsCornerRadius">automaticallyAdjustsCornerRadius</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether the gradient should adjust its corner radius based on its bounds.
+When <code>true</code>, the layer&rsquo;s corner radius is set to <code>min(bounds.width, bounds.height) / 2.0</code> in <code>layoutSubviews</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">automaticallyAdjustsCornerRadius</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)GradientView(py)saturation"></a>
+                    <a name="//apple_ref/swift/Property/saturation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)GradientView(py)saturation">saturation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The saturation of all colors in the view.
+Defaults to <code>1</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">saturation</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)GradientView(py)whiteInset"></a>
+                    <a name="//apple_ref/swift/Property/whiteInset" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)GradientView(py)whiteInset">whiteInset</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The percent of space at the beginning (top for orientation <code>.vertical</code> and left for orientation <code>.horizontal</code>) end of the slider reserved for the color white.
+Defaults to <code>0.15</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">whiteInset</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mf">0.15</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)GradientView(py)blackInset"></a>
+                    <a name="//apple_ref/swift/Property/blackInset" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)GradientView(py)blackInset">blackInset</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The percent of space at the end (bottom for orientation <code>.vertical</code> and right for orientation <code>.horizontal</code>) end of the slider reserved for the color black.
+Defaults to <code>0.15</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">blackInset</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mf">0.15</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider12GradientViewCAcA11OrientationO11orientation_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(orientation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider12GradientViewCAcA11OrientationO11orientation_tcfc">init(orientation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="kt"><a href="../Enums/Orientation.html">Orientation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>orientation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The orientation of the gradient view.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

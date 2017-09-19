@@ -35,7 +35,32 @@
                 <a href="Classes/ColorSlider.html">ColorSlider</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/ColorSlider/Orientation.html">– Orientation</a>
+                <a href="Classes/DefaultPreviewView.html">DefaultPreviewView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultPreviewView/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GradientView.html">GradientView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/Orientation.html">Orientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/PreviewState.html">PreviewState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/ColorSliderPreviewing.html">ColorSliderPreviewing</a>
               </li>
             </ul>
           </li>
@@ -54,9 +79,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C11ColorSlider11ColorSlider"></a>
+                    <a name="/c:@M@ColorSlider@objc(cs)ColorSlider"></a>
                     <a name="//apple_ref/swift/Class/ColorSlider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C11ColorSlider11ColorSlider">ColorSlider</a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)ColorSlider">ColorSlider</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -64,7 +89,52 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The main ColorSlider class.</p>
+                        <p>ColorSlider is a customizable color picker with live preview.</p>
+
+<p>Inspired by Snapchat, ColorSlider lets you drag to select black, white, or any color in between.
+Customize <code>ColorSlider</code> and its preview via a simple API, and receive callbacks via <code>UIControlEvents</code>.</p>
+
+<p>Use the convenience initializer to create a <code>.vertical</code> ColorSlider with a live preview that appears to the <code>.left</code> of it:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">colorSlider</span> <span class="o">=</span> <span class="kt">ColorSlider</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="nv">previewSide</span><span class="p">:</span> <span class="o">.</span><span class="k">left</span><span class="p">)</span>
+</code></pre>
+
+<p>You can create a custom preview view using the <code><a href="Protocols/ColorSliderPreviewing.html">ColorSliderPreviewing</a></code> protocol, or by subclassing <code><a href="Classes/DefaultPreviewView.html">DefaultPreviewView</a></code>.
+To pass in a custom preview view, simply use the default initializer instead:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myPreviewView</span> <span class="o">=</span> <span class="kt">MyPreviewView</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">colorSlider</span> <span class="o">=</span> <span class="kt">ColorSlider</span><span class="p">(</span><span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="nv">previewView</span><span class="p">:</span> <span class="n">myPreviewView</span><span class="p">)</span>
+</code></pre>
+
+<p>ColorSlider is a <code>UIControl</code> subclass and fully supports the following <code>UIControlEvents</code>:</p>
+
+<ul>
+<li><code>.valueChanged</code></li>
+<li><code>.touchDown</code></li>
+<li><code>.touchUpInside</code></li>
+<li><code>.touchUpOutside</code></li>
+<li><code>.touchCancel</code></li>
+</ul>
+
+<p>Once adding your class as a target, you can get callbacks via the <code>color</code> property:</p>
+<pre class="highlight swift"><code><span class="n">colorSlider</span><span class="o">.</span><span class="nf">addTarget</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">action</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">ViewController.changedColor(_:)</span><span class="kd">)</span><span class="p">,</span> <span class="nv">forControlEvents</span><span class="p">:</span> <span class="o">.</span><span class="n">valueChanged</span><span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">changedColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">slider</span><span class="p">:</span> <span class="kt">ColorSlider</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">color</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">color</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Customize the appearance of ColorSlider by setting properties on the <code>gradientView</code>:</p>
+<pre class="highlight swift"><code><span class="c1">// Add a border</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
+
+<span class="c1">// Disable rounded corners</span>
+<span class="n">colorSlider</span><span class="o">.</span><span class="n">gradientView</span><span class="o">.</span><span class="n">automaticallyAdjustsCornerRadius</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre>
+
+<p>ColorSlider uses the <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSB</a> color standard internally.
+You can set the <code>saturation</code> of your ColorSlider&rsquo;s <code>gradientView</code> to change the saturation of colors on the slider.
+See the <code><a href="Classes/GradientView.html">GradientView</a></code> and <code>HSBColor</code> for more details on how colors are calculated.</p>
 
                         <a href="Classes/ColorSlider.html" class="slightly-smaller">See more</a>
                       </div>
@@ -72,7 +142,82 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBDesignable</span> <span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">ColorSlider</span><span class="p">:</span> <span class="kt">UIControl</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ColorSlider</span><span class="p">:</span> <span class="kt">UIControl</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)GradientView"></a>
+                    <a name="//apple_ref/swift/Class/GradientView" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)GradientView">GradientView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A gradient view that acts as the background of any <code><a href="Classes/ColorSlider.html">ColorSlider</a></code>.
+This class draws colors based on the <code>orientation</code> passed to the initializer
+and determines the output color of <code><a href="Classes/ColorSlider.html">ColorSlider</a></code> after a touch event.</p>
+
+<p>Customize the appearance of ColorSlider by setting layer properties on
+this class, including <code>borderWidth</code>, <code>borderColor</code>, and <code>cornerRadius</code>.</p>
+
+                        <a href="Classes/GradientView.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GradientView</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@ColorSlider@objc(cs)DefaultPreviewView"></a>
+                    <a name="//apple_ref/swift/Class/DefaultPreviewView" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@ColorSlider@objc(cs)DefaultPreviewView">DefaultPreviewView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default preview view of a <code><a href="Classes/ColorSlider.html">ColorSlider</a></code>.</p>
+
+<p>Appears to the given <code>side</code> of the associated <code><a href="Classes/ColorSlider.html">ColorSlider</a></code> at the point of the currently
+selected color with an offset of <code>offsetAmount</code> and a scale given by <code>scaleAmounts</code> for a given state.</p>
+
+<p>You can subclass this class and pass it as a preview to <code><a href="Classes/ColorSlider.html">ColorSlider</a></code> to customize its appearance or animation.
+You may also create your own custom <code>UIView</code> and conform to the <code>PreviewView</code> protocol and pass that to <code><a href="Classes/ColorSlider.html">ColorSlider</a></code>&lsquo;s initializer.</p>
+
+                        <a href="Classes/DefaultPreviewView.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultPreviewView</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
 
                         </div>
                       </div>
@@ -85,7 +230,7 @@
         </section>
         <section id="footer">
           <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
