@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PreviewState Enum Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/PreviewState" class="dashAnchor"></a>
+    <a title="PreviewState Enum Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ColorSlider Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/gizmosachin/ColorSlider"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="dash-feed://https%3A%2F%2Fgizmosachin%2Egithub%2Eio%2FColorSlider%2Fdocsets%2FColorSlider%2Exml"><img src="../img/dash.png"/>Install in Dash</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ColorSlider Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        PreviewState Enum Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ColorSlider.html">ColorSlider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView.html">DefaultPreviewView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultPreviewView/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GradientView.html">GradientView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Orientation.html">Orientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PreviewState.html">PreviewState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ColorSliderPreviewing.html">ColorSliderPreviewing</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>PreviewState</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">PreviewState</span></code></pre>
+
+                </div>
+              </div>
+            <p>The display state of a preview view.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider12PreviewStateO8inactiveA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/inactive" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider12PreviewStateO8inactiveA2CmF">inactive</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color is not being changed and the preview view is centered at the last modified point.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">inactive</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider12PreviewStateO11activeFixedA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/activeFixed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider12PreviewStateO11activeFixedA2CmF">activeFixed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color is still being changed, but the preview view center is fixed.
+This occurs when a touch begins inside the slider but continues outside of it.
+In this case, the color is actively being modified, but the preview remains fixed at
+the same position that it was when the touch moved outside of the slider.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">activeFixed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11ColorSlider12PreviewStateO6activeA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/active" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11ColorSlider12PreviewStateO6activeA2CmF">active</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color is being actively changed and the preview view center will be updated to match the current color.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">active</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© 2017 <a class="link" href="http://gizmosachin.com" target="_blank" rel="external">Sachin Patel</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
