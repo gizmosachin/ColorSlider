@@ -87,9 +87,23 @@ public enum Orientation {
 ///
 
 public class ColorSlider: UIControl {
-	/// The last selected color.
+	/// The selected color.
 	public var color: UIColor {
-		return UIColor(hsbColor: internalColor)
+		get {
+			return UIColor(hsbColor: internalColor)
+		}
+		set {
+			internalColor = HSBColor(color: newValue)
+			let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
+			
+			// `centerPreview` only uses the `x` or `y` value based on the `orientation` and ignores the other value.
+			centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
+			
+			previewView?.colorChanged(to: color)
+			previewView?.transition(to: .inactive)
+			
+			sendActions(for: .valueChanged)
+		}
 	}
 	
 	/// The background gradient view.
