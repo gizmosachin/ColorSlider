@@ -47,7 +47,7 @@ public final class GradientView: UIView {
 	/// Defaults to `1`.
 	public var saturation: CGFloat = 1 {
 		didSet {
-			setNeedsDisplay()
+			gradient = Gradient.colorSliderGradient(saturation: saturation, whiteInset: whiteInset, blackInset: blackInset)
 		}
 	}
 	
@@ -55,13 +55,21 @@ public final class GradientView: UIView {
 	/// Defaults to `0.15`.
 	public var whiteInset: CGFloat = 0.15 {
 		didSet {
-			setNeedsDisplay()
+			gradient = Gradient.colorSliderGradient(saturation: saturation, whiteInset: whiteInset, blackInset: blackInset)
 		}
 	}
 	
 	/// The percent of space at the end (bottom for orientation `.vertical` and right for orientation `.horizontal`) end of the slider reserved for the color black.
 	/// Defaults to `0.15`.
 	public var blackInset: CGFloat = 0.15 {
+		didSet {
+			gradient = Gradient.colorSliderGradient(saturation: saturation, whiteInset: whiteInset, blackInset: blackInset)
+		}
+	}
+
+	/// :nodoc:
+	/// The internal gradient used to draw the view.
+	fileprivate var gradient: Gradient {
 		didSet {
 			setNeedsDisplay()
 		}
@@ -74,6 +82,7 @@ public final class GradientView: UIView {
 	/// - parameter orientation: The orientation of the gradient view.
 	required public init(orientation: Orientation) {
 		self.orientation = orientation
+		self.gradient = Gradient.colorSliderGradient(saturation: 1, whiteInset: 0.15, blackInset: 0.15)
 		
 		super.init(frame: .zero)
 		
@@ -117,26 +126,10 @@ public extension GradientView {
 	}
 	
 	override public func draw(_ rect: CGRect) {
-		// Values from 0 to 1 at intervals of 0.1
-		let values: [CGFloat] = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-		
-		// Use these values as the hues for non-white and non-black colors
-		let hues = values
-		let nonGrayscaleColors = hues.map({ (hue) -> UIColor in
-			return UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1)
-		}).reversed()
-		
-		// Black and white are at the top and bottom of the slider, insert colors in between
-		let spaceForNonGrayscaleColors = 1 - whiteInset - blackInset
-		let nonGrayscaleLocations = values.map { (location) -> CGFloat in
-			return whiteInset + (location * spaceForNonGrayscaleColors)
-		}
-		
-		// Add black and white to locations and colors, set up gradient layer
-		let locations = [0] + nonGrayscaleLocations + [1]
-		let colors = [UIColor.white] + nonGrayscaleColors + [UIColor.black]
-		gradientLayer.locations = locations as [NSNumber]
-		gradientLayer.colors = colors.map { $0.cgColor }
+		gradientLayer.colors = gradient.colors.map({ (hsbColor) -> CGColor in
+			return UIColor(hsbColor: hsbColor).cgColor
+		})
+		gradientLayer.locations = gradient.locations as [NSNumber]
 	}
 	
 	override public func layoutSubviews() {
@@ -220,15 +213,7 @@ internal extension GradientView {
 	///				The hue is equal to `point.x / bounds.width` when `orientation == .horizontal` and `point.y / bounds.height` when `orientation == .vertical`.
 	/// - returns: The corresponding HSBColor.
 	internal func calculateColor(for sliderProgress: CGFloat) -> HSBColor {
-		if sliderProgress < whiteInset {
-			return .white
-		} else if sliderProgress > 1 - blackInset {
-			return .black
-		} else {
-			let spaceForNonGrayscaleColors = 1 - blackInset - whiteInset
-			let hue = (sliderProgress - whiteInset) / spaceForNonGrayscaleColors
-			return HSBColor(hue: 1 - hue, saturation: saturation, brightness: 1)
-		}
+		return gradient.color(at: sliderProgress)
 	}
 	
 	/// Determines the corresponding point on the slider for a HSBColor.
@@ -250,5 +235,29 @@ internal extension GradientView {
 			sliderProgress = ((1 - color.hue) * spaceForNonGrayscaleColors) + whiteInset
 		}
 		return sliderProgress
+	}
+}
+
+fileprivate extension Gradient {
+	static func colorSliderGradient(saturation: CGFloat, whiteInset: CGFloat, blackInset: CGFloat) -> Gradient {
+		// Values from 0 to 1 at intervals of 0.1
+		let values: [CGFloat] = [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]
+		
+		// Use these values as the hues for non-white and non-black colors
+		let hues = values
+		let nonGrayscaleColors = hues.map({ (hue) -> HSBColor in
+			return HSBColor(hue: hue, saturation: saturation, brightness: 1)
+		}).reversed()
+		
+		// Black and white are at the top and bottom of the slider, insert colors in between
+		let spaceForNonGrayscaleColors = 1 - whiteInset - blackInset
+		let nonGrayscaleLocations = values.map { (location) -> CGFloat in
+			return whiteInset + (location * spaceForNonGrayscaleColors)
+		}
+		
+		// Add black and white to locations and colors, set up gradient layer
+		let colors = [HSBColor.white] + nonGrayscaleColors + [HSBColor.black]
+		let locations = [0] + nonGrayscaleLocations + [1]
+		return Gradient(colors: colors, locations: locations)
 	}
 }

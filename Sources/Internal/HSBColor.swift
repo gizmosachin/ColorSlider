@@ -30,7 +30,7 @@ import UIKit
 /// :nodoc:
 /// An [HSB](https://en.wikipedia.org/wiki/HSL_and_HSV) color value type.
 internal struct HSBColor: Equatable {
-	static let black = HSBColor(hue: 1, saturation: 0, brightness: 0)
+	static let black = HSBColor(hue: 0, saturation: 1, brightness: 0)
 	static let white = HSBColor(hue: 1, saturation: 0, brightness: 1)
 	
 	var hue: CGFloat = 0
@@ -49,6 +49,13 @@ internal struct HSBColor: Equatable {
 	
 	init(color: UIColor) {
 		color.getHue(&self.hue, saturation: &self.saturation, brightness: &self.brightness, alpha: nil)
+	}
+	
+	static func between(color: HSBColor, and otherColor: HSBColor, percent: CGFloat) -> HSBColor {
+		let hue = min(color.hue, otherColor.hue) + (abs(color.hue - otherColor.hue) * percent)
+		let saturation = min(color.saturation, otherColor.saturation) + (abs(color.saturation - otherColor.saturation) * percent)
+		let brightness = min(color.brightness, otherColor.brightness) + (abs(color.brightness - otherColor.brightness) * percent)
+		return HSBColor(hue: hue, saturation: saturation, brightness: brightness)
 	}
 	
 	static func ==(lhs: HSBColor, rhs: HSBColor) -> Bool {

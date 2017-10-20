@@ -19,6 +19,7 @@
 		038FED831F70D0410093C751 /* Spark.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0301B2A41F62853D00603B8C /* Spark.sks */; };
 		038FED841F70D0440093C751 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0301B2A31F62853D00603B8C /* Assets.xcassets */; };
 		038FED851F70D7700093C751 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0301B2A11F62853D00603B8C /* LaunchScreen.storyboard */; };
+		03C7A2ED1F99922F00C0FA4B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C7A2EC1F99922F00C0FA4B /* Gradient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		0301B2A51F62853D00603B8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0301B2A61F62853D00603B8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		037094721F70C38400C76883 /* ColorSliderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSliderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03C7A2EC1F99922F00C0FA4B /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				0301B29B1F62850100603B8C /* ColorSliderExtensions.swift */,
 				0301B29C1F62850100603B8C /* HSBColor.swift */,
+				03C7A2EC1F99922F00C0FA4B /* Gradient.swift */,
 			);
 			name = Internal;
 			path = ../Sources/Internal;
@@ -179,6 +182,7 @@
 				037094841F70C3A300C76883 /* ColorSlider.swift in Sources */,
 				038FED821F70C5A30093C751 /* ViewController.swift in Sources */,
 				037094881F70C3A300C76883 /* ColorSliderExtensions.swift in Sources */,
+				03C7A2ED1F99922F00C0FA4B /* Gradient.swift in Sources */,
 				0370948A1F70C3A300C76883 /* DemoView.swift in Sources */,
 				037094871F70C3A300C76883 /* DefaultPreviewView.swift in Sources */,
 				037094891F70C3A300C76883 /* HSBColor.swift in Sources */,
