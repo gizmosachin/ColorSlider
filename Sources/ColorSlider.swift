@@ -297,6 +297,9 @@ fileprivate extension ColorSlider {
 extension ColorSlider {
 	/// Increase the tappable area of `ColorSlider` to a minimum of 44 points on either edge.
 	override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+		// If hidden, don't customize behavior
+		guard !isHidden else { return super.hitTest(point, with: event) }
+		
 		// Determine the delta between the width / height and 44, the iOS HIG minimum tap target size.
 		// If a side is already longer than 44, add 10 points of padding to either side of the slider along that axis.
 		let minimumSideLength: CGFloat = 44
