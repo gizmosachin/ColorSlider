@@ -89,13 +89,13 @@ ColorSlider is fully documented [here](http://gizmosachin.github.io/ColorSlider)
 
 ``` ruby
 platform :ios, '9.0'
-pod 'ColorSlider', '~> 4.1'
+pod 'ColorSlider', '~> 4.1.1'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage)
 
 ``` ruby
-github "gizmosachin/ColorSlider" >= 4.1
+github "gizmosachin/ColorSlider" >= 4.1.1
 ```
 
 ## Version Compatibility
