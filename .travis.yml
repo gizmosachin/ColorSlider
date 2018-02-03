@@ -7,5 +7,5 @@ env:
 before_install:
   - bundle install
 script:
+  - xcodebuild -project ColorSlider/ColorSlider.xcodeproj -scheme ColorSlider -sdk iphonesimulator11.2 build analyze
   - bundle exec pod lib lint --verbose
-
