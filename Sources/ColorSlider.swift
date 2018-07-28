@@ -94,10 +94,6 @@ public class ColorSlider: UIControl {
 		}
 		set {
 			internalColor = HSBColor(color: newValue)
-			let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
-			
-			// `centerPreview` only uses the `x` or `y` value based on the `orientation` and ignores the other value.
-			centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
 			
 			previewView?.colorChanged(to: color)
 			previewView?.transition(to: .inactive)
@@ -187,11 +183,19 @@ extension ColorSlider {
 		
 		if let preview = previewView {
 			switch orientation {
-				
-			// Set default preview center
+			
+			// Initial layout pass, set preview center as needed
 			case .horizontal where preview.center.y != bounds.midY,
 			     .vertical where preview.center.x != bounds.midX:
-				centerPreview(at: .zero)
+				
+				if internalColor.hue == 0 {
+					// Initially set preview center to the top or left
+					centerPreview(at: .zero)
+				} else {
+					// Set preview center from `internalColor`
+					let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
+					centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
+				}
 				
 			// Adjust preview view size if needed
 			case .horizontal where autoresizesSubviews:
