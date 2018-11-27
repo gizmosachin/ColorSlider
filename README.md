@@ -24,7 +24,7 @@ Create and add a ColorSlider to your view:
 
 ``` Swift
 let colorSlider = ColorSlider(orientation: .vertical, previewSide: .left)
-colorSlider.frame = CGRect.init(x: 0, y: 0, width: 12, height: 150)
+colorSlider.frame = CGRect(x: 0, y: 0, width: 12, height: 150)
 view.addSubview(colorSlider)
 ```
 
