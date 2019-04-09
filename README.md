@@ -6,7 +6,7 @@
 
 ColorSlider is an iOS color picker with live preview written in [Swift](https://developer.apple.com/swift/).
 
-[![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider) ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Swift Version](https://img.shields.io/badge/language-swift%204.0-brightgreen.svg)](https://developer.apple.com/swift) [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/gizmosachin/ColorSlider.svg?branch=master)](https://travis-ci.org/gizmosachin/ColorSlider) ![Pod Version](https://img.shields.io/cocoapods/v/ColorSlider.svg) [![Swift Version](https://img.shields.io/badge/language-swift%205.0-brightgreen.svg)](https://developer.apple.com/swift) [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
 |           | Features                                 |
 | :-------: | :--------------------------------------- |
@@ -102,8 +102,8 @@ github "gizmosachin/ColorSlider" >= 4.4
 
 | Swift Version | ColorSlider Version |
 | ------------- | ------------------- |
-| 5.0           | 4.3	              |
-| 4.2           | master              |
+| 5.0           | master              |
+| 4.2           | 4.3                 |
 
 ## Demo
 
