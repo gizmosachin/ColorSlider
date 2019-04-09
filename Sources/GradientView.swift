@@ -114,7 +114,7 @@ public final class GradientView: UIView {
 /// :nodoc:
 // MARK: - Layer and Internal Drawing
 public extension GradientView {
-	override public class var layerClass: AnyClass {
+	override class var layerClass: AnyClass {
 		return CAGradientLayer.self
 	}
 	
@@ -125,14 +125,14 @@ public extension GradientView {
 		return gradientLayer
 	}
 	
-	override public func draw(_ rect: CGRect) {
+	override func draw(_ rect: CGRect) {
 		gradientLayer.colors = gradient.colors.map({ (hsbColor) -> CGColor in
 			return UIColor(hsbColor: hsbColor).cgColor
 		})
 		gradientLayer.locations = gradient.locations as [NSNumber]
 	}
 	
-	override public func layoutSubviews() {
+	override func layoutSubviews() {
 		super.layoutSubviews()
 		
 		// Automatically adjust corner radius if needed
@@ -166,7 +166,7 @@ internal extension GradientView {
 	/// - parameter touch: The touch that triggered the color change.
 	/// - parameter insideSlider: Whether the touch that triggered the color change was inside the slider.
 	/// - returns: The resulting color.
-	internal func color(from oldColor: HSBColor, after touch: UITouch, insideSlider: Bool) -> HSBColor {
+	func color(from oldColor: HSBColor, after touch: UITouch, insideSlider: Bool) -> HSBColor {
 		var color = oldColor
 
 		if insideSlider {
@@ -212,7 +212,7 @@ internal extension GradientView {
 	/// - parameter sliderProgress: The "progress" of a touch relative to the width or height of the gradient view, given the `orientation`.
 	///				The hue is equal to `point.x / bounds.width` when `orientation == .horizontal` and `point.y / bounds.height` when `orientation == .vertical`.
 	/// - returns: The corresponding HSBColor.
-	internal func calculateColor(for sliderProgress: CGFloat) -> HSBColor {
+	func calculateColor(for sliderProgress: CGFloat) -> HSBColor {
 		return gradient.color(at: sliderProgress)
 	}
 	
@@ -220,7 +220,7 @@ internal extension GradientView {
 	/// The `sliderProgress` (ranging from 0.0 to 1.0) is used in `color(from:after:insideSlider:)` for touches inside the slider.
 	/// - parameter color: A HSBColor value for which a closest-match "progress" value along the slider is to be determined.
 	/// - returns: The closest-match "progress" value along the slider for `color`.
-	internal func calculateSliderProgress(for color: HSBColor) -> CGFloat {
+	func calculateSliderProgress(for color: HSBColor) -> CGFloat {
 		var sliderProgress: CGFloat = 0.0
 		if color.isGrayscale {
 			// If the color is grayscale, find the closest matching percent along the slider

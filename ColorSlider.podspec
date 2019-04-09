@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name = 'ColorSlider'
-  s.version = '4.3'
+  s.version = '4.4'
   s.summary = 'Snapchat-style color picker in Swift'
   s.homepage = 'http://github.com/gizmosachin/ColorSlider'
   s.license = 'MIT'
-  s.documentation_url = 'http://gizmosachin.com/ColorSlider/'
+  s.documentation_url = 'https://gizmosachin.github.io/ColorSlider/'
 
   s.social_media_url = 'http://twitter.com/gizmosachin'
   s.author = { 'Sachin Patel' => 'me@gizmosachin.com' }
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   # platform
   s.platform = :ios
   s.ios.deployment_target = '9.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   # build settings
   s.requires_arc = true
