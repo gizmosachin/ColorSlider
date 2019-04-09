@@ -53,7 +53,7 @@ internal struct Gradient {
 		assert(percent >= 0.0 && percent <= 1.0, "Percent must be between 0 and 1.")
 
 		// Find the indices that contain the closest values below and above `percent`
-		guard let maxIndex = locations.index (where: { (location) -> Bool in
+		guard let maxIndex = locations.firstIndex (where: { (location) -> Bool in
 			return location >= percent
 		}) else { return colors[locations.endIndex] }
 		guard maxIndex > locations.startIndex else { return colors[maxIndex] }

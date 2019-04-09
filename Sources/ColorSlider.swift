@@ -113,26 +113,10 @@ public class ColorSlider: UIControl {
 	
 	/// The internal HSBColor representation of `color`.
 	internal var internalColor: HSBColor
-	
-	// Obsolete properties
-	@available(*, obsoleted: 4.0, message: "A preview is now enabled by default, pass a `nil` preview to the initializer to disable it")
-	public var previewEnabled: Bool = true
-	
-	@available(*, obsoleted: 4.0, message: "Use layer.borderWidth instead")
-	public var borderWidth: CGFloat = 0
-	
-	@available(*, obsoleted: 4.0, message: "Use layer.borderColor instead")
-	public var borderColor: UIColor = .white
-	
-	@available(*, obsoleted: 4.0, message: "Use gradientView.layer.cornerRadius")
-	public var cornerRadius: CGFloat = 0
-	
-	@available(*, obsoleted: 4.0, message: "Use gradientView.automaticallyAdjustsCornerRadius instead")
-	public var setsCornerRadiusAutomatically: Bool = true
 
-	@available(*, obsoleted: 4.0, message: "init(coder:) and Interface Builder support have been removed, use init(orientation:)")
+	@available(*, unavailable)
 	required public init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) and storyboard support have been removed, use init(orientation:)")
+		fatalError("init(coder:) and storyboards are unsupported, use init(orientation:) instead.")
 	}
 	
 	// MARK: - Init
@@ -290,7 +274,7 @@ fileprivate extension ColorSlider {
 	/// Updates the internal color and preview view when a touch event occurs.
 	/// - parameter touch: The touch that triggered the update.
 	/// - parameter touchInside: Whether the touch that triggered the update was inside the control when the event occurred.
-	fileprivate func update(touch: UITouch, touchInside: Bool) {
+	func update(touch: UITouch, touchInside: Bool) {
 		internalColor = gradientView.color(from: internalColor, after: touch, insideSlider: touchInside)
 		previewView?.colorChanged(to: color)
 	}
