@@ -108,7 +108,7 @@ class DemoView: UIView {
 		NSLayoutConstraint.activate([
 			colorSlider.centerXAnchor.constraint(equalTo: centerXAnchor),
 			colorSlider.bottomAnchor.constraint(equalTo: centerYAnchor),
-			colorSlider.widthAnchor.constraint(equalToConstant: 15),
+			colorSlider.widthAnchor.constraint(equalToConstant: 40),
 			colorSlider.heightAnchor.constraint(equalToConstant: colorSliderHeight),
 			
 			label.leftAnchor.constraint(equalTo: leftAnchor, constant: inset),
