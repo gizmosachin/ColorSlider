@@ -291,7 +291,13 @@ extension ColorSlider {
 		// Determine the delta between the width / height and 44, the iOS HIG minimum tap target size.
 		// If a side is already longer than 44, add 10 points of padding to either side of the slider along that axis.
 		let minimumSideLength: CGFloat = 44
-		let padding: CGFloat = -20
+		let padding: CGFloat
+        switch orientation {
+        case .vertical:
+            padding = -bounds.width
+        case .horizontal:
+            padding = -bounds.height
+        }
 		let dx: CGFloat = min(bounds.width - minimumSideLength, padding)
 		let dy: CGFloat = min(bounds.height - minimumSideLength, padding)
 		
