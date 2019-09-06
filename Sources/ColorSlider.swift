@@ -322,7 +322,7 @@ extension ColorSlider {
 // :nodoc:
 // MARK: - Setting the color to color slider and updating the previewView position
 extension ColorSlider {
-    func setColor(_ color: UIColor) {
+    public func setColor(_ color: UIColor) {
         self.color = color
         layoutSubviews()
         // Set preview center from `internalColor`
