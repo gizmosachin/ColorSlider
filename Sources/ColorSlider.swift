@@ -92,7 +92,7 @@ public class ColorSlider: UIControl {
 		get {
 			return UIColor(hsbColor: internalColor)
 		}
-		set {
+        set {
 			internalColor = HSBColor(color: newValue)
 			
 			previewView?.colorChanged(to: color)
@@ -317,4 +317,16 @@ extension ColorSlider {
 			return super.hitTest(point, with: event)
 		}
 	}
+}
+
+// :nodoc:
+// MARK: - Setting the color to color slider and updating the previewView position
+extension ColorSlider {
+    func setColor(_ color: UIColor) {
+        self.color = color
+        layoutSubviews()
+        // Set preview center from `internalColor`
+        let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
+        centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
+    }
 }
