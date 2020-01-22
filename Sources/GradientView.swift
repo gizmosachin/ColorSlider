@@ -53,7 +53,7 @@ public final class GradientView: UIView {
 	
 	/// The percent of space at the beginning (top for orientation `.vertical` and left for orientation `.horizontal`) end of the slider reserved for the color white.
 	/// Defaults to `0.15`.
-	public var whiteInset: CGFloat = 0.15 {
+	public var whiteInset: CGFloat = 0 {
 		didSet {
 			gradient = Gradient.colorSliderGradient(saturation: saturation, whiteInset: whiteInset, blackInset: blackInset)
 		}
@@ -61,7 +61,7 @@ public final class GradientView: UIView {
 	
 	/// The percent of space at the end (bottom for orientation `.vertical` and right for orientation `.horizontal`) end of the slider reserved for the color black.
 	/// Defaults to `0.15`.
-	public var blackInset: CGFloat = 0.15 {
+	public var blackInset: CGFloat = 0 {
 		didSet {
 			gradient = Gradient.colorSliderGradient(saturation: saturation, whiteInset: whiteInset, blackInset: blackInset)
 		}

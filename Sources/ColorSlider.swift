@@ -92,7 +92,7 @@ public class ColorSlider: UIControl {
 		get {
 			return UIColor(hsbColor: internalColor)
 		}
-		set {
+        set {
 			internalColor = HSBColor(color: newValue)
 			
 			previewView?.colorChanged(to: color)
@@ -183,9 +183,9 @@ extension ColorSlider {
 				
 			// Adjust preview view size if needed
 			case .horizontal where autoresizesSubviews:
-				preview.bounds.size = CGSize(width: 25, height: bounds.height + 10)
+				preview.bounds.size = CGSize(width: bounds.height + 10, height: bounds.height + 10)
 			case .vertical where autoresizesSubviews:
-				preview.bounds.size = CGSize(width: bounds.width + 10, height: 25)
+				preview.bounds.size = CGSize(width: bounds.width + 10, height: bounds.width + 10)
 				
 			default:
 				break
@@ -291,7 +291,13 @@ extension ColorSlider {
 		// Determine the delta between the width / height and 44, the iOS HIG minimum tap target size.
 		// If a side is already longer than 44, add 10 points of padding to either side of the slider along that axis.
 		let minimumSideLength: CGFloat = 44
-		let padding: CGFloat = -20
+		let padding: CGFloat
+        switch orientation {
+        case .vertical:
+            padding = -bounds.width
+        case .horizontal:
+            padding = -bounds.height
+        }
 		let dx: CGFloat = min(bounds.width - minimumSideLength, padding)
 		let dy: CGFloat = min(bounds.height - minimumSideLength, padding)
 		
@@ -311,4 +317,16 @@ extension ColorSlider {
 			return super.hitTest(point, with: event)
 		}
 	}
+}
+
+// :nodoc:
+// MARK: - Setting the color to color slider and updating the previewView position
+extension ColorSlider {
+    public func setColor(_ color: UIColor) {
+        self.color = color
+        layoutSubviews()
+        // Set preview center from `internalColor`
+        let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
+        centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
+    }
 }
