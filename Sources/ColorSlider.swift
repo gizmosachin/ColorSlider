@@ -325,8 +325,5 @@ extension ColorSlider {
     public func setColor(_ color: UIColor) {
         self.color = color
         layoutSubviews()
-        // Set preview center from `internalColor`
-        let sliderProgress = gradientView.calculateSliderProgress(for: internalColor)
-        centerPreview(at: CGPoint(x: sliderProgress * bounds.width, y: sliderProgress * bounds.height))
     }
 }
