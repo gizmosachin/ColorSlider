@@ -224,6 +224,8 @@ internal extension GradientView {
 		var sliderProgress: CGFloat = 0.0
 		if color.isGrayscale {
 			// If the color is grayscale, find the closest matching percent along the slider
+            guard color != HSBColor.white else { return 0 }
+            guard color != HSBColor.black else { return 1 }
 			if color.brightness > 0.5 {
 				sliderProgress = whiteInset / 2
 			} else {
